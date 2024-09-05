@@ -63,8 +63,10 @@ const Register = () => {
           throw new Error(res?.error?.data?.message);
         }
 
-        dispatch(signIn({ user: res?.data?.data, token: res?.data?.token }));
+        console.log(res)
 
+        dispatch(signIn({ user: res?.data?.data, token: res?.data?.token }));
+        
         return (
           <p className="font-bold text-gray-500">
             {res?.data?.data?.name} Welcome!

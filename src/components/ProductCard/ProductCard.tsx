@@ -1,20 +1,11 @@
-
-import { TProduct } from "../../pages/BookCar/BookCar";
-
+import { TProduct } from "../../pages/Inventory/Inventory";
 
 type ProductCardProps = {
   product: TProduct;
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
- 
-
-  return (
- <></>
-  );
+  return <></>;
 };
 
 export default ProductCard;
-
-
-

@@ -12,6 +12,7 @@ const ProtectedRouteForLoginRegister = ({ children }: ProtectedRouteProps) => {
 
   const token = useAppSelector(selectAuthToken);
 
+  console.log(token)
   if (!token) {
     return children;
   }

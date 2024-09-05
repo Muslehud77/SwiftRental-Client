@@ -6,8 +6,8 @@ import { FaUsersCog } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import { ImStatsBars } from "react-icons/im";
 import Profile from "../pages/Profile/Profile";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import ProtectedForAdmin from "../ProtectedRoute/ProtectedForAdmin";
+
+
 import ManageCars from "../pages/ManageCars/ManageCars";
 import AddCar from "../pages/AddCar/AddCar";
 import ManageUsers from "../pages/ManageUsers/ManageUsers";
@@ -16,6 +16,7 @@ import DeletedProducts from "../pages/DeletedCars/DeletedCars";
 import EditCar from "../pages/EditCar/EditCar";
 import Statistics from "../pages/Statistics/Statistics";
 import ManageBookings from "../pages/ManageBookings/ManageBookings";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 
 
@@ -24,7 +25,7 @@ export const adminPaths = [
     name: "Profile",
     route: "",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute isDashboard={true}>
         <Profile />
       </ProtectedRoute>
     ),
@@ -34,7 +35,7 @@ export const adminPaths = [
     name: "Statistics",
     route: "statistics",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <Statistics />
       </ProtectedRoute>
     ),
@@ -44,9 +45,9 @@ export const adminPaths = [
     name: "Manage Cars",
     route: "manage-cars",
     element: (
-      <ProtectedForAdmin>
+      <ProtectedRoute role="admin">
         <ManageCars />
-      </ProtectedForAdmin>
+      </ProtectedRoute>
     ),
     icon: <TbTruckDelivery className="h-5 w-5" />,
   },
@@ -54,9 +55,9 @@ export const adminPaths = [
     name: "Manage Bookings",
     route: "manage-bookings",
     element: (
-      <ProtectedForAdmin>
+      <ProtectedRoute role="admin">
         <ManageBookings />
-      </ProtectedForAdmin>
+      </ProtectedRoute>
     ),
     icon: <AiOutlineProduct className="h-5 w-5" />,
   },
@@ -64,9 +65,9 @@ export const adminPaths = [
     name: "Deleted Cars",
     route: "deleted-cars",
     element: (
-      <ProtectedForAdmin>
+      <ProtectedRoute role="admin">
         <DeletedProducts />
-      </ProtectedForAdmin>
+      </ProtectedRoute>
     ),
     icon: <AiOutlineDelete className="h-5 w-5" />,
   },
@@ -74,9 +75,9 @@ export const adminPaths = [
     name: "Add Car",
     route: "add-car",
     element: (
-      <ProtectedForAdmin>
+      <ProtectedRoute role="admin">
         <AddCar />
-      </ProtectedForAdmin>
+      </ProtectedRoute>
     ),
     icon: <MdFormatListBulletedAdd className="h-5 w-5" />,
   },
@@ -84,9 +85,9 @@ export const adminPaths = [
     name: "Manage Users",
     route: "manage-users",
     element: (
-      <ProtectedForAdmin>
+      <ProtectedRoute role="admin">
         <ManageUsers />
-      </ProtectedForAdmin>
+      </ProtectedRoute>
     ),
     icon: <FaUsersCog className="h-5 w-5" />,
   },
@@ -94,9 +95,9 @@ export const adminPaths = [
     name: "Edit Car",
     route: "edit-car/:id",
     element: (
-      <ProtectedForAdmin>
+      <ProtectedRoute role="admin">
         <EditCar />
-      </ProtectedForAdmin>
+      </ProtectedRoute>
     ),
     icon: null,
   },

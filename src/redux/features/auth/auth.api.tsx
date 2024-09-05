@@ -17,15 +17,18 @@ const authApi = baseApi.injectEndpoints({
         body: userInfo,
       }),
     }),
-    makeAdmin: builder.mutation({
-      query: ({ _id, password }) => ({
-        url: `/auth/role/${_id}`,
-        method: "PATCH",
-        body: { password },
-      }),
+    changeRole: builder.mutation({
+      query: ({ _id, password,role }) => {
+        
+        return {
+          url: `/auth/role/${_id}`,
+          method: "PATCH",
+          body: { password, role },
+        };
+      },
       invalidatesTags: ["users"],
     }),
   }),
 });
 
-export const {useLoginMutation,useSignUpMutation,useMakeAdminMutation} = authApi
+export const {useLoginMutation,useSignUpMutation,useChangeRoleMutation} = authApi

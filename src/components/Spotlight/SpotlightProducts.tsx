@@ -1,7 +1,7 @@
 import { Rating } from "@smastrom/react-rating";
 import { Link } from "react-router-dom";
 import SpotlightSkeleton from "../Skeleton/SpotlightSkeleton";
-import { TProduct } from "../../pages/BookCar/BookCar";
+import { TProduct } from "../../pages/Inventory/Inventory";
 import useCursorController from "../../hooks/useCursorController";
 import { FaArrowRight } from "react-icons/fa6";
 

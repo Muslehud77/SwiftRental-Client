@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { TProduct } from "../../pages/BookCar/BookCar";
+import { TProduct } from "../../pages/Inventory/Inventory";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa6";
 

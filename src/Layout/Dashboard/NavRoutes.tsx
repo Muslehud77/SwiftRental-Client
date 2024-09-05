@@ -7,10 +7,11 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 
 import { adminPaths } from "../../routes/AdminRoutes";
-import { useUser } from "../../hooks/useUser";
+
 import { userPaths } from "../../routes/UserRoutes";
 import { isMobile } from "../../utils/isMobile";
 import { useRef } from "react";
+import useDecodedToken from "../../hooks/useDecodedToken";
 
 export const NavRoutes = ({
   open,
@@ -19,11 +20,12 @@ export const NavRoutes = ({
   open: boolean;
   setOpen: (arg: boolean) => void;
 }) => {
+  const {role} = useDecodedToken()
   const { pathname } = useLocation();
-  const { user } = useUser();
+
   const timerRef = useRef<NodeJS.Timeout | null>(null); // Timer reference
 
-  const role = user?.role;
+  
 
   const routes =
     role === "admin" ? adminPaths : role === "user" ? userPaths : [];
@@ -50,6 +52,7 @@ export const NavRoutes = ({
       }, 1500); // Set a delay before closing the menu
     }
   };
+
 
 
   return (

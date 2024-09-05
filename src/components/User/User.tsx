@@ -8,8 +8,8 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { logoutAndClearCart, selectAuthUser } from "../../redux/features/auth/authSlice";
+import {  useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {  logout, selectAuthUser } from "../../redux/features/auth/authSlice";
 
 import {Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getInitials } from "../../utils/getInitialsForUserName";
@@ -19,12 +19,12 @@ type UserProps = {
 };
 
 const User = ({ isDashboard }: UserProps) => {
-
+    const dispatch = useAppDispatch()
     const {pathname} = useLocation()
     
     const user = useAppSelector(selectAuthUser)
 
-    const dispatch = useAppDispatch()
+   
 
  
 
@@ -59,7 +59,7 @@ const User = ({ isDashboard }: UserProps) => {
           <Link
             className="w-full"
             to="/"
-            onClick={() => dispatch(logoutAndClearCart())}
+           onClick={()=>dispatch(logout())}
           >
             Logout
           </Link>

@@ -5,17 +5,18 @@ import { LuShoppingCart } from "react-icons/lu";
 
 
 import { FaListUl } from "react-icons/fa6";
-import ProtectedForUser from "../ProtectedRoute/ProtectedForUser";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import ManageBookings from "../pages/ManageBookings/ManageBookings";
+
+
 import Payments from "../pages/Payments/Payments";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import MyBookings from "../pages/MyBookings/MyBookings";
 
 export const userPaths = [
   {
     name: "Profile",
     route: "",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute isDashboard={true}>
         <Profile />
       </ProtectedRoute>
     ),
@@ -23,11 +24,11 @@ export const userPaths = [
   },
   {
     name: "Manage Bookings",
-    route: "manage-bookings",
+    route: "my-bookings",
     element: (
-      <ProtectedForUser>
-        <ManageBookings />
-      </ProtectedForUser>
+      <ProtectedRoute role="user">
+        <MyBookings/>
+      </ProtectedRoute >
     ),
     icon: <LuShoppingCart className="h-5 w-5" />,
   },
@@ -35,9 +36,9 @@ export const userPaths = [
     name: "Payments",
     route: "payments",
     element: (
-      <ProtectedForUser>
+      <ProtectedRoute role="user">
         <Payments />
-      </ProtectedForUser>
+      </ProtectedRoute >
     ),
     icon: <FaListUl className="h-5 w-5" />,
   },

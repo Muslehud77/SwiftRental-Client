@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { TProduct } from "../pages/BookCar/BookCar";
+import { TProduct } from "../pages/Inventory/Inventory";
 
 type updateProductFuncProps = {
   _id: string;

@@ -60,10 +60,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex gap-5 min-h-screen w-full bg-background">
-      <div
-      
-        className={`${open ? "w-56" : "w-0 md:w-16"} duration-500`}
-      >
+      <div className={`${open ? "w-56" : "w-0 md:w-16"} duration-500`}>
         <aside
           ref={dashNavContainer}
           className={`${
@@ -108,7 +105,10 @@ export default function Dashboard() {
 
           <ThemeChanger />
         </div>
-        <div onClick={() => setOpen(false)} className=" w-full pr-5">
+        <div
+          onClick={() => setOpen(false)}
+          className=" mx-auto px-4 lg:px-10 rounded-xl mb-10 py-8"
+        >
           <Outlet />
         </div>
       </div>

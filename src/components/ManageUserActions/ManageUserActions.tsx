@@ -72,7 +72,7 @@ const ManageUserActions = ({ user }: ManageUserActionsProps) => {
     <TooltipProvider>
       <Tooltip>
        <MakeAdmin user={user}/>
-        <TooltipContent>Make Admin</TooltipContent>
+       
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
