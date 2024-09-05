@@ -16,8 +16,15 @@ import {
   CardTitle,
   CardContent,
 } from "../../components/ui/card";
+import { useState } from "react";
+import { FileUpload } from "../../components/ui/file-upload";
 
 export default function AddCar() {
+    const [files, setFiles] = useState<File[]>([]);
+    const handleFileUpload = (files: File[]) => {
+      setFiles(files);
+      console.log(files);
+    };
   const {
     register,
     handleSubmit,
@@ -113,7 +120,6 @@ export default function AddCar() {
                   onValueChange={(value) => {
                     register("carType").onChange({ target: { value } });
                   }}
-                  
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a car type" />
@@ -166,25 +172,8 @@ export default function AddCar() {
               )}
             </div>
 
-            {/* Car Images */}
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Car Images (URL)
-              </label>
-              <Input
-                type="text"
-                placeholder="Enter image URL"
-                {...register("images", {
-                  required: "At least one image URL is required",
-                })}
-              />
-              {errors.images?.message && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.images.message as string}
-                </p>
-              )}
-            </div>
 
+            <FileUpload onChange={handleFileUpload} />
             {/* Submit Button */}
             <div className="text-right">
               <Button
