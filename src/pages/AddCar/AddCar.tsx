@@ -18,13 +18,20 @@ import {
 } from "../../components/ui/card";
 import { useState } from "react";
 import { FileUpload } from "../../components/ui/file-upload";
+import ReactSelect, { StylesConfig } from "react-select";
+import MultiSelect from "../../components/ui/MultiSelect";
 
 export default function AddCar() {
-    const [files, setFiles] = useState<File[]>([]);
-    const handleFileUpload = (files: File[]) => {
-      setFiles(files);
-      console.log(files);
-    };
+  const [files, setFiles] = useState<File[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<any[]>([]); // State for selected features
+
+  
+
+  const handleFileUpload = (files: File[]) => {
+    setFiles(files);
+    console.log(files);
+  };
+
   const {
     register,
     handleSubmit,
@@ -33,10 +40,32 @@ export default function AddCar() {
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    const carData = { ...data, features: selectedFeatures.map((f) => f.value) }; // Adding selected features to form data
+    console.log(carData);
     alert("Car added successfully!");
     reset();
+    setSelectedFeatures([]); // Reset features after submission
   };
+
+  // Available feature options
+  const featureOptions = [
+    { value: "GPS", label: "GPS" },
+    { value: "Air Conditioning", label: "Air Conditioning" },
+    { value: "Automatic Transmission", label: "Automatic Transmission" },
+    { value: "Bluetooth", label: "Bluetooth" },
+    { value: "Parking Sensors", label: "Parking Sensors" },
+    { value: "Heated Seats", label: "Heated Seats" },
+    { value: "Sunroof", label: "Sunroof" },
+  ];
+
+  // Handle change in selected features
+  const handleFeatureChange = (selectedOptions: any) => {
+    setSelectedFeatures(selectedOptions || []);
+  };
+
+
+
+
 
   return (
     <div className="">
@@ -139,8 +168,50 @@ export default function AddCar() {
               </div>
             </div>
 
+            <div className="flex flex-wrap space-x-4">
+             
+              {/* Price Per Hour */}
+              <div className="flex-1">
+                <label className="block text-sm font-medium mb-2">
+                  Price Per Hour
+                </label>
+                <Input
+                  type="number"
+                  placeholder="Enter price per hour"
+                  {...register("pricePerHour", {
+                    required: "Price per hour is required",
+                  })}
+                />
+                {errors.pricePerHour?.message && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.pricePerHour.message as string}
+                  </p>
+                )}
+              </div>
+
+            
+              {/* Price Per Day */}
+              <div className="flex-1">
+                <label className="block text-sm font-medium mb-2">
+                  Price Per Day
+                </label>
+                <Input
+                  type="number"
+                  placeholder="Enter price per day"
+                  {...register("pricePerDay", {
+                    required: "Price per hour is required",
+                  })}
+                />
+                {errors.pricePerHour?.message && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.pricePerHour.message as string}
+                  </p>
+                )}
+              </div>
+            </div>
+
             {/* Price Per Hour */}
-            <div>
+            <div className="flex-1">
               <label className="block text-sm font-medium mb-2">
                 Price Per Hour
               </label>
@@ -158,22 +229,25 @@ export default function AddCar() {
               )}
             </div>
 
-            {/* Features */}
+            {/* Features (Multi-select) */}
             <div>
               <label className="block text-sm font-medium mb-2">Features</label>
-              <Textarea
-                placeholder="Enter car features"
-                {...register("features", { required: "Features are required" })}
+              <MultiSelect
+                onChange={handleFeatureChange}
+                options={featureOptions}
+                value={selectedFeatures}
+                placeholder="Select features"
               />
-              {errors.features?.message && (
+              {selectedFeatures.length === 0 && (
                 <p className="text-red-500 text-sm mt-1">
-                  {errors.features.message as string}
+                  Please select at least one feature
                 </p>
               )}
             </div>
 
-
+            {/* File Upload */}
             <FileUpload onChange={handleFileUpload} />
+
             {/* Submit Button */}
             <div className="text-right">
               <Button

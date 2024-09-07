@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { NavRoutes } from "./NavRoutes";
 import { isMobile } from "../../utils/isMobile";
+import { GridPattern } from "../../components/ui/GridPattern";
 
 
 gsap.registerPlugin(useGSAP);
@@ -65,7 +66,7 @@ export default function Dashboard() {
           ref={dashNavContainer}
           className={`${
             !open && "-translate-x-20 md:-translate-x-0"
-          } duration-500 fixed h-screen py-5 px-2 flex flex-col justify-between bg-background `}
+          } duration-500 fixed z-40 h-screen py-5 px-2 flex flex-col justify-between bg-background `}
         >
           <div className="space-y-5">
             <Link to={"/"} className={` flex justify-center items-center `}>
@@ -107,9 +108,14 @@ export default function Dashboard() {
         </div>
         <div
           onClick={() => setOpen(false)}
-          className=" mx-auto px-4 lg:px-10 rounded-xl mb-10 py-8"
+          className=" relative mx-auto px-4 lg:px-10 rounded-xl mb-10 py-8 bg-background overflow-hidden"
         >
-          <Outlet />
+          <div className="absolute h-full inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
+            <GridPattern />
+          </div>
+          <div className="relative ">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

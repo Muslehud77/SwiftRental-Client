@@ -41,7 +41,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
 
   if (result?.error?.status === 401) {
-    const res = await fetch(`${baseUrl}/auth/refresh-token`, {
+    const res = await fetch(`${baseUrl}/auth/refreshToken`, {
       method: "POST",
       credentials: "include",
     });

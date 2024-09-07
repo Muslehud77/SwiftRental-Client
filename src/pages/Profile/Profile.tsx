@@ -19,12 +19,12 @@ export default function Profile() {
 
 
   return (
-    <div className="flex  items-center justify-center rounded-xl md:bg-gray-300 max-h-fit md:h-[90vh]">
+    <div className="flex  items-center justify-center rounded-xl  max-h-fit md:h-[90vh]">
       <Helmet>
         <title>Dashboard | {user?.name}</title>
       </Helmet>
       <Card className="w-full max-w-sm">
-        <CardHeader className="flex flex-col items-center gap-4 bg-gray-800 text-gray-100 py-8 rounded-t-lg">
+        <CardHeader className="flex flex-col items-center gap-4 bg-zinc-800/50 text-gray-100 py-8 rounded-t-lg">
           <Avatar className="h-20 w-20">
             <AvatarImage
               src={user?.image}

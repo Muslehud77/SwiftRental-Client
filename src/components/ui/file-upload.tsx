@@ -29,11 +29,10 @@ export const FileUpload = ({
     const imageFiles = newFiles.filter((file) =>
       file.type.startsWith("image/")
     );
-    setFiles([...files,...imageFiles]);
-
-    onChange([...files, ...imageFiles]);
+    const updatedFiles = [...files, ...imageFiles];
+    setFiles(updatedFiles);
+    onChange(updatedFiles);
   };
-
 
   const handleClick = () => {
     fileInputRef.current?.click();
@@ -42,9 +41,7 @@ export const FileUpload = ({
   const { getRootProps, isDragActive } = useDropzone({
     multiple: true,
     noClick: true,
-    accept: {
-      "image/*": [],
-    },
+    accept: { "image/*": [] },
     onDrop: handleFileChange,
     onDropRejected: (error) => {
       console.log(error);
@@ -53,17 +50,18 @@ export const FileUpload = ({
 
   const handleRemoveImage = (index: number, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevents file dialog from opening
-    const filtered = files.filter((_, i) => i !== index);
-    setFiles(filtered);
-    onChange(filtered);
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setFiles(updatedFiles);
+    onChange(updatedFiles);
   };
 
   const handleSetMainImage = (index: number, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevents file dialog from opening
     const newFiles = [...files];
     const [mainImage] = newFiles.splice(index, 1);
-    setFiles([mainImage, ...newFiles]);
-    onChange([mainImage, ...newFiles]);
+    const updatedFiles = [mainImage, ...newFiles];
+    setFiles(updatedFiles);
+    onChange(updatedFiles);
   };
 
   return (
@@ -82,9 +80,7 @@ export const FileUpload = ({
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
         />
-        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
-          <GridPattern />
-        </div>
+       
         <div className="flex flex-col items-center justify-center">
           <p className="relative z-20 font-sans font-bold text-neutral-700 dark:text-neutral-300 text-lg">
             Upload Image
@@ -92,23 +88,22 @@ export const FileUpload = ({
           <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
             Drag or drop your images here or click to upload
           </p>
-          <div className="relative w-full mt-10 max-w-xl mx-auto">
+          <div className="relative w-full mt-10 max-w-xl mx-auto duration-500">
             {files.length > 0 && (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-4 duration-500 transition-all">
                 <AnimatePresence>
                   {files.map((file, idx) => (
                     <motion.div
-                      initial={{ opacity: 0}}
-                      animate={{ opacity: 1 }}
+                      layout
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.2,delay:idx*0.1} }
                       exit={{
-                        x: 500,
-                        opacity: 0,
-                        transition: { duration: 0.5, ease: "easeInOut" },
+                        width:0,
+                        transition:{ duration: 0.2}
                       }}
-                      key={"file" + idx}
-                      layoutId={
-                        idx === 0 ? "file-upload" : "file-upload-" + idx
-                      }
+                      layoutId={idx === 0 ? "file-upload" : "file"+idx}
+                      key={file.name} // Use file name or any unique identifier
                       className={cn(
                         "relative overflow-hidden z-40 rounded-lg",
                         "shadow-md hover:shadow-lg transition-shadow"
@@ -120,7 +115,7 @@ export const FileUpload = ({
                         draggable={false}
                         src={URL.createObjectURL(file)}
                         alt={`preview-${idx}`}
-                        className="w-full h-32 object-cover rounded-lg"
+                        className="w-full h-32 object-contain rounded-lg bg-foreground"
                       />
                       {/* Overlay to show Make Main on hover */}
                       {files[0] !== file && (
@@ -151,7 +146,7 @@ export const FileUpload = ({
                       {idx === 0 && (
                         <motion.span
                           layoutId="mainImage"
-                          initial={{ scale: 0.8 }}
+                          initial={{ scale: 0.2 }}
                           animate={{ scale: 1 }}
                           className="absolute bottom-2 left-2 bg-green-500 text-white px-2 py-1 text-xs rounded-md"
                         >
@@ -199,26 +194,4 @@ export const FileUpload = ({
   );
 };
 
-export function GridPattern() {
-  const columns = 41;
-  const rows = 11;
-  return (
-    <div className="flex bg-gray-100 dark:bg-neutral-900 flex-shrink-0 flex-wrap justify-center items-center gap-x-px gap-y-px  scale-105">
-      {Array.from({ length: rows }).map((_, row) =>
-        Array.from({ length: columns }).map((_, col) => {
-          const index = row * columns + col;
-          return (
-            <div
-              key={`${col}-${row}`}
-              className={`w-10 h-10 flex flex-shrink-0 rounded-[2px] ${
-                index % 2 === 0
-                  ? "bg-gray-50 dark:bg-neutral-950"
-                  : "bg-gray-50 dark:bg-neutral-950 shadow-[0px_0px_1px_3px_rgba(255,255,255,1)_inset] dark:shadow-[0px_0px_1px_3px_rgba(0,0,0,1)_inset]"
-              }`}
-            />
-          );
-        })
-      )}
-    </div>
-  );
-}
+
