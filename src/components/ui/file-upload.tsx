@@ -63,6 +63,14 @@ export const FileUpload = ({
     setFiles(updatedFiles);
     onChange(updatedFiles);
   };
+  const secondaryVariant = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+    },
+  };
 
   return (
     <div className="w-full" {...getRootProps()}>
@@ -80,7 +88,7 @@ export const FileUpload = ({
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
         />
-       
+
         <div className="flex flex-col items-center justify-center">
           <p className="relative z-20 font-sans font-bold text-neutral-700 dark:text-neutral-300 text-lg">
             Upload Image
@@ -97,12 +105,12 @@ export const FileUpload = ({
                       layout
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ duration: 0.2,delay:idx*0.1} }
+                      transition={{ duration: 0.2, delay: idx * 0.1 }}
                       exit={{
-                        width:0,
-                        transition:{ duration: 0.2}
+                        width: 0,
+                        transition: { duration: 0.2 },
                       }}
-                      layoutId={idx === 0 ? "file-upload" : "file"+idx}
+                      layoutId={idx === 0 ? "file-upload" : "file" + idx}
                       key={file.name} // Use file name or any unique identifier
                       className={cn(
                         "relative overflow-hidden z-40 rounded-lg",
@@ -122,9 +130,10 @@ export const FileUpload = ({
                         <motion.div
                           className="absolute inset-0 bg-black bg-opacity-0 transition-opacity duration-300 flex items-center justify-center"
                           initial={{ opacity: 0 }}
+                          style={{backgroundColor:"black"}}
                           whileHover={{
                             opacity: 0.8,
-                            backgroundColor: "black",
+                            
                           }}
                           onClick={(e) => handleSetMainImage(idx, e)}
                         >
@@ -186,6 +195,12 @@ export const FileUpload = ({
                   <GoUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-300" />
                 )}
               </motion.div>
+            )}
+            {!files.length && (
+              <motion.div
+                variants={secondaryVariant}
+                className="absolute opacity-0 border border-dashed border-sky-400 inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md"
+              ></motion.div>
             )}
           </div>
         </div>

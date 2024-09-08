@@ -16,16 +16,18 @@ import {
   CardTitle,
   CardContent,
 } from "../../components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileUpload } from "../../components/ui/file-upload";
-import ReactSelect, { StylesConfig } from "react-select";
+
 import MultiSelect from "../../components/ui/MultiSelect";
+import { sendImageToBB } from "../../utils/sendImageToBB";
 
 export default function AddCar() {
-  const [files, setFiles] = useState<File[]>([]);
-  const [selectedFeatures, setSelectedFeatures] = useState<any[]>([]); // State for selected features
+  const [loading,setLoading] = useState(false)
 
-  
+  const [files, setFiles] = useState<File[]>([]);
+  const [links, setLinks] = useState<string[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<any[]>([]); // State for selected features
 
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
@@ -35,16 +37,22 @@ export default function AddCar() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    const carData = { ...data, features: selectedFeatures.map((f) => f.value) }; // Adding selected features to form data
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true)
+
+    const carData = { ...data, features: selectedFeatures.map((f) => f.value) };
+
+    if (files.length) {
+      const links = await sendImageToBB(files);
+      setLinks(links)
+    }
+
     console.log(carData);
-    alert("Car added successfully!");
-    reset();
-    setSelectedFeatures([]); // Reset features after submission
   };
 
   // Available feature options
@@ -63,9 +71,9 @@ export default function AddCar() {
     setSelectedFeatures(selectedOptions || []);
   };
 
-
-
-
+  useEffect(() => {
+    setSelectedFeatures([featureOptions[0]]);
+  }, []);
 
   return (
     <div className="">
@@ -80,7 +88,7 @@ export default function AddCar() {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Car Name and Model (Flex Row) */}
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col gap-4 md:flex-row">
               {/* Car Name */}
               <div className="flex-1">
                 <label className="block text-sm font-medium mb-2">
@@ -117,7 +125,7 @@ export default function AddCar() {
             </div>
 
             {/* Car Year and Type (Flex Row) */}
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col gap-4 md:flex-row">
               {/* Car Year */}
               <div className="flex-1">
                 <label className="block text-sm font-medium mb-2">Year</label>
@@ -147,7 +155,9 @@ export default function AddCar() {
                 </label>
                 <Select
                   onValueChange={(value) => {
-                    register("carType").onChange({ target: { value } });
+                    setValue("carType", value, {
+                      shouldValidate: true, // This ensures validation runs
+                    });
                   }}
                 >
                   <SelectTrigger className="w-full">
@@ -168,8 +178,7 @@ export default function AddCar() {
               </div>
             </div>
 
-            <div className="flex flex-wrap space-x-4">
-             
+            <div className="flex flex-col gap-4 md:flex-row">
               {/* Price Per Hour */}
               <div className="flex-1">
                 <label className="block text-sm font-medium mb-2">
@@ -189,7 +198,6 @@ export default function AddCar() {
                 )}
               </div>
 
-            
               {/* Price Per Day */}
               <div className="flex-1">
                 <label className="block text-sm font-medium mb-2">
@@ -199,48 +207,72 @@ export default function AddCar() {
                   type="number"
                   placeholder="Enter price per day"
                   {...register("pricePerDay", {
-                    required: "Price per hour is required",
+                    required: "Price per day is required",
                   })}
                 />
-                {errors.pricePerHour?.message && (
+                {errors.pricePerDay?.message && (
                   <p className="text-red-500 text-sm mt-1">
-                    {errors.pricePerHour.message as string}
+                    {errors.pricePerDay.message as string}
                   </p>
                 )}
               </div>
             </div>
 
-            {/* Price Per Hour */}
-            <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">
-                Price Per Hour
-              </label>
-              <Input
-                type="number"
-                placeholder="Enter price per hour"
-                {...register("pricePerHour", {
-                  required: "Price per hour is required",
-                })}
-              />
-              {errors.pricePerHour?.message && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.pricePerHour.message as string}
-                </p>
-              )}
+            <div className="flex flex-col gap-4 md:flex-row">
+              {/* Car Color */}
+              <div className="flex-1">
+                <label className="block text-sm font-medium mb-2">
+                  Car Color
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Enter car color"
+                  {...register("carColor", {
+                    required: "Car color is required",
+                  })}
+                />
+                {errors.name?.message && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.name.message as string}
+                  </p>
+                )}
+              </div>
+              <div className="flex-1">
+                <label className="block text-sm font-medium mb-2">
+                  Features
+                </label>
+                <MultiSelect
+                  onChange={handleFeatureChange}
+                  options={featureOptions}
+                  value={selectedFeatures}
+                  placeholder="Select features"
+                />
+                {selectedFeatures.length === 0 && (
+                  <p className="text-red-500 text-sm mt-1">
+                    Please select at least one feature
+                  </p>
+                )}
+              </div>
             </div>
 
-            {/* Features (Multi-select) */}
+            {/* Description */}
             <div>
-              <label className="block text-sm font-medium mb-2">Features</label>
-              <MultiSelect
-                onChange={handleFeatureChange}
-                options={featureOptions}
-                value={selectedFeatures}
-                placeholder="Select features"
+              <label className="block text-sm font-medium mb-2">
+                Description
+              </label>
+              <Textarea
+                placeholder="Enter car description"
+                {...register("description", {
+                  required: "Description is required",
+                  minLength: {
+                    value: 10,
+                    message: "Description must be at least 10 characters long",
+                  },
+                })}
               />
-              {selectedFeatures.length === 0 && (
+              {errors.description?.message && (
                 <p className="text-red-500 text-sm mt-1">
-                  Please select at least one feature
+                  {errors.description.message as string}
                 </p>
               )}
             </div>

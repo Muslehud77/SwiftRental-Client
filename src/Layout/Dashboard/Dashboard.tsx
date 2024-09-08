@@ -60,7 +60,7 @@ export default function Dashboard() {
 
 
   return (
-    <div className="flex gap-5 min-h-screen w-full bg-background">
+    <div className="flex gap-5 min-h-screen w-full bg-background ">
       <div className={`${open ? "w-56" : "w-0 md:w-16"} duration-500`}>
         <aside
           ref={dashNavContainer}
@@ -108,7 +108,7 @@ export default function Dashboard() {
         </div>
         <div
           onClick={() => setOpen(false)}
-          className=" relative mx-auto px-4 lg:px-10 rounded-xl mb-10 py-8 bg-background overflow-hidden"
+          className=" relative mx-auto mt-4 mr-4 lg:px-10 rounded-xl mb-10 py-8 bg-background overflow-hidden border"
         >
           <div className="absolute h-full inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
             <GridPattern />

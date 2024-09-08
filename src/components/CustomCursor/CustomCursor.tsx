@@ -14,23 +14,22 @@ const CustomCursor = () => {
   const cursor = useRef<HTMLDivElement>(null);
   const bodyRef = useRef(document.body); // Reference to HTML body
 
-  // Handle cursor scaling based on state
-  useGSAP(
-    () => {
-      if (isBig) {
-        gsap.to(cursor.current, {
-          scale: 4,
-          duration: 0.5,
-        });
-      } else {
-        gsap.to(cursor.current, {
-          scale: 1,
-          duration: 0.5,
-        });
-      }
-    },
-    { dependencies: [isBig, defaultColor] }
-  );
+ useEffect(() => {
+   if (cursor.current) {
+     if (isBig) {
+       gsap.to(cursor.current, {
+         scale: 4,
+         duration: 0.5,
+       });
+     } else {
+       gsap.to(cursor.current, {
+         scale: 1,
+         duration: 0.5,
+       });
+     }
+   }
+ }, [isBig, defaultColor]);
+
 
   // Move cursor on mouse move
   const onMouseMove = (e: MouseEvent) => {

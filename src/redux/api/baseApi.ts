@@ -71,10 +71,10 @@ export const baseApi = createApi({
   tagTypes: [
     "mycart",
     "cart",
-    "products",
+    "cars",
     "users",
-    "product",
-    "deletedProducts",
+   
+    "deletedCars",
     "stats",
     "isExists",
   ],
