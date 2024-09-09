@@ -108,13 +108,15 @@ export default function Dashboard() {
         </div>
         <div
           onClick={() => setOpen(false)}
-          className=" relative mx-auto mt-4 mr-4 lg:px-10 rounded-xl mb-10 py-8 bg-background overflow-hidden border"
+          className=" relative mx-auto mt-4 mr-4 lg:px-10 rounded-xl mb-10 py-8 bg-secondary overflow-hidden border"
         >
-          <div className="absolute h-full inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
-            <GridPattern />
-          </div>
-          <div className="relative ">
-            <Outlet />
+          <div className="relative bg-background rounded-xl">
+            <div className="absolute h-full inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
+              <GridPattern />
+            </div>
+            <div className="relative">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>

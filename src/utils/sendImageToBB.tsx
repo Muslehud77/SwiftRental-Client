@@ -39,7 +39,7 @@ export const sendImageToBB = async (imageData: File | File[]) => {
           },
         });
 
-        imageLinks.push({ url: res?.data?.data?.url, blurHash });
+        imageLinks.push({ url: (res?.data?.data?.url as string), blurHash });
       }
 
       resolvePromise();
@@ -59,7 +59,7 @@ export const sendImageToBB = async (imageData: File | File[]) => {
       },
     });
 
-    const photoURL = response.data.data.url;
+    const photoURL = response.data.data.url as string;
 
     resolvePromise(); // Resolve the promise after successful upload
     return { url: photoURL, blurHash }; // Return both URL and BlurHash

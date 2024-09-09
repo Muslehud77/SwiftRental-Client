@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useAppSelector } from "../redux/hooks";
-import { selectAuthUser } from "../redux/features/auth/authSlice";
+import { selectAuthToken, selectAuthUser } from "../redux/features/auth/authSlice";
 import { Navigate, useLocation } from "react-router-dom";
 import useDecodedToken from "../hooks/useDecodedToken";
 
@@ -15,21 +15,28 @@ const ProtectedRoute = ({
   role,
   isDashboard,
 }: ProtectedRouteProps) => {
+  const token = useAppSelector(selectAuthToken)
   const user = useAppSelector(selectAuthUser);
 
-  const decoded = useDecodedToken();
+  const decoded = useDecodedToken() as {
+    id: string;
+    role: "admin" | "user";
+    exp: number;
+    iat: number;
+  };
 
   const { pathname } = useLocation();
 
-  if (!user) {
+  if (!user || !token) {
     return <Navigate to={"/login"} state={pathname} />;
   }
 
-console.log(role,decoded)
+  const hasAccess =  decoded?.role === role;
 
-  if (decoded?.role === role || isDashboard) {
-    
-    return children;
+  if(decoded){
+    if (hasAccess || isDashboard) {
+      return children;
+    }
   }
 
   return <Navigate to={"/"} />;

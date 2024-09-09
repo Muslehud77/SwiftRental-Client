@@ -3,6 +3,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Button } from "../../components/ui/button";
+import HashLoader from "react-spinners/HashLoader";
 import {
   Select,
   SelectItem,
@@ -21,12 +22,24 @@ import { FileUpload } from "../../components/ui/file-upload";
 
 import MultiSelect from "../../components/ui/MultiSelect";
 import { sendImageToBB } from "../../utils/sendImageToBB";
+import Loading from "../../components/Loading/Loading";
+import { useToastPromise } from "../../hooks/useToastPromise";
+import { useAddCarMutation } from "../../redux/features/Car/carApi";
+import { TCar, TResponse } from "../../types/global.type";
+import { useNavigate } from "react-router-dom";
+import ImageWithBlurHash from "../../components/ImageWithBlurHash/ImageWithBlurHash";
+import { Blurhash } from "react-blurhash";
 
 export default function AddCar() {
-  const [loading,setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [addCartToDB] = useAddCarMutation();
+  const { toastPromise } = useToastPromise();
+  const [loading, setLoading] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
-  const [links, setLinks] = useState<string[]>([]);
+  const [links, setLinks] = useState<
+    { url: string; blurHash: string | null }[]
+  >([]);
   const [selectedFeatures, setSelectedFeatures] = useState<any[]>([]); // State for selected features
 
   const handleFileUpload = (files: File[]) => {
@@ -43,16 +56,41 @@ export default function AddCar() {
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setLoading(true)
-
-    const carData = { ...data, features: selectedFeatures.map((f) => f.value) };
+    const carData = {
+      ...data,
+      features: selectedFeatures.map((f) => f.value),
+    } as TCar;
 
     if (files.length) {
-      const links = await sendImageToBB(files);
-      setLinks(links)
-    }
+      setLoading(true);
 
-    console.log(carData);
+      if (links.length) {
+        carData["images"] = links;
+      } else {
+        const images = (await sendImageToBB(files)) as {
+          url: string;
+          blurHash: string | null;
+        }[];
+        setLinks(images);
+        carData["images"] = images;
+      }
+
+      const res = (await toastPromise(
+        addCartToDB,
+        carData,
+        "Adding car.."
+      )) as { success: boolean };
+
+      if (res.success) {
+        navigate("/dashboard/manage-cars");
+        setLoading(false);
+        reset();
+        setFiles([]);
+      } else {
+        setFiles([]);
+        setLoading(false);
+      }
+    }
   };
 
   // Available feature options
@@ -76,11 +114,12 @@ export default function AddCar() {
   }, []);
 
   return (
-    <div className="">
+    <div>
       <Helmet>
         <title>Dashboard | Add Car</title>
       </Helmet>
-
+      {loading && <Loading />}
+      
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Add New Car</CardTitle>
@@ -227,7 +266,7 @@ export default function AddCar() {
                 <Input
                   type="text"
                   placeholder="Enter car color"
-                  {...register("carColor", {
+                  {...register("color", {
                     required: "Car color is required",
                   })}
                 />
@@ -279,7 +318,11 @@ export default function AddCar() {
 
             {/* File Upload */}
             <FileUpload onChange={handleFileUpload} />
-
+            {files.length === 0 && (
+              <p className="text-red-500 text-sm mt-1 text-center">
+                Please upload at-least one image
+              </p>
+            )}
             {/* Submit Button */}
             <div className="text-right">
               <Button

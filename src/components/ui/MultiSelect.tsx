@@ -1,5 +1,6 @@
 import ReactSelect, { ActionMeta, MultiValue } from "react-select";
 import { useTheme } from "../ThemeProvider";
+import { useEffect, useRef } from "react";
 
 type MultiSelectProps = {
   options: { value: string | number; label: string | number }[];
@@ -12,8 +13,18 @@ type MultiSelectProps = {
 };
 
 const MultiSelect = ({ options, value,onChange, placeholder }: MultiSelectProps) => {
-
+   
     const {actualTheme} = useTheme()
+
+    useEffect(()=>{
+      const input = document.getElementById("react-select-2-input");
+      if(input){
+        input.classList.add("!text-foreground")
+      }
+     
+       
+
+    },[])
 
 
   const customStyles = {
@@ -30,15 +41,17 @@ const MultiSelect = ({ options, value,onChange, placeholder }: MultiSelectProps)
   };
 
   return (
-    <ReactSelect
-      isMulti
+    <div  className="w-full h-full ">
+      <ReactSelect
+        isMulti
         styles={customStyles}
-      options={options}
-      className="relative z-50"
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-    />
+        options={options}
+        className="relative z-50"
+        placeholder={placeholder}
+        onChange={onChange}
+        value={value}
+      />
+    </div>
   );
 };
 

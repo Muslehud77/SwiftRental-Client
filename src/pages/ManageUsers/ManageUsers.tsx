@@ -29,14 +29,14 @@ const users = data?.data
       {isLoading || isError || !data? (
         <ManageUsersSkeleton />
       ) : (
-        <Card className="w-full !bg-secondary ">
+        <Card className="w-full  ">
           <CardHeader>
             <CardTitle className="text-2xl">User Management</CardTitle>
             <CardDescription>
               Manage all users on your platform.
             </CardDescription>
           </CardHeader>
-          <CardContent className="!bg-background">
+          <CardContent className="">
             <ManageUsersTable users={users} />
           </CardContent>
         </Card>

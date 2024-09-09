@@ -23,8 +23,5 @@ const carApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetAllUsersQuery,
-  useDeleteUserMutation,
-  useUpdateUserMutation,
-  useChangeStatusOfUserMutation,
+ useAddCarMutation
 } = carApi;
