@@ -1,4 +1,5 @@
-import  { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { Blurhash } from "react-blurhash";
 
 type ImageWithBlurHashProps = {
@@ -26,34 +27,59 @@ const ImageWithBlurHash = ({
   };
 
   return (
-    <div style={{ position: "relative", width, height }} className={className}>
-      {/* Show BlurHash as a placeholder until the image loads */}
-      {!imageLoaded && (
-        <Blurhash
-          hash={blurHash}
-          width="100%"
-          height="100%"
-          resolutionX={32}
-          resolutionY={32}
-          punch={1}
-          style={{ position: "absolute", top: 0, left: 0 }}
-        />
-      )}
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        style={{ position: "relative", width, height }}
+        className={className}
+      >
+        {/* Blurhash */}
+        {!imageLoaded && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: imageLoaded ? 0 : 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2 }}
+            style={{
+           
+            
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Blurhash
+              hash={blurHash}
+              resolutionX={32}
+              resolutionY={32}
+              punch={1}
+              style={{
+                display: "block",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </motion.div>
+        )}
 
-      {/* The actual image */}
-      <img
-        src={src}
-        alt={alt}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: imageLoaded ? 1 : 0,
-          transition: "opacity 0.3s ease-in-out",
-        }}
-        onLoad={handleImageLoad}
-      />
-    </div>
+        {/* The actual image */}
+        <motion.img
+          src={src}
+          alt={alt}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: imageLoaded ? 1 : 0 }}
+          transition={{ duration: 2 }}
+          onLoad={handleImageLoad}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

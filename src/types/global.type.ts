@@ -54,3 +54,8 @@ export type Image = {
   blurHash: string | null;
   _id?: string;
 };
+
+
+
+
+export type TQueryParams = { name: string; value: string | number }[];

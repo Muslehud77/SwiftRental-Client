@@ -140,7 +140,7 @@ const NavbarMenus = ({
       } md:mr-0`}
     >
       <ThemeChanger />
-      {user ? (
+      {user?._id ? (
         user?.role === "admin" ? (
           <>
             <User />

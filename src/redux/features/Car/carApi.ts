@@ -1,15 +1,45 @@
+import { TCar, TQueryParams, TResponseRedux } from "../../../types/global.type";
 import { baseApi } from "../../api/baseApi";
 
 const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllUsers: builder.query({
-      query: () => {
+    getAllCars: builder.query({
+      query: (args: TQueryParams | undefined) => {
+        const params = new URLSearchParams();
+
+        if (args?.length) {
+          args.map((arg) =>
+            params.append(arg.name.toString(), arg.value.toString())
+          );
+        }
+
         return {
-          url: `/users`,
+          url: "/cars",
+          method: "GET",
+          params,
         };
       },
-      providesTags: ["users"],
+      transformResponse: (response: TResponseRedux<TCar[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+      providesTags: ["cars"],
     }),
+
+    getCarById: builder.query({
+      query: (id) => {
+        return {
+          url: `/cars/${id}`,
+          method: "GET",
+        };
+      },
+
+      providesTags: ["cars"],
+    }),
+
+
 
     addCar: builder.mutation({
       query: (data) => ({
@@ -19,9 +49,25 @@ const carApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["cars"],
     }),
+
+    updateCar: builder.mutation({
+      query: ({data,id}) => ({
+        url: `/cars/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["cars"],
+    }),
+
+    deleteCar: builder.mutation({
+      query: ({id}) => ({
+        url: `/cars/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["cars"],
+    }),
   }),
 });
 
-export const {
- useAddCarMutation
-} = carApi;
+export const { useGetAllCarsQuery, useAddCarMutation, useGetCarByIdQuery ,useUpdateCarMutation,useDeleteCarMutation} =
+  carApi;
