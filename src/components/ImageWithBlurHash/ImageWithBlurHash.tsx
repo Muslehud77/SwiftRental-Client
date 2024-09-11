@@ -4,7 +4,7 @@ import { Blurhash } from "react-blurhash";
 
 type ImageWithBlurHashProps = {
   src: string;
-  blurHash: string;
+  blurHash?: string;
   width?: string | number;
   height?: string | number;
   alt?: string;
@@ -26,6 +26,8 @@ const ImageWithBlurHash = ({
     setImageLoaded(true);
   };
 
+
+
   return (
     <AnimatePresence>
       <motion.div
@@ -36,32 +38,34 @@ const ImageWithBlurHash = ({
         className={className}
       >
         {/* Blurhash */}
-        {!imageLoaded && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: imageLoaded ? 0 : 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 2 }}
-            style={{
-           
-            
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <Blurhash
-              hash={blurHash}
-              resolutionX={32}
-              resolutionY={32}
-              punch={1}
+        {blurHash && !imageLoaded ? (
+          <>
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: imageLoaded ? 0 : 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 2 }}
               style={{
-                display: "block",
                 width: "100%",
                 height: "100%",
-                objectFit: "cover",
               }}
-            />
-          </motion.div>
+            >
+              <Blurhash
+                hash={blurHash}
+                resolutionX={32}
+                resolutionY={32}
+                punch={1}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </motion.div>
+          </>
+        ) : (
+          <></>
         )}
 
         {/* The actual image */}

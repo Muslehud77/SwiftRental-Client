@@ -41,17 +41,15 @@ const MultiSelect = ({ options, value,onChange, placeholder }: MultiSelectProps)
   };
 
   return (
-    <div  className="w-full h-full ">
-      <ReactSelect
-        isMulti
-        styles={customStyles}
-        options={options}
-        className="relative z-50"
-        placeholder={placeholder}
-        onChange={onChange}
-        value={value}
-      />
-    </div>
+    <ReactSelect
+      isMulti
+      styles={customStyles}
+      options={options}
+      className="relative z-50"
+      placeholder={placeholder}
+      onChange={onChange}
+      value={value}
+    />
   );
 };
 

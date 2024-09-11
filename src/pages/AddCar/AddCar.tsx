@@ -3,7 +3,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Button } from "../../components/ui/button";
-import HashLoader from "react-spinners/HashLoader";
+
 import {
   Select,
   SelectItem,
@@ -25,10 +25,8 @@ import { sendImageToBB } from "../../utils/sendImageToBB";
 import Loading from "../../components/Loading/Loading";
 import { useToastPromise } from "../../hooks/useToastPromise";
 import { useAddCarMutation } from "../../redux/features/Car/carApi";
-import { TCar, TResponse } from "../../types/global.type";
+import { TCar } from "../../types/global.type";
 import { useNavigate } from "react-router-dom";
-import ImageWithBlurHash from "../../components/ImageWithBlurHash/ImageWithBlurHash";
-import { Blurhash } from "react-blurhash";
 
 export default function AddCar() {
   const navigate = useNavigate();
@@ -38,7 +36,7 @@ export default function AddCar() {
 
   const [files, setFiles] = useState<File[]>([]);
   const [links, setLinks] = useState<
-    { url: string; blurHash: string | null }[]
+    { url: string; blurHash: string }[]
   >([]);
   const [selectedFeatures, setSelectedFeatures] = useState<any[]>([]); // State for selected features
 
@@ -69,7 +67,7 @@ export default function AddCar() {
       } else {
         const images = (await sendImageToBB(files)) as {
           url: string;
-          blurHash: string | null;
+          blurHash: string;
         }[];
         setLinks(images);
         carData["images"] = images;

@@ -1,9 +1,17 @@
 import { cn } from "../../lib/utils";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GoUpload } from "react-icons/go";
 import { useDropzone } from "react-dropzone";
 import { AiOutlineClose } from "react-icons/ai"; // Close icon
+import ImageWithBlurHash from "../ImageWithBlurHash/ImageWithBlurHash";
+
+export type TImageType =
+  | { url: string; blurHash: string }[]
+  | (
+      | { url: string; blurHash: string }
+      | (File & { url: string; blurHash: string })
+    )[];
 
 const mainVariant = {
   initial: {
@@ -19,17 +27,26 @@ const mainVariant = {
 
 export const FileUpload = ({
   onChange,
+  imageUrls,
 }: {
-  onChange: (files: File[]) => void;
+  onChange: (files: TImageType) => void;
+  imageUrls?: { url: string; blurHash: string }[];
 }) => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<TImageType>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (imageUrls?.length) {
+      setFiles([...files, ...imageUrls]);
+    }
+  }, [imageUrls]);
+
   const handleFileChange = (newFiles: File[]) => {
+   
     const imageFiles = newFiles.filter((file) =>
       file.type.startsWith("image/")
     );
-    const updatedFiles = [...files, ...imageFiles];
+    const updatedFiles = [...files, ...imageFiles] as TImageType;
     setFiles(updatedFiles);
     onChange(updatedFiles);
   };
@@ -72,6 +89,14 @@ export const FileUpload = ({
     },
   };
 
+  const imagePrev = (image: File | { url: string; blurHash: string }) => {
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    } else {
+      return image.url;
+    }
+  };
+
   return (
     <div className="w-full" {...getRootProps()}>
       <motion.div
@@ -96,11 +121,11 @@ export const FileUpload = ({
           <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
             Drag or drop your images here or click to upload
           </p>
-          <div className="relative w-full mt-10 max-w-xl mx-auto duration-500">
+          <div className="relative w-full mt-10 max-w-2xl mx-auto duration-500">
             {files.length > 0 && (
               <div className="grid grid-cols-3 gap-4 duration-500 transition-all">
                 <AnimatePresence>
-                  {files.map((file, idx) => (
+                  {files.map((file , idx) => (
                     <motion.div
                       layout
                       initial={{ scale: 0 }}
@@ -111,7 +136,7 @@ export const FileUpload = ({
                         transition: { duration: 0.2 },
                       }}
                       layoutId={idx === 0 ? "file-upload" : "file" + idx}
-                      key={file.name} // Use file name or any unique identifier
+                      key={(file as File)?.name || file.url} // Use file name or any unique identifier
                       className={cn(
                         "relative overflow-hidden z-40 rounded-lg",
                         "shadow-md hover:shadow-lg transition-shadow"
@@ -119,21 +144,19 @@ export const FileUpload = ({
                       onClick={(e) => handleSetMainImage(idx, e)}
                       whileHover={{ scale: 1.05 }}
                     >
-                      <motion.img
-                        draggable={false}
-                        src={URL.createObjectURL(file)}
-                        alt={`preview-${idx}`}
-                        className="w-full h-32 object-contain rounded-lg bg-foreground"
+                      <ImageWithBlurHash
+                        className="!h-56 bg-foreground"
+                        src={imagePrev(file)}
+                        blurHash={file?.blurHash || ""}
                       />
-                      {/* Overlay to show Make Main on hover */}
+
                       {files[0] !== file && (
                         <motion.div
                           className="absolute inset-0 bg-black bg-opacity-0 transition-opacity duration-300 flex items-center justify-center"
                           initial={{ opacity: 0 }}
-                          style={{backgroundColor:"black"}}
+                          style={{ backgroundColor: "black" }}
                           whileHover={{
                             opacity: 0.8,
-                            
                           }}
                           onClick={(e) => handleSetMainImage(idx, e)}
                         >
@@ -208,5 +231,3 @@ export const FileUpload = ({
     </div>
   );
 };
-
-

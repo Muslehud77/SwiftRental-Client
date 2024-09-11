@@ -34,6 +34,7 @@ export type TResponse<T> = {
 export type TCar = {
   _id: string;
   name: string;
+  carType:string;
   model: string;
   year: string;
   description: string;
@@ -51,7 +52,7 @@ export type TCar = {
 
 export type Image = {
   url: string;
-  blurHash: string | null;
+  blurHash: string;
   _id?: string;
 };
 

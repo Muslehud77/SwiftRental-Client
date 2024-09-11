@@ -10,7 +10,9 @@ const manualPromise = new Promise((resolve, reject) => {
   rejectPromise = reject;
 });
 
-export const sendImageToBB = async (imageData: File | File[]) => {
+export const sendImageToBB = async (
+  imageData: File | File[] | (File & { url: string; blurHash: string }[])
+) => {
   const apiKey = import.meta.env.VITE_IMAGEBB_API;
   const url = `https://api.imgbb.com/1/upload?key=${apiKey}`;
 
@@ -23,23 +25,27 @@ export const sendImageToBB = async (imageData: File | File[]) => {
 
   try {
     if (Array.isArray(imageData)) {
-      const imageLinks = [];
+      const imageLinks = [] as { url: string; blurHash: string }[];
 
       for (let i = 0; i < imageData.length; i++) {
-        const formData = new FormData();
-        formData.append("image", imageData[i]);
 
-        // Generate BlurHash for each image
-        const blurHash = await generateBlurHash(imageData[i]);
-        console.log("Generated BlurHash:", blurHash);
+       if(imageData[i] instanceof File){
+         const formData = new FormData();
+         formData.append("image", (imageData[i] as File));
 
-        const res = await axios.post(url, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+         // Generate BlurHash for each image
+         const blurHash = await generateBlurHash((imageData[i] as File));
 
-        imageLinks.push({ url: (res?.data?.data?.url as string), blurHash });
+         const res = await axios.post(url, formData, {
+           headers: {
+             "Content-Type": "multipart/form-data",
+           },
+         });
+
+         imageLinks.push({ url: res?.data?.data?.url as string, blurHash });
+       }else{
+         imageLinks.push(imageData[i] as { url: string; blurHash: string });
+       }
       }
 
       resolvePromise();
@@ -51,7 +57,7 @@ export const sendImageToBB = async (imageData: File | File[]) => {
 
     // Generate BlurHash for the single image
     const blurHash = await generateBlurHash(imageData);
-    console.log("Generated BlurHash:", blurHash);
+ 
 
     const response = await axios.post(url, formData, {
       headers: {
