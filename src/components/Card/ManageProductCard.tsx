@@ -41,7 +41,7 @@ const ManageProductCard = ({ car }: ManageProductCardProps) => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Link
-                      to={`/dashboard/edit-car/${car._id}`}
+                      to={`/car-details/${car._id}`}
                       className="duration-200 hover:bg-gray-500 p-2 w-full flex justify-center items-center text-2xl"
                     >
                       <FiEye />

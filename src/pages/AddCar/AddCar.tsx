@@ -120,7 +120,7 @@ export default function AddCar() {
       
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Add New Car</CardTitle>
+          <CardTitle className="text-2xl">Add New Car</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

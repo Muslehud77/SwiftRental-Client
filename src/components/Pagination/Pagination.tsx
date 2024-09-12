@@ -45,10 +45,7 @@ export function Paginate({ meta, setPage }: TPaginateProps) {
           </PaginationItem>
         ))}
 
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-
+     
         {totalPage !== pageNumber && (
           <PaginationItem>
             <PaginationNext onClick={() => setPage(pageNumber + 1)} />
