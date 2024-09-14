@@ -1,5 +1,7 @@
 import ReactDOM from "react-dom/client";
 import "@smastrom/react-rating/style.css";
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import "./index.css";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store.ts";

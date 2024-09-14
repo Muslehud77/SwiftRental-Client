@@ -186,8 +186,8 @@ const NavRoutes: React.FC<NavRoutesProps> = ({
       path: "/",
     },
     {
-      name: "All Products",
-      path: "/all-products",
+      name: "Inventory",
+      path: "/inventory",
     },
     {
       name: "About Us",

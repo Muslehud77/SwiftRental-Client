@@ -66,6 +66,8 @@
 }
 
 
+
+
 ::-webkit-scrollbar {
   width: 4px;
   border: 1px solid #d5d5d5;
@@ -81,12 +83,24 @@
   background: #b0b0b0;
 }
 
+
+.rmdp-input{
+  color: black
+}
+
+.rmdp-panel-body li .b-deselect{
+  background-color: white !important;
+}
 .magnifier {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
 }  
 
+
+.rdrDefinedRangesWrapper{
+  display: none;
+}
 @keyframes enterAnimation {
   from {
     opacity: 0;

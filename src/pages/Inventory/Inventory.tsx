@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import MapDirection from "../../components/Searchbar/MapDirection";
 
 export type TProduct = {
   _id?: string;
@@ -19,6 +20,7 @@ export default function Inventory() {
       <Helmet>
         <title>AdventureAlly | Products</title>
       </Helmet>
+      <MapDirection className="w-full h-[200vh]" />
     </div>
   );
 }

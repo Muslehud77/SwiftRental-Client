@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit/react";
 import authReducer from "./features/auth/authSlice";
-
+import location from './features/Map/mapSlice'
 import checkoutReducer from "./features/checkout/checkoutSlice";
 import cursorReducer from "./features/cursor/cursorSlice";
 import {
@@ -42,7 +42,7 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
-    
+    location: location,
     checkout: persistCheckoutReducer,
     cursor: cursorReducer,
   },
