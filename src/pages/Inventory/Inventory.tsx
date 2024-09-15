@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import MapDirection from "../../components/Searchbar/MapDirection";
+import SearchBar from "../../components/Searchbar/SearchBar";
 
 export type TProduct = {
   _id?: string;
@@ -20,7 +21,10 @@ export default function Inventory() {
       <Helmet>
         <title>AdventureAlly | Products</title>
       </Helmet>
-      <MapDirection className="w-full h-[200vh]" />
+      <div className="flex w-full justify-start gap-5">
+        <MapDirection className=" h-screen w-96" />
+        <SearchBar />
+      </div>
     </div>
   );
 }
