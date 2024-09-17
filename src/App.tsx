@@ -17,7 +17,8 @@ const App = () => {
  
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
+    googleMapsApiKey: "",
+    // googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
     libraries: ["places"]
   });
 
@@ -38,9 +39,15 @@ const App = () => {
 
   const color = actualTheme === "dark" ? "white" : "black";
   const backgroundColor = actualTheme === "dark" ? "#100D12" : "#FFFBF0";
+  const backgroundImage = actualTheme === "dark" ? "dark-background" : "light-background"
+
 
   return (
-    <div ref={scrollContainerRef} data-scroll-container>
+    <div
+      className={backgroundImage}
+      ref={scrollContainerRef}
+      data-scroll-container
+    >
       <RouterProvider router={router} />
       <CustomCursor />
       <Toaster

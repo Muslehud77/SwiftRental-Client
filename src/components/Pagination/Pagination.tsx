@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import {
   Pagination,
   PaginationContent,
@@ -16,16 +17,21 @@ type TMeta = {
 };
 
 type TPaginateProps = {
-  meta: TMeta;
+  meta: TMeta | undefined;
   setPage: (page: number) => void;
 };
 
 export function Paginate({ meta, setPage }: TPaginateProps) {
-  const { pageNumber, totalPage } = meta;
+
+
+  const pageNumber = meta?.pageNumber
+  const totalPage = meta?.totalPage
 
   const arr = [...Array(totalPage).keys()].map((i) => i + 1);
 
   return (
+    <motion.div layout>
+
     <Pagination>
       <PaginationContent className="cursor-pointer md:cursor-none ">
         {pageNumber > 1 && (
@@ -53,5 +59,6 @@ export function Paginate({ meta, setPage }: TPaginateProps) {
         )}
       </PaginationContent>
     </Pagination>
+    </motion.div>
   );
 }

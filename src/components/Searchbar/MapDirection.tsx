@@ -28,7 +28,7 @@ type TMapDirectionProps = {
 const MapDirection = ({ className }: TMapDirectionProps) => {
  const {actualTheme} = useTheme()
   const dispatch = useAppDispatch();
-  const { from, to, mapLoaded, destinationInfo } =
+  const { from, mapLoaded, destinationInfo } =
     useAppSelector(selectLocation);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -102,16 +102,18 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
 
   return (
     <div className={className}>
-      <div className="flex gap-5  w-full h-full">
+      <div className="flex gap-5 w-full h-full">
         <motion.div
           layout
-          className="w-full h-full rounded-xl overflow-hidden bg-white"
+          className="w-full h-full rounded-xl overflow-hidden bg-transparent backdrop-blur-lg border border-ring/20"
         >
           {mapLoaded ? (
             <>
-              <div className="space-y-4 p-4 pb-5 bg-background">
-                <div>
-                  <Label htmlFor="origin">Origin</Label>
+              <div className="space-y-4 p-4 pb-5">
+                <div className="space-y-2">
+                  <Label htmlFor="origin" className="text-white">
+                    Origin
+                  </Label>
                   <div className="flex">
                     <Autocomplete
                       className="w-full"
@@ -121,20 +123,23 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
                         onBlur={(e) => setCurrentOrigin(e.target.value)}
                         defaultValue={destinationInfo.origin}
                         placeholder="Enter your origin"
+                        className="bg-transparent text-white placeholder-gray-400"
                       />
                     </Autocomplete>
                     <Button
                       type="button"
                       variant="outline"
-                      className="ml-2"
+                      className="ml-2 border-primary text-primary hover:bg-primary hover:text-white transition"
                       onClick={handleCurrentLocation}
                     >
                       <MapPin className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
-                <div>
-                  <Label htmlFor="destination">Destination</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="destination" className="text-white">
+                    Destination
+                  </Label>
                   <Autocomplete
                     className="w-full"
                     onPlaceChanged={onPlaceChanged}
@@ -144,6 +149,7 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
                       defaultValue={destinationInfo.destination}
                       id="destination"
                       placeholder="Enter your destination"
+                      className="bg-transparent text-white placeholder-gray-400"
                     />
                   </Autocomplete>
                 </div>
@@ -152,7 +158,8 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
                 mapContainerStyle={{
                   width: "100%",
                   height: "100%",
-                  mixBlendMode: actualTheme === "dark" ? "difference" : "normal",
+                  mixBlendMode:
+                    actualTheme === "dark" ? "difference" : "normal",
                 }}
                 center={from}
                 zoom={15}
@@ -182,83 +189,3 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
 export default MapDirection;
 
 
-export const nightModeMapStyles = [
-  { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-  {
-    featureType: "administrative.locality",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry",
-    stylers: [{ color: "#263c3f" }],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#6b9a76" }],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [{ color: "#38414e" }],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry.stroke",
-    stylers: [{ color: "#212a37" }],
-  },
-  {
-    featureType: "road",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#9ca5b3" }],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry",
-    stylers: [{ color: "#746855" }],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
-    stylers: [{ color: "#1f2835" }],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#f3d19c" }],
-  },
-  {
-    featureType: "transit",
-    elementType: "geometry",
-    stylers: [{ color: "#2f3948" }],
-  },
-  {
-    featureType: "transit.station",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
-  },
-  {
-    featureType: "water",
-    elementType: "geometry",
-    stylers: [{ color: "#17263c" }],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#515c6d" }],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.stroke",
-    stylers: [{ color: "#17263c" }],
-  },
-];

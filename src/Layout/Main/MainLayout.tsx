@@ -8,7 +8,7 @@ function MainLayout() {
  
 
   return (
-    <div className="bg-secondary flex flex-col min-h-screen ">
+    <div className=" flex flex-col min-h-screen ">
      
 
       <Navbar />

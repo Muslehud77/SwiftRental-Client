@@ -71,9 +71,7 @@ export default function Navbar() {
     <Headroom>
       <header
         ref={navBar}
-        className={`relative z-50 flex duration-500 w-full items-center  px-4 md:px-6 ${
-          pathname === "/" ? "" : "bg-background"
-        }`}
+        className={`relative z-20 flex duration-500 w-full items-center  px-4 md:px-6 `}
       >
         {pathname !== "/" && (
           <Link to="/" className="mr-6 flex items-center">

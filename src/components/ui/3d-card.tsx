@@ -30,8 +30,8 @@ export const CardContainer = ({
     if (!containerRef.current) return;
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / 25;
-    const y = (e.clientY - top - height / 2) / 25;
+    const x = (e.clientX - left - width / 2) / 100;
+    const y = (e.clientY - top - height / 2) / 100;
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
@@ -49,7 +49,7 @@ export const CardContainer = ({
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
         className={cn(
-          "flex items-center justify-center group",
+          " group",
           containerClassName
         )}
         style={{
@@ -97,6 +97,7 @@ export const CardBody = ({
 
 export const CardItem = ({
   as: Tag = "div",
+  shadow,
   children,
   className,
   translateX = 0,
@@ -108,6 +109,7 @@ export const CardItem = ({
   ...rest
 }: {
   as?: React.ElementType;
+  shadow?: boolean;
   children: React.ReactNode;
   className?: string;
   translateX?: number | string;
@@ -138,7 +140,9 @@ export const CardItem = ({
     <Tag
       ref={ref}
       className={cn(
-        "w-fit transition duration-200 ease-linear group-hover:shadow-[0_0_20px_gray]",
+        `w-fit transition duration-200 ease-linear ${
+          shadow && "group-hover:shadow-[0_0_20px_gray]"
+        }`,
         className
       )}
       {...rest}
