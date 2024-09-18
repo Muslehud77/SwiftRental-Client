@@ -25,6 +25,8 @@ export default function Inventory() {
     setPriceRange,
     handleClear,
     query,
+    showDatePicker,
+    setShowDatePicker,
   } = useSearchQuery();
 
   const { data, isLoading, isError } = useGetAllCarsQuery(query);
@@ -32,7 +34,7 @@ export default function Inventory() {
   const meta = data?.meta;
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8 text-foreground">
+    <div onClick={()=>setShowDatePicker(false)} className="container mx-auto px-4 md:px-6 py-8 text-foreground">
       <Helmet>
         <title>AdventureAlly | Products</title>
       </Helmet>
@@ -50,6 +52,8 @@ export default function Inventory() {
             setDateTime={setDateTime}
             setPriceRange={setPriceRange}
             handleClear={handleClear}
+            showDatePicker={showDatePicker}
+    setShowDatePicker={setShowDatePicker}
           />
 
           <div className="w-full space-y-5">

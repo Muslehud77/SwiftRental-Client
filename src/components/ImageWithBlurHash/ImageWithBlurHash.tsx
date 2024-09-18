@@ -3,17 +3,21 @@ import { useState } from "react";
 import { Blurhash } from "react-blurhash";
 
 type ImageWithBlurHashProps = {
+  object?: "contain" | "cover";
   src: string;
   blurHash?: string;
   width?: string | number;
   height?: string | number;
   alt?: string;
   className?: string;
+  dragEndHandler? : (arg:any)=>void;
 };
 
 const ImageWithBlurHash = ({
+  object = "contain",
   src,
   blurHash,
+  dragEndHandler,
   width = "100%",
   height = "100%",
   alt = "",
@@ -27,6 +31,8 @@ const ImageWithBlurHash = ({
   };
 
 
+  
+
 
   return (
     <AnimatePresence>
@@ -35,7 +41,7 @@ const ImageWithBlurHash = ({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         style={{ position: "relative", width, height }}
-        className={className}
+        className={`${className} bg-black`}
       >
         {/* Blurhash */}
         {blurHash && !imageLoaded ? (
@@ -70,6 +76,12 @@ const ImageWithBlurHash = ({
 
         {/* The actual image */}
         <motion.img
+          drag={dragEndHandler && "x"}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={(_, dragInfo) => {
+            return dragEndHandler && dragEndHandler(dragInfo);
+          }}
           src={src}
           alt={alt}
           initial={{ opacity: 0 }}
@@ -79,7 +91,7 @@ const ImageWithBlurHash = ({
           style={{
             width: "100%",
             height: "100%",
-            objectFit: "cover",
+            objectFit: object,
           }}
         />
       </motion.div>

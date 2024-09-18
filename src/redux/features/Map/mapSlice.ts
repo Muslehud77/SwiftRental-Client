@@ -62,7 +62,6 @@ export const mapSlice = createSlice({
       if (data.directionResponse) {
         state.destinationInfo.directionResponse = data.directionResponse;
       }
-
     },
 
     setFrom: (state, action: PayloadAction<Pick<TState, "from">>) => {
@@ -75,10 +74,19 @@ export const mapSlice = createSlice({
       state.from = { lat: -3.745, lng: -38.523 };
       state.to = null;
     },
+    clearDestination: (state) => {
+      state.destinationInfo = {
+        origin: "",
+        destination: "",
+        distance: "",
+        duration: "",
+        directionResponse: null,
+      };
+    },
   },
 });
 
-export const { setFrom, setTo, clearLocation, setMapLoaded, setDestination } =
+export const { setFrom, setTo, clearLocation, setMapLoaded, setDestination ,clearDestination} =
   mapSlice.actions;
 
 export default mapSlice.reducer;

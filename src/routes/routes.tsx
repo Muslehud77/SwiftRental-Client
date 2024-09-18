@@ -3,7 +3,7 @@ import MainLayout from "../Layout/Main/MainLayout";
 import Home from "../pages/Home/Home";
 import About from "../pages/About/About";
 import Inventory from "../pages/Inventory/Inventory";
-import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import CarDetails from "../pages/CarDetails/CarDetails";
 import AddCar from "../pages/AddCar/AddCar";
 import LoginPage from "../pages/loginRegister/Login";
 import Register from "../pages/loginRegister/Register";
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/car-details/:id",
-        element: <ProductDetails />,
+        element: <CarDetails />,
       },
       {
         path: "/add-product",

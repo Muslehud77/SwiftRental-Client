@@ -5,6 +5,8 @@ import { TQueryParams, TUrlQueryParams } from "../types/global.type";
 import { DateObject } from "react-multi-date-picker";
 import dayjs from "dayjs";
 import scrollToTop from "../utils/scrollToTop";
+import { useAppDispatch } from "../redux/hooks";
+import { clearDestination } from "../redux/features/Map/mapSlice";
 
 const today = new Date();
 const tomorrow = new Date(today);
@@ -13,9 +15,9 @@ tomorrow.setDate(tomorrow.getDate() + 1);
 const useSearchQuery = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const dispatch = useAppDispatch()
   const [page, setPage] = useState(1);
-
+   const [showDatePicker, setShowDatePicker] = useState(false);
   const [carBrand, setCarBrand] = useState<string[]>([]);
   const [carType, setCarType] = useState<string[]>([]);
 
@@ -86,6 +88,7 @@ const useSearchQuery = () => {
       }
     
     const databaseQuery = [
+      {name:"isDeleted",value:false},
       { name: "page", value: page },
       { name: "limit", value: 6 },
       { name: "startDate", value: queryParams.startDate },
@@ -117,6 +120,7 @@ const useSearchQuery = () => {
       pathname: location.pathname,
       search: "",
     });
+    dispatch(clearDestination())
   };
 
   return {
@@ -132,6 +136,8 @@ const useSearchQuery = () => {
     setPriceRange,
     handleClear,
     query,
+    showDatePicker,
+    setShowDatePicker,
   };
 };
 

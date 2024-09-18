@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   GoogleMap,
   Autocomplete,
@@ -17,19 +17,17 @@ import { Button } from "../ui/button";
 import { MapPin } from "lucide-react";
 import { Label } from "../ui/label";
 import { getLocationName } from "../../utils/locationName";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "../ThemeProvider";
-
 
 type TMapDirectionProps = {
   className: string;
 };
 
 const MapDirection = ({ className }: TMapDirectionProps) => {
- const {actualTheme} = useTheme()
+  const { actualTheme } = useTheme();
   const dispatch = useAppDispatch();
-  const { from, mapLoaded, destinationInfo } =
-    useAppSelector(selectLocation);
+  const { from, mapLoaded, destinationInfo } = useAppSelector(selectLocation);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
@@ -37,11 +35,10 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
     map?.panTo(from);
   }, [from]);
 
-  const [currentOrigin,setCurrentOrigin] = useState("")
-  const [currentDestination,setCurrentDestination] = useState("")
+  const [currentOrigin, setCurrentOrigin] = useState("");
+  const [currentDestination, setCurrentDestination] = useState("");
 
   const onPlaceChanged = async () => {
-    
     dispatch(
       setDestination({
         origin: currentOrigin || "",
@@ -51,14 +48,11 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
 
     const directionService = new google.maps.DirectionsService();
     if (currentOrigin && currentDestination) {
-    
       const results = await directionService.route({
         origin: currentOrigin,
         destination: currentDestination,
         travelMode: google.maps.TravelMode.DRIVING,
       });
-
-      console.log({results})
 
       const distance = results.routes[0].legs[0].distance?.text;
       const duration = results.routes[0].legs[0].duration?.text;
@@ -76,6 +70,7 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
       }
     }
   };
+
   const handleCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -98,10 +93,14 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
     }
   };
 
+  const duration = destinationInfo.duration;
+  const distance = destinationInfo.distance;
+
+
 
 
   return (
-    <div className={className}>
+    <motion.div layout className={className}>
       <div className="flex gap-5 w-full h-full">
         <motion.div
           layout
@@ -109,7 +108,11 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
         >
           {mapLoaded ? (
             <>
-              <div className="space-y-4 p-4 pb-5">
+              <motion.div
+                layout
+                key={destinationInfo.distance}
+                className="space-y-4 p-4 pb-5"
+              >
                 <div className="space-y-2">
                   <Label htmlFor="origin" className="text-white">
                     Origin
@@ -153,39 +156,53 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
                     />
                   </Autocomplete>
                 </div>
+
+                <AnimatePresence>
+                  {/* Display distance and duration if available */}
+                  {destinationInfo.directionResponse && (
+                    <motion.div className="mt-4 p-4 bg-white/10 text-white rounded-lg">
+                      <p className="font-semibold">
+                        Distance: <span>{distance}</span>
+                      </p>
+                      <p className="font-semibold">
+                        Duration: <span>{duration}</span>
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+              <div className="w-full h-full bg-white">
+                <GoogleMap
+                  mapContainerStyle={{
+                    width: "100%",
+                    height: "100%",
+                    mixBlendMode:
+                      actualTheme === "dark" ? "difference" : "normal",
+                  }}
+                  center={from}
+                  zoom={15}
+                  onLoad={(map) => setMap(map)}
+                  onUnmount={() => setMap(null)}
+                  options={{
+                    mapTypeControl: false,
+                  }}
+                >
+                  <Marker position={from} title="Pickup" />
+                  {destinationInfo.directionResponse && (
+                    <DirectionsRenderer
+                      directions={destinationInfo.directionResponse}
+                    />
+                  )}
+                </GoogleMap>
               </div>
-              <GoogleMap
-                mapContainerStyle={{
-                  width: "100%",
-                  height: "100%",
-                  mixBlendMode:
-                    actualTheme === "dark" ? "difference" : "normal",
-                }}
-                center={from}
-                zoom={15}
-                onLoad={(map) => setMap(map)}
-                onUnmount={() => setMap(null)}
-                options={{
-                  mapTypeControl: false,
-                }}
-              >
-                <Marker position={from} title="Pickup" />
-                {destinationInfo.directionResponse && (
-                  <DirectionsRenderer
-                    directions={destinationInfo.directionResponse}
-                  />
-                )}
-              </GoogleMap>
             </>
           ) : (
             <></>
           )}
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export default MapDirection;
-
-

@@ -1,22 +1,38 @@
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
-import { selectLocation } from "../../redux/features/Map/mapSlice";
-import { useAppSelector } from "../../redux/hooks";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+
+import { motion } from "framer-motion";
 import DateTimePicker from "./DateTimePicker";
-import dayjs from "dayjs";
-import { FaCalendarAlt, FaClock, FaCar, FaDollarSign } from "react-icons/fa";
+
+import { FaCar, FaDollarSign } from "react-icons/fa";
 
 import { useGetAllCarsQuery } from "../../redux/features/Car/carApi";
-import { DateObject } from "react-multi-date-picker";
+
 import { RiCloseLargeFill } from "react-icons/ri";
 import MapDirection from "./MapDirection";
+import { DateObject } from "react-multi-date-picker";
+
+
 const priceRanges = [
   { label: "$5 - $50", value: [5, 50] },
   { label: "$51 - $100", value: [51, 100] },
   { label: "$101 - $200", value: [101, 200] },
+  { label: "$301 - $500+", value: [301, 500] },
 ];
+
+type SearchBarProps = {
+  carType: string[];
+  carBrand: string[];
+  priceRange: number[];
+  dateTime: Date[] | DateObject[];
+  setCarBrand: (brands: string[]) => void;
+  setCarType: (types: string[]) => void;
+  setDateTime: (date: Date[] | DateObject[]) => void;
+  setPriceRange: (range: number[]) => void;
+  handleClear: () => void;
+  showDatePicker: boolean;
+  setShowDatePicker: (value: boolean) => void;
+};
 
 export default function SearchBar({
   carType,
@@ -28,17 +44,18 @@ export default function SearchBar({
   setDateTime,
   setPriceRange,
   handleClear,
-}) {
+  showDatePicker,
+  setShowDatePicker,
+}: SearchBarProps) {
   const { data } = useGetAllCarsQuery([
+    { name: "isDeleted", value: false },
     { name: "fields", value: "name carType" },
   ]);
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const cars = data?.data;
 
   const carBrands = [...new Set(cars?.map((car) => car.name))];
   const carTypes = [...new Set(cars?.map((car) => car.carType))];
-  
 
   // Handle selecting/deselecting car brands
   const handleCarBrand = (brand: string) => {
@@ -77,65 +94,22 @@ export default function SearchBar({
       {/* Date & Time Picker Section */}
       <div>
         <div className="flex flex-col md:flex-row gap-6">
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="space-y-2 w-full"
-          >
-            <Label className="font-semibold text-lg text-white">
-              <FaCalendarAlt className="inline-block text-primary mr-2" />
-              Set Trip Duration
-            </Label>
-
-            <motion.div
-              onClick={() => setShowDatePicker(!showDatePicker)}
-              className="relative z-20 flex gap-4 p-3 border border-primary/20 rounded-lg bg-background/60 hover:bg-primary/5 transition w-full"
-            >
-              <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
-                <FaClock className="text-primary" />
-                <p className="text-muted-foreground">
-                  Pick-up:{" "}
-                  <span className="font-semibold text-primary">
-                    {dayjs(dateTime[0] as Date).format(
-                      "MMM D, YYYY [at] h:mm A"
-                    )}
-                  </span>
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
-                <FaClock className="text-primary" />
-                <p className="text-muted-foreground">
-                  Return:{" "}
-                  <span className="font-semibold text-primary">
-                    {dayjs(dateTime[1] as Date).format(
-                      "MMM D, YYYY [at] h:mm A"
-                    )}
-                  </span>
-                </p>
-              </div>
-            </motion.div>
-
-            <AnimatePresence initial={false}>
-              {showDatePicker && (
-                <DateTimePicker
-                  showDatePicker={showDatePicker}
-                  setShowDatePicker={setShowDatePicker}
-                  dateTime={dateTime as DateObject[]}
-                  setDateTime={setDateTime}
-                />
-              )}
-            </AnimatePresence>
-          </div>
+          <DateTimePicker
+            dateTime={dateTime}
+            setDateTime={setDateTime}
+            setShowDatePicker={setShowDatePicker}
+            showDatePicker={showDatePicker}
+          />
 
           {/* Price Range Section */}
           <div className="w-full">
             <Label className="font-semibold text-lg text-white">
               <FaDollarSign className="inline-block text-primary mr-2" />
-              Price Range (per hour)
+              Price Range (per day)
             </Label>
             <motion.div
               layout
-              className="flex flex-wrap gap-2 mt-2 rounded-lg px-3 py-5 bg-background/60"
+              className="flex text-sm flex-wrap gap-2 mt-2 rounded-lg px-3 py-5 bg-background/60"
             >
               {priceRanges.map((range) => (
                 <button
@@ -145,7 +119,7 @@ export default function SearchBar({
                     range.value.every((v, i) => v === priceRange[i])
                       ? "text-white bg-primary"
                       : "bg-muted/30 hover:text-white hover:bg-primary/70"
-                  } transition-colors p-3 rounded-md relative`}
+                  } transition-colors p-3 py-3.5 rounded-md relative`}
                 >
                   <span className="relative z-10"> {range.label}</span>
                   {range.value.every((v, i) => v === priceRange[i]) && (
@@ -212,7 +186,7 @@ export default function SearchBar({
           </div>
         </div>
       </div>
-      <MapDirection className="h-[60vh] flex md:hidden" />
+      <MapDirection className="h-[80vh] flex md:hidden" />
       <button
         onClick={handleClear}
         className="self-end relative flex items-center justify-center w-12 h-12  rounded-full shadow-[0_0_0_4px_rgba(180,160,255,0.253)] transition-all duration-300 overflow-hidden group hover:w-20 bg-background hover:rounded-full hover:bg-primary"

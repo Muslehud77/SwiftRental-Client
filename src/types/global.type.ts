@@ -59,4 +59,4 @@ export type Image = {
 export type TUrlQueryParams = { carBrand?: string; carType?: string; priceRange?: string; startDate: string; endDate: string ,page:number}
 
 
-export type TQueryParams = { name: string; value: string | number | undefined }[];
+export type TQueryParams = { name: string; value: string | boolean | number | undefined }[];

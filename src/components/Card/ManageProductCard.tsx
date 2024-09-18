@@ -23,6 +23,7 @@ const ManageProductCard = ({ car }: ManageProductCardProps) => {
     <CardContainer key={car._id}>
       <div className="w-full h-96 max-w-sm mx-auto relative mb-10">
         <ImageWithBlurHash
+          object="cover"
           className="rounded-xl overflow-hidden"
           src={car.images[0].url}
           blurHash={car.images[0].blurHash as string}
