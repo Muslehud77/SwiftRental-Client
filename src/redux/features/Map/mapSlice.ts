@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
+
+
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
 export interface TLocation {
   lat: number;
   lng: number;
@@ -18,6 +23,7 @@ type TState = {
   from: TLocation;
   to: TLocation | null;
   mapLoaded: boolean;
+  tripTime: [Date, Date];
   destinationInfo: TDestinationInfo;
 };
 
@@ -25,6 +31,8 @@ const initialState: TState = {
   from: { lat: -3.745, lng: -38.523 },
   to: null,
   mapLoaded: false,
+  tripTime: [today,tomorrow],
+
   destinationInfo: {
     origin: "",
     destination: "",
@@ -40,6 +48,10 @@ export const mapSlice = createSlice({
   reducers: {
     setMapLoaded: (state, action: PayloadAction<Pick<TState, "mapLoaded">>) => {
       state.mapLoaded = action.payload.mapLoaded;
+    },
+    setTripTime: (state, action: PayloadAction<[Date,Date]>) => {
+      state.tripTime= action.payload;
+    
     },
 
     setDestination: (
@@ -86,7 +98,7 @@ export const mapSlice = createSlice({
   },
 });
 
-export const { setFrom, setTo, clearLocation, setMapLoaded, setDestination ,clearDestination} =
+export const { setFrom, setTo, clearLocation, setMapLoaded, setDestination ,clearDestination,setTripTime} =
   mapSlice.actions;
 
 export default mapSlice.reducer;

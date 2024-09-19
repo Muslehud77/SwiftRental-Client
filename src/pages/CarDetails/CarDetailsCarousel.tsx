@@ -7,15 +7,17 @@ import ImageWithBlurHash from "../../components/ImageWithBlurHash/ImageWithBlurH
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
 import { Image as Img } from "../../types/global.type";
+import scrollToTop from "../../utils/scrollToTop";
+import { isMobile } from "../../utils/isMobile";
 
 const sliderVariants = {
-  incoming: (direction:number) => ({
+  incoming: (direction: number) => ({
     x: direction > 0 ? "100%" : "-100%",
     scale: 1.2,
     opacity: 0,
   }),
   active: { x: 0, scale: 1, opacity: 1 },
-  exit: (direction:number) => ({
+  exit: (direction: number) => ({
     x: direction > 0 ? "-100%" : "100%",
     scale: 1,
     opacity: 0.2,
@@ -27,8 +29,7 @@ const sliderTransition = {
   ease: [0.56, 0.03, 0.12, 1.04],
 };
 
-
-const getImageSize  = (image:Img) => {
+const getImageSize = (image: Img) => {
   return new Promise((resolve) => {
     const img = new Image();
     img.src = image.url;
@@ -41,45 +42,46 @@ const getImageSize  = (image:Img) => {
   });
 };
 
-const getImagesWithSize = async (
-  images: Img[]
-) => {
+const getImagesWithSize = async (images: Img[]) => {
   const imagesWithSize = (await Promise.all(
     images.map(getImageSize)
-  )) as (Img & { width?: number; height?: number })[];
-  return imagesWithSize;
+  )) ;
+  return imagesWithSize as (Img & { width?: number; height?: number })[];
 };
-
-
-
 
 type TCarDetailsCarouselProps = {
   images: Img[];
 };
-
 
 const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
   const [[imageCount, direction], setImageCount] = useState<number[]>([0, 0]);
   const activeImageIndex = wrap(0, images.length, imageCount);
   const lightboxRef = useRef<PhotoSwipeLightbox | null>(null);
 
-  const [imagesWIthSize,setImagesWithSize] = useState<(Img & {width?:number,height?:number})[]>(images)
+  const [imagesWithSize, setImagesWithSize] =
+    useState<(Img & { width?: number; height?: number })[]>(images);
 
-
-
- 
-
-
-  // Initialize PhotoSwipe lightbox
+  // Initialize PhotoSwipe lightbox with all images in the gallery
   useEffect(() => {
-
+    scrollToTop();
     getImagesWithSize(images).then((updatedImages) => {
-     setImagesWithSize(updatedImages); 
+      setImagesWithSize(updatedImages);
     });
 
+    const lightboxItems = imagesWithSize.map((image) => ({
+      src: image.url,
+      w: image.width || 1600,
+      h: image.height || 900,
+    }));
+
     const lightbox = new PhotoSwipeLightbox({
+      dataSource: lightboxItems, // Pass the entire array of images to PhotoSwipe
       gallery: "#car-details-carousel",
       children: "a",
+      mouseMovePan: true,
+      initialZoomLevel: "fit",
+      secondaryZoomLevel: 1.5,
+      maxZoomLevel: 1,
       pswpModule: () => import("photoswipe"),
     });
 
@@ -91,11 +93,11 @@ const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
     };
   }, [images]);
 
-  const swipeToImage = (swipeDirection:number) => {
+  const swipeToImage = (swipeDirection: number) => {
     setImageCount([imageCount + swipeDirection, swipeDirection]);
   };
 
-  const dragEndHandler = (dragInfo ) => {
+  const dragEndHandler = (dragInfo: { offset: { x: number } }) => {
     const draggedDistance = dragInfo.offset.x;
     const swipeThreshold = 50;
     if (draggedDistance > swipeThreshold) {
@@ -105,59 +107,52 @@ const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
     }
   };
 
-  const skipToImage = (imageId:number) => {
-    let changeDirection
+  const skipToImage = (imageId: number) => {
+    let changeDirection;
     if (imageId > activeImageIndex) {
       changeDirection = 1;
     } else if (imageId < activeImageIndex) {
       changeDirection = -1;
     }
-    setImageCount([imageId, (changeDirection as number)]);
+    setImageCount([imageId, changeDirection as number]);
   };
 
   return (
-    <div className="relative flex flex-col justify-center items-center gap-4 bg-primary/10 rounded-xl backdrop-blur-lg p-6 border border-primary/20 ">
+    <div className="relative flex flex-col justify-center items-center gap-4 bg-primary/10 rounded-xl backdrop-blur-lg p-6 ">
       <div
         id="car-details-carousel"
-        className="relative  h-[700px] w-[350px] md:w-full overflow-hidden rounded-xl"
+        className="relative  h-[720px] w-[80vw] md:w-full overflow-hidden rounded-xl"
       >
         <AnimatePresence initial={false} custom={direction}>
           <motion.a
-            key={imagesWIthSize[activeImageIndex]._id}
-            href={imagesWIthSize[activeImageIndex].url} // For PhotoSwipe
-            data-pswp-width={imagesWIthSize[activeImageIndex].width || "1600"} 
-            data-pswp-height={imagesWIthSize[activeImageIndex].height || "900"} 
+            href={imagesWithSize[activeImageIndex].url} // For PhotoSwipe
+            data-pswp-width={imagesWithSize[activeImageIndex].width || "1600"}
+            data-pswp-height={imagesWithSize[activeImageIndex].height || "900"}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
             onDragEnd={(_, dragInfo) => dragEndHandler(dragInfo)}
+            key={imageCount}
+            custom={direction}
+            variants={sliderVariants}
+            initial="incoming"
+            animate="active"
+            exit="exit"
+            transition={sliderTransition}
+            className="absolute h-full w-full"
           >
-            <motion.div
-              key={imageCount}
-              custom={direction}
-              variants={sliderVariants}
-              initial="incoming"
-              animate="active"
-              exit="exit"
-              transition={sliderTransition}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(_, dragInfo) => dragEndHandler(dragInfo)}
-              className="absolute h-full w-full"
-            >
-              <ImageWithBlurHash
-                dragEndHandler={dragEndHandler}
-                src={imagesWIthSize[activeImageIndex].url}
-                blurHash={imagesWIthSize[activeImageIndex].blurHash}
-              />
-            </motion.div>
+            <ImageWithBlurHash
+            object={!isMobile() ? "contain" : "cover"}
+              dragEndHandler={dragEndHandler}
+              src={imagesWithSize[activeImageIndex].url}
+              blurHash={imagesWithSize[activeImageIndex].blurHash}
+            />
           </motion.a>
         </AnimatePresence>
       </div>
 
       <div className="absolute bottom-10 flex justify-center bg-transparent backdrop-blur-xl p-3 rounded-xl">
-        {imagesWIthSize.map((image, id) => (
+        {imagesWithSize.map((image, id) => (
           <div
             key={image._id}
             onClick={() => skipToImage(id)}
@@ -166,7 +161,7 @@ const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
             }`}
           >
             <ImageWithBlurHash
-              object="cover"
+              object={"cover"}
               src={image.url}
               blurHash={image.blurHash}
             />

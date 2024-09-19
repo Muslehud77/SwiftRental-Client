@@ -2,18 +2,23 @@ import { Link, useLocation } from "react-router-dom";
 import { TCar } from "../../types/global.type";
 import ImageWithBlurHash from "../ImageWithBlurHash/ImageWithBlurHash";
 import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 type CarCardProps = {
-  car:TCar
+  car: TCar;
 };
 
-const CarCard = ({car}:CarCardProps) => {
-
-  const location = useLocation()
+const CarCard = ({ car }: CarCardProps) => {
+  const location = useLocation();
 
   return (
-    <motion.div key={car._id} layoutId={car._id}>
+    <motion.div
+      transition={{
+        duration: 0.01,
+      }}
+      key={car._id}
+      layoutId={car._id}
+    >
       <CardContainer>
         <CardBody className="hover:border border-primary/30 w-full h-full md:h-80 bg-transparent backdrop-blur-lg  p-6 rounded-xl shadow-lg flex flex-col md:flex-row gap-8">
           {/* Car Image */}
@@ -128,3 +133,18 @@ const CarCard = ({car}:CarCardProps) => {
 };
 
 export default CarCard;
+
+const data = {
+  additionalFeatures: [
+    { name: "Insurance", price: 10 },
+    { name: "GPS", price: 5 },
+  ],
+  
+  bookingDate: "Wed Sep 18 2024 23:09:54 GMT+0800 (China Standard Time)",
+  carId: "66ddfd14d8188c4682eaff55",
+  destination: "Dhaka, Bangladesh",
+  endDate: "Thu Sep 19 2024 23:08:00 GMT+0800 (China Standard Time)",
+  origin: "Chittagong, Bangladesh",
+  startDate: "Wed Sep 18 2024 23:08:00 GMT+0800 (China Standard Time)",
+  totalCost: 575,
+};

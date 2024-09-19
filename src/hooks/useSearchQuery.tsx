@@ -2,30 +2,36 @@ import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TQueryParams, TUrlQueryParams } from "../types/global.type";
-import { DateObject } from "react-multi-date-picker";
+
 import dayjs from "dayjs";
 import scrollToTop from "../utils/scrollToTop";
-import { useAppDispatch } from "../redux/hooks";
-import { clearDestination } from "../redux/features/Map/mapSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { clearDestination, selectLocation, setTripTime } from "../redux/features/Map/mapSlice";
 
 const today = new Date();
 const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
 
 const useSearchQuery = () => {
+
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch()
+  const {tripTime} =useAppSelector(selectLocation)
+
+  const dateTime = tripTime
+
+  const setDateTime = (dates:[Date,Date]) =>{
+    dispatch(setTripTime(dates))
+  }
+
   const [page, setPage] = useState(1);
    const [showDatePicker, setShowDatePicker] = useState(false);
   const [carBrand, setCarBrand] = useState<string[]>([]);
   const [carType, setCarType] = useState<string[]>([]);
 
   const [priceRange, setPriceRange] = useState<number[]>([]);
-  const [dateTime, setDateTime] = useState<Date[] | DateObject[]>([
-    today,
-    tomorrow,
-  ]);
+ 
 
   const [query, setQuery] = useState<TQueryParams>([]);
 
@@ -51,10 +57,12 @@ const useSearchQuery = () => {
     }
 
     if (queryParams.startDate && queryParams.endDate) {
-      setDateTime([
-        new Date(queryParams.startDate as string),
-        new Date(queryParams.endDate as string),
-      ]);
+      dispatch(
+        setTripTime([
+          new Date(queryParams.startDate as string),
+          new Date(queryParams.endDate as string),
+        ])
+      );
     }
   }, []);
 

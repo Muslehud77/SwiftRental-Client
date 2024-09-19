@@ -3,25 +3,23 @@ import MapDirection from "../../components/Searchbar/MapDirection";
 import SearchBar from "../../components/Searchbar/SearchBar";
 import { useGetAllCarsQuery } from "../../redux/features/Car/carApi";
 import useSearchQuery from "../../hooks/useSearchQuery";
-import ImageWithBlurHash from "../../components/ImageWithBlurHash/ImageWithBlurHash";
-import { CardBody, CardContainer, CardItem } from "../../components/ui/3d-card";
+
 import { Paginate } from "../../components/Pagination/Pagination";
-import { Skeleton } from "../../components/ui/skeleton"; // Import Skeleton from shadcn/ui
+
 import CarCardSkeleton from "../../components/Skeleton/CarCardSkeleton";
 import CarCard from "../../components/Card/CarCard";
-import { isMobile } from "../../utils/isMobile";
+
 
 export default function Inventory() {
   const {
     carType,
     carBrand,
     priceRange,
-    dateTime,
-    page,
+   
     setPage,
     setCarBrand,
     setCarType,
-    setDateTime,
+  
     setPriceRange,
     handleClear,
     query,
@@ -36,7 +34,7 @@ export default function Inventory() {
   return (
     <div onClick={()=>setShowDatePicker(false)} className="container mx-auto px-4 md:px-6 py-8 text-foreground">
       <Helmet>
-        <title>AdventureAlly | Products</title>
+        <title>SwiftRental | Inventory</title>
       </Helmet>
       <div className="flex w-full justify-start gap-5">
          <MapDirection className="h-screen w-96 hidden md:flex" />
@@ -46,10 +44,10 @@ export default function Inventory() {
             carType={carType}
             carBrand={carBrand}
             priceRange={priceRange}
-            dateTime={dateTime}
+            
             setCarBrand={setCarBrand}
             setCarType={setCarType}
-            setDateTime={setDateTime}
+           
             setPriceRange={setPriceRange}
             handleClear={handleClear}
             showDatePicker={showDatePicker}

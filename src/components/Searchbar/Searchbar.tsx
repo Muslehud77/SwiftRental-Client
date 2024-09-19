@@ -12,7 +12,6 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import MapDirection from "./MapDirection";
 import { DateObject } from "react-multi-date-picker";
 
-
 const priceRanges = [
   { label: "$5 - $50", value: [5, 50] },
   { label: "$51 - $100", value: [51, 100] },
@@ -24,10 +23,10 @@ type SearchBarProps = {
   carType: string[];
   carBrand: string[];
   priceRange: number[];
-  dateTime: Date[] | DateObject[];
+
   setCarBrand: (brands: string[]) => void;
   setCarType: (types: string[]) => void;
-  setDateTime: (date: Date[] | DateObject[]) => void;
+ 
   setPriceRange: (range: number[]) => void;
   handleClear: () => void;
   showDatePicker: boolean;
@@ -38,10 +37,10 @@ export default function SearchBar({
   carType,
   carBrand,
   priceRange,
-  dateTime,
+
   setCarBrand,
   setCarType,
-  setDateTime,
+
   setPriceRange,
   handleClear,
   showDatePicker,
@@ -95,8 +94,6 @@ export default function SearchBar({
       <div>
         <div className="flex flex-col md:flex-row gap-6">
           <DateTimePicker
-            dateTime={dateTime}
-            setDateTime={setDateTime}
             setShowDatePicker={setShowDatePicker}
             showDatePicker={showDatePicker}
           />

@@ -10,12 +10,13 @@ import { signIn } from "../../redux/features/auth/authSlice";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logos/black-without-branding.png";
 import whiteLogo from "../../assets/logos/white-without-branding.png";
 import { IoMdHome } from "react-icons/io";
 import { Helmet } from "react-helmet-async";
 import { useTheme } from "../../components/ThemeProvider";
+import { motion } from 'framer-motion';
 
 interface LoginFormInputs {
   email: string;
@@ -23,6 +24,9 @@ interface LoginFormInputs {
 }
 
 const LoginPage = () => {
+
+  
+
   const {
     register,
     handleSubmit,
@@ -63,7 +67,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex text-foreground relative justify-center items-center min-h-screen bg-background px-4 py-12 sm:px-6 lg:px-8">
+    <motion.div className="flex text-foreground relative justify-center items-center min-h-screen bg-background px-4 py-12 sm:px-6 lg:px-8">
       <Helmet>
         <title>AdventureAlly | Login</title>
       </Helmet>
@@ -179,7 +183,7 @@ const LoginPage = () => {
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
