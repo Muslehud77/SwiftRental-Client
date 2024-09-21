@@ -34,7 +34,7 @@ export type TResponse<T> = {
 export type TCar = {
   _id: string;
   name: string;
-  carType:string;
+  carType: string;
   model: string;
   year: string;
   description: string;
@@ -47,6 +47,7 @@ export type TCar = {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
+  availableForTheDateEntered?:string;
   __v: number;
 };
 
@@ -59,4 +60,4 @@ export type Image = {
 export type TUrlQueryParams = { carBrand?: string; carType?: string; priceRange?: string; startDate: string; endDate: string ,page:number}
 
 
-export type TQueryParams = { name: string; value: string | boolean | number | undefined }[];
+export type TQueryParams = { name: string; value: string | boolean | number  }[];

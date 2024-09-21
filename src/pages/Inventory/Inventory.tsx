@@ -9,17 +9,16 @@ import { Paginate } from "../../components/Pagination/Pagination";
 import CarCardSkeleton from "../../components/Skeleton/CarCardSkeleton";
 import CarCard from "../../components/Card/CarCard";
 
-
 export default function Inventory() {
   const {
     carType,
     carBrand,
     priceRange,
-   
+
     setPage,
     setCarBrand,
     setCarType,
-  
+
     setPriceRange,
     handleClear,
     query,
@@ -32,26 +31,27 @@ export default function Inventory() {
   const meta = data?.meta;
 
   return (
-    <div onClick={()=>setShowDatePicker(false)} className="container mx-auto px-4 md:px-6 py-8 text-foreground">
+    <div
+      onClick={() => setShowDatePicker(false)}
+      className="container mx-auto px-4 md:px-6 py-8 text-foreground"
+    >
       <Helmet>
         <title>SwiftRental | Inventory</title>
       </Helmet>
       <div className="flex w-full justify-start gap-5">
-         <MapDirection className="h-screen w-96 hidden md:flex" />
+        <MapDirection className="h-screen w-96 hidden md:flex" />
 
         <div className="space-y-4">
           <SearchBar
             carType={carType}
             carBrand={carBrand}
             priceRange={priceRange}
-            
             setCarBrand={setCarBrand}
             setCarType={setCarType}
-           
             setPriceRange={setPriceRange}
             handleClear={handleClear}
             showDatePicker={showDatePicker}
-    setShowDatePicker={setShowDatePicker}
+            setShowDatePicker={setShowDatePicker}
           />
 
           <div className="w-full space-y-5">

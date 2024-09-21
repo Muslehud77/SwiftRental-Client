@@ -39,6 +39,7 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
   const [currentDestination, setCurrentDestination] = useState("");
 
   const onPlaceChanged = async () => {
+    console.log("changed")
     dispatch(
       setDestination({
         origin: currentOrigin || "",

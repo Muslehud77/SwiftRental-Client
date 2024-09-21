@@ -10,13 +10,14 @@ import { useGetAllCarsQuery } from "../../redux/features/Car/carApi";
 
 import { RiCloseLargeFill } from "react-icons/ri";
 import MapDirection from "./MapDirection";
-import { DateObject } from "react-multi-date-picker";
+
 
 const priceRanges = [
-  { label: "$5 - $50", value: [5, 50] },
-  { label: "$51 - $100", value: [51, 100] },
+ 
   { label: "$101 - $200", value: [101, 200] },
-  { label: "$301 - $500+", value: [301, 500] },
+  { label: "$201 - $300", value: [201, 300] },
+  { label: "$301 - $400", value: [301, 400] },
+  { label: "$401 - $500+", value: [401, 500] },
 ];
 
 type SearchBarProps = {
@@ -37,10 +38,8 @@ export default function SearchBar({
   carType,
   carBrand,
   priceRange,
-
   setCarBrand,
   setCarType,
-
   setPriceRange,
   handleClear,
   showDatePicker,
@@ -116,7 +115,7 @@ export default function SearchBar({
                     range.value.every((v, i) => v === priceRange[i])
                       ? "text-white bg-primary"
                       : "bg-muted/30 hover:text-white hover:bg-primary/70"
-                  } transition-colors p-3 py-3.5 rounded-md relative`}
+                  } transition-colors p-2 py-3.5 rounded-md relative`}
                 >
                   <span className="relative z-10"> {range.label}</span>
                   {range.value.every((v, i) => v === priceRange[i]) && (

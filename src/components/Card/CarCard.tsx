@@ -11,6 +11,8 @@ type CarCardProps = {
 const CarCard = ({ car }: CarCardProps) => {
   const location = useLocation();
 
+  
+
   return (
     <motion.div
       transition={{
@@ -84,12 +86,12 @@ const CarCard = ({ car }: CarCardProps) => {
                 </div>
                 <span
                   className={`capitalize px-3 py-1 text-sm rounded-full ${
-                    car.status === "available"
+                    !car.availableForTheDateEntered
                       ? "bg-green-500/10 text-green-500 font-semibold"
                       : "bg-red-500/10 text-red-500 font-semibold"
                   }`}
                 >
-                  {car.status}
+                  {car?.availableForTheDateEntered || "available"}
                 </span>
               </CardItem>
               <div className="flex justify-center items-end">
@@ -98,30 +100,32 @@ const CarCard = ({ car }: CarCardProps) => {
                   translateX={-4}
                   className="flex justify-between w-full sm:w-auto"
                 >
-                  <Link
-                    to={`/car-details/${car._id}`}
-                    state={{ previousLocationPathname: location.search }}
-                    className="animated-button relative flex items-center gap-1 py-1 px-9 border-[1px] border-primary/20 text-base font-semibold rounded-full transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden cursor-pointer hover:bg-background/10"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="arr-2 absolute w-6 fill-current z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] left-[-25%]"
-                      viewBox="0 0 24 24"
+                  {!car?.availableForTheDateEntered && (
+                    <Link
+                      to={`/car-details/${car._id}`}
+                      state={{ previousLocationPathname: location.search }}
+                      className=" animated-button relative flex items-center gap-1 py-1 px-9 border-[1px] border-primary/20 text-base font-semibold rounded-full transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden cursor-pointer hover:bg-background/10"
                     >
-                      <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-                    </svg>
-                    <span className="text uppercase text-white relative z-10 transform -translate-x-3 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
-                      d e t a i l s
-                    </span>
-                    <span className="circle absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-primary/50 rounded-full opacity-0 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]"></span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="arr-1 absolute w-6 fill-current z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] right-4 text-white"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-                    </svg>
-                  </Link>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="arr-2 absolute w-6 fill-current z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] left-[-25%]"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+                      </svg>
+                      <span className="text uppercase text-white relative z-10 transform -translate-x-3 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
+                        d e t a i l s
+                      </span>
+                      <span className="circle absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-primary/50 rounded-full opacity-0 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]"></span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="arr-1 absolute w-6 fill-current z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] right-4 text-white"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+                      </svg>
+                    </Link>
+                  )}
                 </CardItem>
               </div>
             </div>

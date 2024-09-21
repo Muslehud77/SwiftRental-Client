@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import CarDetailsCarousel from "./CarDetailsCarousel";
 import { TCar } from "../../types/global.type";
 import DateTimePicker from "../../components/Searchbar/DateTimePicker";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { selectLocation } from "../../redux/features/Map/mapSlice";
 import dayjs from "dayjs";
@@ -13,17 +13,23 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Skeleton } from "../../components/ui/skeleton";
 import useDecodedToken from "../../hooks/useDecodedToken";
 
+import BookingDialogue from "./BookingDialogue";
+import MapDirection from "../../components/Searchbar/MapDirection";
+
 export default function CarDetails() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const user = useDecodedToken();
-  const { tripTime, destinationInfo } = useAppSelector(selectLocation);
+  const { tripTime } = useAppSelector(selectLocation);
   const { id } = useParams();
   const { data, isLoading } = useGetCarByIdQuery(id);
+  const [dialogueOpen, setDialogueOpen] = useState(false);
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedFeatures, setSelectedFeatures] = useState<
     { label: string; price: number }[]
   >([]);
+
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const car = data?.data as TCar;
@@ -33,6 +39,7 @@ export default function CarDetails() {
   let tripDuration = dayjs(endDate).isAfter(dayjs(startDate))
     ? dayjs(endDate).diff(dayjs(startDate), "hour")
     : 0;
+
 
   useEffect(() => {
     if (car && tripDuration >= 0) {
@@ -82,31 +89,18 @@ export default function CarDetails() {
     if (user?.role === "admin") {
       navigate(`/dashboard/edit-car/${car._id}`);
     } else if (user?.role === "user") {
-      const features = selectedFeatures.map((f) => ({
-        name: f.label,
-        price: f.price,
-      }));
-
-      const data = {
-        carId: car._id,
-        bookingDate: new Date(),
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-        additionalFeatures: features,
-        totalCost: totalPrice,
-        origin: destinationInfo.origin,
-        destination: destinationInfo.destination,
-      };
-
-      console.log(data);
+   
+      setDialogueOpen(true);
     }
   };
 
+  const ref = useRef(null);
 
-  console.log(totalPrice)
+
 
   return (
     <motion.div
+      ref={ref}
       onClick={() => setShowDatePicker(false)}
       layoutId={id}
       className="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-8 p-8 mx-auto"
@@ -129,7 +123,10 @@ export default function CarDetails() {
       ) : (
         <>
           <motion.div className="w-full md:w-10/12 h-full">
-            <CarDetailsCarousel images={car.images} />
+            <CarDetailsCarousel
+              height={(ref?.current as unknown as HTMLElement)?.clientHeight}
+              images={car.images}
+            />
           </motion.div>
 
           <motion.div className="md:w-1/2 p-6 shadow-lg space-y-4 bg-primary/10 rounded-xl backdrop-blur-lg border border-primary/20">
@@ -168,6 +165,8 @@ export default function CarDetails() {
                 showDatePicker={showDatePicker}
                 setShowDatePicker={setShowDatePicker}
               />
+
+              <MapDirection className="w-full h-[70vh]" />
 
               <div>
                 <p className="text-lg font-semibold mb-1">
@@ -248,8 +247,8 @@ export default function CarDetails() {
 
               <style>{steamKeyframes}</style>
 
-              <button
-                disabled={totalPrice === 0 ? true:false}
+              <motion.button
+                disabled={totalPrice === 0 ? true : false}
                 onClick={handleSubmit}
                 className="relative flex items-center justify-center w-full py-3 rounded-[8px] text-white cursor-pointer transition duration-200 bg-primary/40 hover:bg-primary/80 uppercase tracking-widest"
               >
@@ -263,9 +262,17 @@ export default function CarDetails() {
                     animation: "steam 20s linear infinite",
                   }}
                 ></span>
-              </button>
+              </motion.button>
             </div>
           </motion.div>
+          <BookingDialogue
+            car={car}
+            dialogueOpen={dialogueOpen}
+            setDialogueOpen={setDialogueOpen}
+            selectedFeatures={selectedFeatures}
+            totalPrice={totalPrice}
+            tripDuration={tripDuration}
+          />
         </>
       )}
     </motion.div>

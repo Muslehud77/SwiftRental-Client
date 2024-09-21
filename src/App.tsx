@@ -17,8 +17,8 @@ const App = () => {
  
 
   const { isLoaded } = useJsApiLoader({
-    // googleMapsApiKey: "",
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
+    googleMapsApiKey: "",
+    // googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
     libraries: ["places"]
   });
 

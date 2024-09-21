@@ -51,9 +51,10 @@ const getImagesWithSize = async (images: Img[]) => {
 
 type TCarDetailsCarouselProps = {
   images: Img[];
+  height:number
 };
 
-const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
+const CarDetailsCarousel = ({ images ,height}: TCarDetailsCarouselProps) => {
   const [[imageCount, direction], setImageCount] = useState<number[]>([0, 0]);
   const activeImageIndex = wrap(0, images.length, imageCount);
   const lightboxRef = useRef<PhotoSwipeLightbox | null>(null);
@@ -117,11 +118,19 @@ const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
     setImageCount([imageId, changeDirection as number]);
   };
 
+
+
+  
+
   return (
-    <div className="relative flex flex-col justify-center items-center gap-4 bg-primary/10 rounded-xl backdrop-blur-lg p-6 ">
+    <motion.div
+      layout
+      style={{ height: !isMobile() ? height - 66 : "700px" }}
+      className="relative flex justify-center items-center bg-primary/10 rounded-xl backdrop-blur-lg p-6 "
+    >
       <div
         id="car-details-carousel"
-        className="relative  h-[720px] w-[80vw] md:w-full overflow-hidden rounded-xl"
+        className={`relative h-full w-[80vw] md:w-full overflow-hidden rounded-xl`}
       >
         <AnimatePresence initial={false} custom={direction}>
           <motion.a
@@ -142,7 +151,7 @@ const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
             className="absolute h-full w-full"
           >
             <ImageWithBlurHash
-            object={!isMobile() ? "contain" : "cover"}
+              object={!isMobile() ? "cover" : "cover"}
               dragEndHandler={dragEndHandler}
               src={imagesWithSize[activeImageIndex].url}
               blurHash={imagesWithSize[activeImageIndex].blurHash}
@@ -173,7 +182,7 @@ const CarDetailsCarousel = ({ images }: TCarDetailsCarouselProps) => {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

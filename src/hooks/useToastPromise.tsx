@@ -1,6 +1,6 @@
 
 import toast from "react-hot-toast";
-import { TResponse } from "../types/global.type";
+import { TData, TResponse } from "../types/global.type";
 
 
 type TToastPromise = (
@@ -27,13 +27,13 @@ export const useToastPromise = () => {
     try {
       const res = (await promise(
         payload as Record<string, unknown>
-      ).unwrap()) as any;
+      ).unwrap()) as TData<Record<string, unknown>>;
 
       toast.success(successMessage || res?.message || "Success", {
         id: loading,
       });
 
-      return res;
+      return res ;
     } catch (error: any) {
       toast.error(
         errorMessage || error?.data?.message || "Something went wrong.",
@@ -41,7 +41,7 @@ export const useToastPromise = () => {
           id: loading,
         }
       );
-      return error;
+      return error as TData<Record<string, unknown>>;
     }
   };
   return { toastPromise };
