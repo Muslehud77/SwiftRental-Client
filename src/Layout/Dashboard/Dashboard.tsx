@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavRoutes } from "./NavRoutes";
 import { isMobile } from "../../utils/isMobile";
 import { GridPattern } from "../../components/ui/GridPattern";
+import { AnimatePresence } from "framer-motion";
 
 
 gsap.registerPlugin(useGSAP);
@@ -70,10 +71,14 @@ export default function Dashboard() {
         >
           <div className="space-y-5">
             <Link to={"/"} className={` flex justify-center items-center `}>
-              <img
-                src={logo}
-                className={`duration-500 ${open ? "w-44" : "w-10"}`}
-              />
+              <AnimatePresence>
+                <img
+                  src={logo}
+                  className={`duration-200 ${
+                    open ? "w-44" : "w-10"
+                  } origin-left`}
+                />
+              </AnimatePresence>
             </Link>
             <hr className="border border-gray-400 border-b-1" />
             <NavRoutes open={open} setOpen={setOpen} />

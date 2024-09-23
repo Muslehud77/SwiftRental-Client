@@ -12,7 +12,7 @@ import { userPaths } from "../../routes/UserRoutes";
 import { isMobile } from "../../utils/isMobile";
 import { useRef } from "react";
 import useDecodedToken from "../../hooks/useDecodedToken";
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from "framer-motion";
 
 export const NavRoutes = ({
   open,
@@ -21,12 +21,10 @@ export const NavRoutes = ({
   open: boolean;
   setOpen: (arg: boolean) => void;
 }) => {
-  const {role} = useDecodedToken()
+  const { role } = useDecodedToken();
   const { pathname } = useLocation();
 
   const timerRef = useRef<NodeJS.Timeout | null>(null); // Timer reference
-
-  
 
   const routes =
     role === "admin" ? adminPaths : role === "user" ? userPaths : [];
@@ -54,8 +52,6 @@ export const NavRoutes = ({
     }
   };
 
-
-
   return (
     <nav
       onMouseEnter={onMouseEnter}
@@ -70,11 +66,12 @@ export const NavRoutes = ({
                 <TooltipTrigger asChild>
                   <NavLink
                     to={path.route}
-                    className={`flex bg-muted  p-2 relative gap-2 rounded-lg  transition-colors`}
+                    className={`flex  bg-muted  p-2 relative gap-2 rounded-lg  transition-colors`}
                   >
                     <motion.span
                       layout
-                      className={`${open ? "w-40" : "w-5"}  ${
+                      transition={{ type: "spring", duration: 1 }}
+                      className={` ${
                         path.route
                           ? pathname.includes(path.route)
                             ? "text-white"
@@ -82,9 +79,18 @@ export const NavRoutes = ({
                           : pathname === "/dashboard"
                           ? "text-white"
                           : ""
-                      }  duration-500 relative z-10 flex justify-start items-center gap-2 overflow-hidden h-6`}
+                      } text-foreground relative z-10 flex justify-start items-center gap-2 overflow-hidden h-6`}
                     >
-                      {path.icon} {open && path.name}
+                      {path.icon}
+                      <AnimatePresence>
+                        {open && (
+                          <motion.span
+                            transition={{ type: "spring", duration: 0.5 }}
+                          >
+                            {path.name}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </motion.span>
 
                     {path.route ? (

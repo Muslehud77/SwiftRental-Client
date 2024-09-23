@@ -11,13 +11,15 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { Chip } from "../../components/ui/Chip";
+import { Skeleton } from "../../components/ui/skeleton"; // Importing skeleton
 
 // Status tabs for filtering
 const statusTabs = ["All", "Pending", "Approved", "Completed", "Rejected"];
 const sortOptions = ["Newest", "Oldest"];
 
 const MyBookings = () => {
-  const { data } = useGetMyBookingsQuery(undefined);
+  const { data, isLoading, isError, refetch } =
+    useGetMyBookingsQuery(undefined);
   const bookingData = data?.data || [];
 
   // State for selected tab and sorting option
@@ -44,6 +46,57 @@ const MyBookings = () => {
       }
     }
   );
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="p-6">
+        <h1 className="text-2xl font-bold text-foreground mb-4">My Bookings</h1>
+        {/* Loading skeleton placeholders */}
+        <div className="grid gap-6">
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className="p-6 rounded-xl shadow-xl bg-white dark:bg-gray-800/50 backdrop-blur-2xl border border-gray-200 dark:border-gray-700"
+            >
+              <Skeleton className="h-96 w-full rounded-xl" />
+              <div className="mt-4">
+                <Skeleton className="h-6 w-1/2 mb-2" />
+                <Skeleton className="h-4 w-1/3 mb-4" />
+                <Skeleton className="h-4 w-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (isError) {
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-xl font-bold text-red-600">
+          Something went wrong!
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          We encountered an error while fetching your bookings.
+        </p>
+        <button
+          className="mt-4 px-4 py-2 bg-primary text-white rounded-md shadow-md hover:bg-primary-dark transition"
+          onClick={refetch}
+        >
+          Retry
+        </button>
+        <Link
+          className="mt-4 ml-4 inline-block text-primary hover:text-primary-dark transition"
+          to="/"
+        >
+          Go back to Home
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
@@ -217,5 +270,3 @@ const MyBookings = () => {
 };
 
 export default MyBookings;
-
-
