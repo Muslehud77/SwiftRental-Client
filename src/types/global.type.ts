@@ -47,7 +47,8 @@ export type TCar = {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
-  availableForTheDateEntered?:string;
+  availableForTheDateEntered?: string;
+ 
   __v: number;
 };
 
@@ -61,3 +62,24 @@ export type TUrlQueryParams = { carBrand?: string; carType?: string; priceRange?
 
 
 export type TQueryParams = { name: string; value: string | boolean | number  }[];
+
+export type TBooking = {
+  _id: string;
+  user: string;
+  carId: TCar;
+  origin: string;
+  destination: string;
+  drivingLicense: string;
+  nidOrPassport: string;
+  startDate: string;
+  endDate: string;
+  totalCost: number;
+  additionalFeatures: { name: string; price: number }[];
+  paymentType: string;
+  paymentId: string;
+  completedPayment: boolean;
+  createdAt: string;
+  updatedAt: string;
+  status: "pending" | "approved" | "rejected";
+  __v: number;
+};

@@ -26,6 +26,7 @@ const useSearchQuery = () => {
   }
 
   const [page, setPage] = useState(1);
+    const [startFetching,setStartFetching] = useState(true)
    const [showDatePicker, setShowDatePicker] = useState(false);
   const [carBrand, setCarBrand] = useState<string[]>([]);
   const [carType, setCarType] = useState<string[]>([]);
@@ -105,8 +106,8 @@ const useSearchQuery = () => {
     ];
 
     
-
-    setQuery(databaseQuery)
+    setStartFetching(false)
+    setQuery(databaseQuery as TQueryParams)
   
   }, [page,carType, carBrand, priceRange, dateTime]);
 
@@ -146,6 +147,7 @@ const useSearchQuery = () => {
     query,
     showDatePicker,
     setShowDatePicker,
+    startFetching,
   };
 };
 

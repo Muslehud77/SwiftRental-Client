@@ -18,7 +18,7 @@ export default function Inventory() {
     setPage,
     setCarBrand,
     setCarType,
-
+startFetching,
     setPriceRange,
     handleClear,
     query,
@@ -26,7 +26,9 @@ export default function Inventory() {
     setShowDatePicker,
   } = useSearchQuery();
 
-  const { data, isLoading, isError } = useGetAllCarsQuery(query);
+  const { data, isLoading, isError } = useGetAllCarsQuery(query, {
+    skip: startFetching,
+  });
   const cars = data?.data;
   const meta = data?.meta;
 
