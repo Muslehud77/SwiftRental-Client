@@ -12,10 +12,12 @@ import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { selectLocation, setTripTime } from "../../redux/features/Map/mapSlice";
 import { isMobile } from "../../utils/isMobile";
+import { useEffect } from "react";
 
 type DateTimePickerProps = {
   showDatePicker: boolean;
   setShowDatePicker: (arg: boolean) => void;
+  dates? : [Date,Date];
 };
 
 const today = new Date();
@@ -23,37 +25,36 @@ const today = new Date();
 const DateTimePicker = ({
   showDatePicker,
   setShowDatePicker,
+  dates
 }: DateTimePickerProps) => {
   const { tripTime } = useAppSelector(selectLocation);
+
+  useEffect(()=>{
+    if(dates?.length){
+       dispatch(setTripTime([dates[0], dates[1]]));
+    }
+  },[])
 
   const { actualTheme } = useTheme();
   const dispatch = useAppDispatch();
   // Helper function to ensure that the end date is not before the start date
   const handleDateChange = (dates: [Date, Date]) => {
-
-    const [start,end] = dates
-    const endDate = new Date(end)
-    const startDate = new Date(start)
-
-  
-
+    const [start, end] = dates;
+    const endDate = new Date(end);
+    const startDate = new Date(start);
 
     if (dates.length === 2) {
-    
-     if (endDate < startDate) {
-       
+      if (endDate < startDate) {
         dispatch(setTripTime([end, start]));
       } else {
-
-        dispatch(setTripTime([start,end]));
+        dispatch(setTripTime([start, end]));
       }
     } else {
       dispatch(setTripTime(dates));
     }
   };
 
-  const position = isMobile() ? "bottom" : "right"
-
+  const position = isMobile() ? "bottom" : "right";
 
   return (
     <div onClick={(e) => e.stopPropagation()} className="space-y-2 w-full">

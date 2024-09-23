@@ -67,7 +67,7 @@ const BookingDialogue = ({
       totalCost: totalPrice,
       origin: destinationInfo.origin,
       destination: destinationInfo.destination,
-      ...data, // Include personal details from form
+      ...data,
     };
 
     const res = (await toastPromise(

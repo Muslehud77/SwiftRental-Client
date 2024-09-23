@@ -9,7 +9,7 @@ type TToastPromise = (
   > & {
     unwrap(): Promise<any>;
   },
-  payload: Record<string, unknown> | FormData,
+  payload: Record<string, unknown> | FormData | string,
   loadingMessage?: string,
   successMessage?: string,
   errorMessage?: string
