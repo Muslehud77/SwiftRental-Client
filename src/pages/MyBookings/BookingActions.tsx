@@ -160,7 +160,7 @@ useEffect(() => {
         className="mt-4 space-x-4 self-end"
       >
         {booking.status === "rejected" ? (
-          <h1 className="text-white bg-red-500 p-2 rounded-xl uppercase">
+          <h1 className="text-white bg-primary !text-white p-2 rounded-xl uppercase">
             Booking has been rejected
           </h1>
         ) : (
@@ -168,7 +168,7 @@ useEffect(() => {
             {/* Modify Button */}
             <Button
               disabled={booking.status !== "pending"}
-              className="px-4 py-2 rounded-lg font-semibold shadow-lg bg-indigo-500 hover:bg-indigo-600"
+              className=""
               onClick={() => setModifyDialogOpen(true)}
             >
               Modify
@@ -177,7 +177,7 @@ useEffect(() => {
             {/* Cancel Button */}
             <Button
               disabled={booking.status !== "pending"}
-              className="px-4 py-2 rounded-lg font-semibold shadow-lg bg-red-500 hover:bg-red-600"
+              className="px-4 py-2 rounded-lg font-semibold shadow-lg !bg-primary !text-white"
               onClick={() => setCancelDialogOpen(true)}
             >
               Cancel
@@ -321,7 +321,7 @@ useEffect(() => {
       <Dialog open={modifyDialogOpen} onOpenChange={setModifyDialogOpen}>
         <DialogContent
           onClick={() => setShowDatePicker(false)}
-          className="backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 text-black dark:text-white rounded-xl shadow-lg p-8"
+          className="backdrop-blur-lg bg-gray-900/90  text-white rounded-xl shadow-lg p-8"
         >
           <DialogHeader>
             <DialogTitle>Modify Booking</DialogTitle>

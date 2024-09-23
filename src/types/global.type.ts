@@ -81,6 +81,6 @@ export type TBooking = {
   completedPayment: boolean;
   createdAt: string;
   updatedAt: string;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "rejected" | "completed";
   __v: number;
 };

@@ -1,15 +1,11 @@
 import { FaRegUser } from "react-icons/fa";
 import Profile from "../pages/Profile/Profile";
-
-import { LuShoppingCart } from "react-icons/lu";
-
-
 import { FaListUl } from "react-icons/fa6";
-
-
+import { PiStackPlus } from "react-icons/pi";
 import Payments from "../pages/Payments/Payments";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import MyBookings from "../pages/MyBookings/MyBookings";
+import { MdOutlinePayments } from "react-icons/md";
 
 export const userPaths = [
   {
@@ -27,10 +23,10 @@ export const userPaths = [
     route: "my-bookings",
     element: (
       <ProtectedRoute role="user">
-        <MyBookings/>
-      </ProtectedRoute >
+        <MyBookings />
+      </ProtectedRoute>
     ),
-    icon: <LuShoppingCart className="h-5 w-5" />,
+    icon: <PiStackPlus className="h-5 w-5" />,
   },
   {
     name: "Payments",
@@ -38,9 +34,9 @@ export const userPaths = [
     element: (
       <ProtectedRoute role="user">
         <Payments />
-      </ProtectedRoute >
+      </ProtectedRoute>
     ),
-    icon: <FaListUl className="h-5 w-5" />,
+    icon: <MdOutlinePayments className="h-5 w-5" />,
   },
 ];
 

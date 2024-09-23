@@ -12,6 +12,7 @@ import { userPaths } from "../../routes/UserRoutes";
 import { isMobile } from "../../utils/isMobile";
 import { useRef } from "react";
 import useDecodedToken from "../../hooks/useDecodedToken";
+import { motion } from 'framer-motion';
 
 export const NavRoutes = ({
   open,
@@ -69,23 +70,47 @@ export const NavRoutes = ({
                 <TooltipTrigger asChild>
                   <NavLink
                     to={path.route}
-                    className={`flex p-2 relative gap-2 rounded-lg ${
-                      path.route
-                        ? pathname.includes(path.route)
-                          ? "bg-accent-foreground text-muted "
-                          : "hover:bg-accent-foreground/20 bg-secondary text-accent-foreground dark:text-white dark:hover:text-gray-300"
-                        : pathname === "/dashboard"
-                        ? "bg-gray-500 text-white"
-                        : "bg-secondary text-accent-foreground hover:bg-accent-foreground/20"
-                    } transition-colors `}
+                    className={`flex bg-muted  p-2 relative gap-2 rounded-lg  transition-colors`}
                   >
-                    <span
-                      className={`${
-                        open ? "w-40" : "w-5"
-                      } duration-500 flex gap-2 overflow-hidden h-6`}
+                    <motion.span
+                      layout
+                      className={`${open ? "w-40" : "w-5"}  ${
+                        path.route
+                          ? pathname.includes(path.route)
+                            ? "text-white"
+                            : ""
+                          : pathname === "/dashboard"
+                          ? "text-white"
+                          : ""
+                      }  duration-500 relative z-10 flex justify-start items-center gap-2 overflow-hidden h-6`}
                     >
                       {path.icon} {open && path.name}
-                    </span>
+                    </motion.span>
+
+                    {path.route ? (
+                      pathname.includes(path.route) ? (
+                        <>
+                          <motion.span
+                            layoutId="navLink"
+                            transition={{ type: "spring", duration: 0.5 }}
+                            className="absolute inset-0 z-0 bg-primary rounded-md"
+                          ></motion.span>
+                        </>
+                      ) : (
+                        <></>
+                      )
+                    ) : pathname === "/dashboard" ? (
+                      <>
+                        <motion.span
+                          layoutId="navLink"
+                          transition={{ type: "spring", duration: 0.5 }}
+                          className="absolute inset-0 z-0 bg-muted-foreground rounded-md"
+                        ></motion.span>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+
                     <span className="sr-only">{path.name}</span>
                   </NavLink>
                 </TooltipTrigger>
