@@ -13,6 +13,7 @@ export type TError = {
     stack: string;
     success: boolean;
   };
+  message:string;
   status: number;
 };
 

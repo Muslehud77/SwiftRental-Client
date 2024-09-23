@@ -5,13 +5,14 @@ import {
   CardContent,
   CardFooter,
 } from "../../components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "../../components/ui/avatar";
+import { Avatar,  AvatarFallback } from "../../components/ui/avatar";
 import { Label } from "../../components/ui/label";
 
 import { useUser } from "../../hooks/useUser";
 import EditProfileForm from "../../components/EditProfileForm/EditProfileForm";
 import { getInitials } from "../../utils/getInitialsForUserName";
 import { Helmet } from "react-helmet-async";
+import ImageWithBlurHash from "../../components/ImageWithBlurHash/ImageWithBlurHash";
 
 export default function Profile() {
 
@@ -26,13 +27,18 @@ export default function Profile() {
       <Card className="w-full max-w-sm">
         <CardHeader className="flex flex-col items-center gap-4 bg-zinc-800/50 text-gray-100 py-8 rounded-t-lg">
           <Avatar className="h-20 w-20">
-            <AvatarImage
-              src={user?.image}
-              className="object-contain bg-black"
-            />
-            <AvatarFallback className="bg-black font-bold text-2xl">
-              {getInitials(user?.name as string)}
-            </AvatarFallback>
+            {user?.image?.url ? (
+              <ImageWithBlurHash
+                src={user?.image?.url as string}
+                blurHash={user?.image?.blurHash}
+                object="contain"
+                className=" bg-black "
+              />
+            ) : (
+              <AvatarFallback className="!text-foreground">
+                {getInitials(user?.name as string)}
+              </AvatarFallback>
+            )}
           </Avatar>
           <div className="text-center">
             <h2 className="text-2xl font-bold">{user?.name}</h2>

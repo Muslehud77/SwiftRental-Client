@@ -20,18 +20,22 @@ const usersApi = baseApi.injectEndpoints({
     }),
 
     updateUser: builder.mutation({
-      query: (userData) => ({
-        url: `/users`,
-        method: "PATCH",
-        body: userData,
-      }),
+      query: ({userData,id}) => {
+       
+       return ({
+          url: `/users/${id}`,
+          method: "PATCH",
+          body: userData,
+        });
+
+      } ,
       invalidatesTags: ["users"],
     }),
 
     changeStatusOfUser: builder.mutation({
       query: ({ _id, status }) => ({
         url: `/users/status/${_id}`,
-        method: "PATCH",
+        method: "PUT",
         body: {status},
       }),
       invalidatesTags: ["users"],

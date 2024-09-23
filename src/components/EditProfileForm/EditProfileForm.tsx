@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom/client";
+
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Label } from "../ui/label";
 import {
@@ -14,15 +14,18 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { useUser } from "../../hooks/useUser";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import {   useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn, TUser } from "../../redux/features/auth/authSlice";
-import { useUpdateUserMutation } from "../../redux/features/user/userApi";
+import {  signIn, TUser } from "../../redux/features/auth/authSlice";
+
 import { sendImageToBB } from "../../utils/sendImageToBB";
+
+
+import { useUpdateUserMutation } from "../../redux/features/user/userApi";
+import { useToastPromise } from "../../hooks/useToastPromise";
+import { TResponse } from "../../types/global.type";
 import { useAppDispatch } from "../../redux/hooks";
-import toast from "react-hot-toast";
-import { useUpdateUser } from "../../hooks/useUpdateUser";
-import CustomCursor from "../CustomCursor/CustomCursor";
+
 
 type ProfileFormValues = {
   username?: string;
@@ -32,14 +35,16 @@ type ProfileFormValues = {
 };
 
 const EditProfileForm = () => {
-  const dialog = useRef(null);
-  const { updateUser, updatingUser: isLoading } = useUpdateUser();
 
-  const { user } = useUser();
+  const [updateUser,{isLoading}] = useUpdateUserMutation();
+  const {toastPromise} = useToastPromise()
+  
+  const dispatch = useAppDispatch()
+  const { user,token } = useUser();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [imageData, setImageData] = useState<File | null>(null);
-  const [imageLink, setImageLink] = useState<string | null>(null);
+  const [imageLink, setImageLink] = useState<{url:string , blurHash:string} | null>(null);
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const {
@@ -52,13 +57,18 @@ const EditProfileForm = () => {
   const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
     setError(null);
 
+  
+
     const updatedDataForUser = {} as Partial<TUser>;
 
     let image = imageLink;
 
     if (imageData) {
       if (!imageLink) {
-        image = await sendImageToBB(imageData);
+        image = (await sendImageToBB(imageData)) as {
+          url: string;
+          blurHash: string;
+        };
         setImageLink(image);
       }
     }
@@ -77,15 +87,26 @@ const EditProfileForm = () => {
       }
 
       if (imageLink || image) {
-        updatedDataForUser["image"] = image as string;
+        updatedDataForUser["image"] = image as {
+          url: string;
+          blurHash: string;
+        };
       }
 
       if (Object.keys(updatedDataForUser).length) {
-        const res = (await updateUser(updatedDataForUser, false)) as any;
+        const res = (await toastPromise(
+          updateUser,
+          { userData:updatedDataForUser,id:user?._id },
+          "Updating user",
+          "👍 You are updated!"
+        )) as TResponse<TUser>;
+
+     
 
         if (res?.error) {
           setError(res?.error?.message || "Something went wrong");
         } else {
+          dispatch(signIn({ user: res?.data as unknown as TUser, token: token }))
           setOpen(false);
           setImageLink(null);
         }
@@ -106,7 +127,11 @@ const EditProfileForm = () => {
 
   const handleSubmitter = () => {
     const watchedFields = watch(["username", "address", "phone"]);
+
+
+    
     const [username, address, phone] = watchedFields;
+    console.log(isLoading);
     if (
       username !== (user?.name || "") ||
       address !== (user?.address || "") ||
@@ -118,6 +143,8 @@ const EditProfileForm = () => {
       setSubmitDisabled(true);
     }
   };
+
+  
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -192,7 +219,7 @@ const EditProfileForm = () => {
                   src={
                     imageData
                       ? URL.createObjectURL(imageData as Blob)
-                      : user?.image
+                      : user?.image?.url
                   }
                 />
               </Avatar>
@@ -222,7 +249,7 @@ const EditProfileForm = () => {
           {error && <span className="text-red-500 text-center">{error}</span>}
           <DialogFooter>
             <Button
-              disabled={submitDisabled || isLoading}
+              disabled={submitDisabled || isLoading }
               type="submit"
               className="ml-auto"
             >
