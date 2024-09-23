@@ -13,6 +13,7 @@ import {  logout, selectAuthUser } from "../../redux/features/auth/authSlice";
 
 import {Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getInitials } from "../../utils/getInitialsForUserName";
+import ImageWithBlurHash from "../ImageWithBlurHash/ImageWithBlurHash";
 
 type UserProps = {
   isDashboard?: boolean;
@@ -33,11 +34,17 @@ const User = ({ isDashboard }: UserProps) => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
           <Avatar>
-            <AvatarImage
-              src={user?.image}
+            {
+              user?.image?.url ?  <ImageWithBlurHash
+              src={user?.image?.url as string}
+              blurHash={user?.image?.blurHash}
+              object="contain"
               className="rounded-full size-10 object-contain bg-black "
-            />
+              />: 
             <AvatarFallback className="!text-foreground">{getInitials(user?.name as string)}</AvatarFallback>
+            }
+         
+           
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

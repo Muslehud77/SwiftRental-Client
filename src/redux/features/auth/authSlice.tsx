@@ -16,7 +16,7 @@ export interface TUser {
   address: string;
   isDeleted?: boolean;
   status?: "in-progress" | "blocked";
-  image: string;
+  image?: { url: string; blurHash: string };
 }
 
 
