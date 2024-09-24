@@ -20,7 +20,7 @@ export default function Profile() {
 
 
   return (
-    <div className="flex  items-center justify-center rounded-xl  max-h-fit md:h-[90vh]">
+    <div className="flex  items-center justify-center rounded-xl   md:h-[90vh]">
       <Helmet>
         <title>Dashboard | {user?.name}</title>
       </Helmet>

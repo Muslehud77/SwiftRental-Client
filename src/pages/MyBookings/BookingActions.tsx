@@ -1,10 +1,9 @@
-import { useEffect, useState ,useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
- 
   DialogDescription,
 } from "../../components/ui/dialog";
 import { RadioGroup } from "@headlessui/react";
@@ -15,29 +14,31 @@ import { loadStripe } from "@stripe/stripe-js";
 import StripePaymentForm from "./StripePaymentForm";
 import axios from "axios";
 import { TBooking } from "../../types/global.type";
-import { useDeleteBookingMutation, useModifyBookingMutation } from "../../redux/features/Booking/bookingApi";
+import {
+  useDeleteBookingMutation,
+  useModifyBookingMutation,
+} from "../../redux/features/Booking/bookingApi";
 import { useToastPromise } from "../../hooks/useToastPromise";
 import DateTimePicker from "../../components/Searchbar/DateTimePicker";
 import { additionalFeatures } from "../CarDetails/CarDetails";
-import {AnimatePresence, motion} from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
 import { useAppSelector } from "../../redux/hooks";
 import { selectLocation } from "../../redux/features/Map/mapSlice";
 import dayjs from "dayjs";
-
+import html2pdf from "html2pdf.js";
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PublishableKey);
 
 type BookingActionsProps = {
   booking: TBooking;
-  payment?: boolean
+  payment?: boolean;
 };
 
-const BookingActions = ({ booking ,payment}: BookingActionsProps) => {
-
-    const { tripTime } = useAppSelector(selectLocation);
-    const {toastPromise} = useToastPromise()
-    const [cancelBooking] = useDeleteBookingMutation()
-    const [modifyBooking] = useModifyBookingMutation()
+const BookingActions = ({ booking, payment }: BookingActionsProps) => {
+  const { tripTime } = useAppSelector(selectLocation);
+  const { toastPromise } = useToastPromise();
+  const [cancelBooking] = useDeleteBookingMutation();
+  const [modifyBooking] = useModifyBookingMutation();
   const [paymentSecret, setPaymentSecret] = useState("");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash");
   const [stripeDialogOpen, setStripeDialogOpen] = useState(false);
@@ -45,51 +46,55 @@ const BookingActions = ({ booking ,payment}: BookingActionsProps) => {
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
-  const [modifyDialogOpen, setModifyDialogOpen] = useState(false); 
-  const [showDatePicker, setShowDatePicker] = useState(false); 
- const [selectedFeatures, setSelectedFeatures] = useState<
-   { label: string; price: number }[]
- >([]);
- const [startDate, endDate] = tripTime;
-const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [modifyDialogOpen, setModifyDialogOpen] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedFeatures, setSelectedFeatures] = useState<
+    { label: string; price: number }[]
+  >([]);
+  const [startDate, endDate] = tripTime;
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   let tripDuration = dayjs(endDate).isAfter(dayjs(startDate))
     ? dayjs(endDate).diff(dayjs(startDate), "hour")
     : 0;
 
- useEffect(()=>{
-    if(booking.additionalFeatures){
-        setSelectedFeatures([...booking.additionalFeatures.map(f=> ({label:f.name,price:f.price}))])
+  useEffect(() => {
+    if (booking.additionalFeatures) {
+      setSelectedFeatures([
+        ...booking.additionalFeatures.map((f) => ({
+          label: f.name,
+          price: f.price,
+        })),
+      ]);
     }
- },[])
+  }, []);
 
-useEffect(() => {
-  if (tripDuration >= 0) {
-    const pricePerDay = booking?.carId?.pricePerDay || 0;
-    const pricePerHour = booking?.carId?.pricePerHour || 0;
+  useEffect(() => {
+    if (tripDuration >= 0) {
+      const pricePerDay = booking?.carId?.pricePerDay || 0;
+      const pricePerHour = booking?.carId?.pricePerHour || 0;
 
-    const basePrice =
-      tripDuration >= 24
-        ? Math.ceil(tripDuration / 24) * Number(pricePerDay)
-        : tripDuration * Number(pricePerHour);
+      const basePrice =
+        tripDuration >= 24
+          ? Math.ceil(tripDuration / 24) * Number(pricePerDay)
+          : tripDuration * Number(pricePerHour);
 
-    const featuresPrice = selectedFeatures.reduce((total, feature) => {
-      const featureItem = additionalFeatures.find(
-        (item) => item.label === feature.label
-      );
-      return (
-        total +
-        (featureItem
-          ? featureItem.price *
-            (tripDuration >= 24 ? Math.ceil(tripDuration / 24) : tripDuration)
-          : 0)
-      );
-    }, 0);
+      const featuresPrice = selectedFeatures.reduce((total, feature) => {
+        const featureItem = additionalFeatures.find(
+          (item) => item.label === feature.label
+        );
+        return (
+          total +
+          (featureItem
+            ? featureItem.price *
+              (tripDuration >= 24 ? Math.ceil(tripDuration / 24) : tripDuration)
+            : 0)
+        );
+      }, 0);
 
-    setTotalPrice(basePrice + featuresPrice);
-  }
-}, [tripDuration, selectedFeatures]);
-
+      setTotalPrice(basePrice + featuresPrice);
+    }
+  }, [tripDuration, selectedFeatures]);
 
   const paymentOptions = [
     {
@@ -130,48 +135,79 @@ useEffect(() => {
       })),
       startDate: new Date(startDate),
       endDate: new Date(endDate),
-      totalCost:totalPrice
+      totalCost: totalPrice,
     };
-    const res = toastPromise(modifyBooking,{data,id:booking._id}, "Saving changes...");
+    const res = toastPromise(
+      modifyBooking,
+      { data, id: booking._id },
+      "Saving changes..."
+    );
     console.log(res);
     setModifyDialogOpen(false);
   };
 
   const handleCancelBooking = async (bookingId: string) => {
-    
-    await toastPromise(cancelBooking,bookingId,"Cancelling the booking for you...")
-
-   
-
+    await toastPromise(
+      cancelBooking,
+      bookingId,
+      "Cancelling the booking for you..."
+    );
   };
 
+  const toggleFeature = (feature: { label: string; price: number }) => {
+    if (selectedFeatures.find((f) => f.label === feature.label)) {
+      setSelectedFeatures(
+        selectedFeatures.filter((item) => item.label !== feature.label)
+      );
+    } else {
+      setSelectedFeatures([...selectedFeatures, feature]);
+    }
+  };
 
-    const toggleFeature = (feature: { label: string; price: number }) => {
-      if (selectedFeatures.find((f) => f.label === feature.label)) {
-        setSelectedFeatures(
-          selectedFeatures.filter((item) => item.label !== feature.label)
-        );
-      } else {
-        setSelectedFeatures([...selectedFeatures, feature]);
-      }
-    };
+  const handlePrintInvoice = () => {
+    setPrintDialogOpen(true);
+  };
 
+  const printInvoice = () => {
+    if (printRef.current) {
+      const printContent = printRef.current.innerHTML;
+      const originalContent = document.body.innerHTML;
 
-    const handlePrintInvoice = () => {
-      setPrintDialogOpen(true);
-    };
-  
-    const printInvoice = () => {
-      if (printRef.current) {
-        const printContent = printRef.current.innerHTML;
-        const originalContent = document.body.innerHTML;
-  
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
-        window.location.reload();
-      }
-    };
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+      window.location.reload();
+    }
+  };
+
+  const downloadInvoiceAsPDF = () => {
+    if (printRef.current) {
+       const invoiceContent = printRef.current.innerHTML;
+
+       // Create a new div element to inject styles for the PDF
+       const contentWithStyles = `
+    <div style="background: white; color: black; font-family: Arial, sans-serif;">
+      ${invoiceContent}
+      <style>
+        * {
+          background: white !important;
+          color: black !important;
+        }
+      </style>
+    </div>
+  `;
+
+       const opt = {
+         margin: 0.5,
+         filename: `invoice_${booking._id}.pdf`,
+         image: { type: "jpeg", quality: 0.98 },
+         html2canvas: { scale: 2 },
+         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+       };
+
+       html2pdf().from(contentWithStyles).set(opt).save();
+    }
+  };
 
 
   return (
@@ -186,43 +222,39 @@ useEffect(() => {
           </h1>
         ) : (
           <>
-          {
-            !payment && <>
-              {/* Modify Button */}
-              <Button
-              disabled={booking.status !== "pending"}
-              className=""
-              onClick={() => setModifyDialogOpen(true)}
-            >
-              Modify
-            </Button>
+            {!payment && (
+              <>
+                {/* Modify Button */}
+                <Button
+                  disabled={booking.status !== "pending"}
+                  className=""
+                  onClick={() => setModifyDialogOpen(true)}
+                >
+                  Modify
+                </Button>
 
-            {/* Cancel Button */}
+                {/* Cancel Button */}
+                <Button
+                  disabled={booking.status !== "pending"}
+                  className="px-4 py-2 rounded-lg font-semibold shadow-lg !bg-primary !text-white"
+                  onClick={() => setCancelDialogOpen(true)}
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+
             <Button
-              disabled={booking.status !== "pending"}
-              className="px-4 py-2 rounded-lg font-semibold shadow-lg !bg-primary !text-white"
-              onClick={() => setCancelDialogOpen(true)}
+              onClick={handlePrintInvoice}
+              className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg"
             >
-              Cancel
+              Invoice
             </Button>
-            </>
-          }
 
             {/* Payment Button (only if approved) */}
             {booking.status === "approved" && !booking.completedPayment && (
-              <Button
-                onClick={() => setPaymentOpen(true)}
-                className="px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-2xl hover:bg-indigo-600 transition-all duration-300 ease-in-out"
-              >
-                Make Payment
-              </Button>
+              <Button onClick={() => setPaymentOpen(true)}>Make Payment</Button>
             )}
-
-
-<Button onClick={handlePrintInvoice} className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg">
-          Print Invoice
-        </Button>
-            
           </>
         )}
       </div>
@@ -417,29 +449,47 @@ useEffect(() => {
           </div>
         </DialogContent>
       </Dialog>
-
       <Dialog open={printDialogOpen} onOpenChange={setPrintDialogOpen}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Invoice for Booking</DialogTitle>
-          </DialogHeader>
+          <DialogHeader></DialogHeader>
 
           {/* Styled Invoice Format */}
-          <div ref={printRef} className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto">
+          <div ref={printRef} className="text-foreground ">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold mb-2">Booking Invoice</h2>
-              <p className="text-sm text-gray-500">Generated on {new Date().toLocaleDateString()}</p>
+              <p className="text-sm text-gray-500">
+                Generated on {new Date().toLocaleDateString()}
+              </p>
             </div>
 
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Booking Details</h3>
-              <p><strong>Booking ID:</strong> {booking._id}</p>
-              <p><strong>Car:</strong> {booking.carId.name} ({booking.carId.model} - {booking.carId.year})</p>
-              <p><strong>Origin:</strong> {booking.origin}</p>
-              <p><strong>Destination:</strong> {booking.destination}</p>
-              <p><strong>Start Date:</strong> {new Date(booking.startDate).toLocaleString()}</p>
-              <p><strong>End Date:</strong> {new Date(booking.endDate).toLocaleString()}</p>
-              <p><strong>Status:</strong> {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</p>
+              <p>
+                <strong>Booking ID:</strong> {booking._id}
+              </p>
+              <p>
+                <strong>Car:</strong> {booking.carId.name} (
+                {booking.carId.model} - {booking.carId.year})
+              </p>
+              <p>
+                <strong>Origin:</strong> {booking.origin}
+              </p>
+              <p>
+                <strong>Destination:</strong> {booking.destination}
+              </p>
+              <p>
+                <strong>Start Date:</strong>{" "}
+                {new Date(booking.startDate).toLocaleString()}
+              </p>
+              <p>
+                <strong>End Date:</strong>{" "}
+                {new Date(booking.endDate).toLocaleString()}
+              </p>
+              <p>
+                <strong>Status:</strong>{" "}
+                {booking.status.charAt(0).toUpperCase() +
+                  booking.status.slice(1)}
+              </p>
             </div>
 
             <div className="mb-4">
@@ -454,11 +504,18 @@ useEffect(() => {
                   {booking.completedPayment ? "Completed" : "Pending"}
                 </span>
               </p>
-              <p><strong>Payment Method:</strong> {booking.paymentType === "cash" ? "Cash" : "Stripe"}</p>
+              <p>
+                <strong>Payment Method:</strong>{" "}
+                {booking.paymentType === "cash" ? "Cash" : "Stripe"}
+              </p>
               {booking.paymentId && (
-                <p><strong>Payment ID:</strong> {booking.paymentId}</p>
+                <p>
+                  <strong>Payment ID:</strong> {booking.paymentId}
+                </p>
               )}
-              <p><strong>Total Cost:</strong> ${totalPrice.toFixed(2)}</p>
+              <p>
+                <strong>Total Cost:</strong> ${totalPrice.toFixed(2)}
+              </p>
             </div>
 
             <div className="mb-4">
@@ -480,15 +537,17 @@ useEffect(() => {
               <p className="font-bold text-lg">Total Cost</p>
               <p className="text-xl font-semibold">${totalPrice.toFixed(2)}</p>
             </div>
+          </div>
 
-            <div className="flex justify-center mt-6 space-x-4">
-              <Button onClick={printInvoice} className="bg-blue-600 text-white px-6 py-2 rounded-lg">
-                Print Invoice
-              </Button>
-              <Button variant="secondary" onClick={() => setPrintDialogOpen(false)}>
-                Close
-              </Button>
-            </div>
+          <div className="flex justify-center mt-6 space-x-4">
+            <Button onClick={printInvoice}>Print Invoice</Button>
+            <Button onClick={downloadInvoiceAsPDF}>Download PDF</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setPrintDialogOpen(false)}
+            >
+              Close
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -497,5 +556,3 @@ useEffect(() => {
 };
 
 export default BookingActions;
-
-

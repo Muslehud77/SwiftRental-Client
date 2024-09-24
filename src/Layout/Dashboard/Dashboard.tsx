@@ -34,18 +34,18 @@ export default function Dashboard() {
     return () => clearTimeout(closeSidebar);
   }, []);
 
-   useGSAP(
-     () => {
-       dashNavContainer.current = gsap.timeline().from("a,button,hr", {
-         x: -200,
-         duration: 0.5,
-         delay: 0,
-         stagger: 0.1,
-         ease: "back.out(1.7)",
-       });
-     },
-     { scope: dashNavContainer }
-   );
+  //  useGSAP(
+  //    () => {
+  //      dashNavContainer.current = gsap.timeline().from("a,button,hr", {
+  //        x: -200,
+  //        duration: 0.5,
+  //        delay: 0,
+  //        stagger: 0.1,
+  //        ease: "back.out(1.7)",
+  //      });
+  //    },
+  //    { scope: dashNavContainer }
+  //  );
 
    const logo =
      actualTheme === "light"
@@ -62,7 +62,9 @@ export default function Dashboard() {
 
   return (
     <div className="flex gap-5 min-h-screen w-full bg-background ">
-      <div className={`${open ? "w-56" : "w-0 md:w-16"} duration-500`}>
+      <div
+        className={`${open ? "w-56" : "w-0  md:w-16"} absolute md:static duration-500`}
+      >
         <aside
           ref={dashNavContainer}
           className={`${
@@ -89,16 +91,8 @@ export default function Dashboard() {
           </div>
         </aside>
       </div>
-      <div className="w-full ">
-        <div
-          className={`w-full flex  items-end p-1 ${
-            open
-              ? isMobile()
-                ? "justify-end"
-                : "justify-between"
-              : "justify-between"
-          }`}
-        >
+      <div className="w-full">
+        <div className={`w-full flex  items-end p-1 justify-between`}>
           {isMobile() ? (
             !open ? (
               <SidebarOpener open={open} setOpen={setOpen} />
@@ -113,7 +107,7 @@ export default function Dashboard() {
         </div>
         <div
           onClick={() => setOpen(false)}
-          className=" relative mx-auto mt-4 mr-4 lg:px-10 rounded-xl mb-10 py-8 bg-secondary overflow-hidden "
+          className=" relative px-2 mt-4 md:mr-4 lg:px-10 rounded-xl mb-10 py-8 bg-secondary overflow-hidden "
         >
           <div className="relative bg-background rounded-xl">
             <div className="absolute h-full inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
