@@ -57,10 +57,10 @@ const MyBookings = () => {
           {[...Array(3)].map((_, index) => (
             <div
               key={index}
-              className="p-6 rounded-xl shadow-xl bg-white dark:bg-gray-800/50 backdrop-blur-2xl border border-gray-200 dark:border-gray-700"
+              className="flex flex-col md:flex-row gap-5 p-6 rounded-xl shadow-xl bg-white dark:bg-gray-800/50 backdrop-blur-2xl border border-gray-200 dark:border-gray-700"
             >
               <Skeleton className="h-96 w-full rounded-xl" />
-              <div className="mt-4">
+              <div className="w-full">
                 <Skeleton className="h-6 w-1/2 mb-2" />
                 <Skeleton className="h-4 w-1/3 mb-4" />
                 <Skeleton className="h-4 w-full" />

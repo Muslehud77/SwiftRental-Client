@@ -2,22 +2,36 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { AnimatePresence } from "framer-motion";
 import { FormEvent, useState } from "react";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuthUser } from "../../redux/features/auth/authSlice";
 import { TBooking } from "../../types/global.type";
+import { useToastPromise } from "../../hooks/useToastPromise";
+import { useModifyBookingMutation } from "../../redux/features/Booking/bookingApi";
+import { useNavigate } from "react-router-dom";
 
-type TStripePaymentFormProps ={
-    booking:TBooking
-}
+type TStripePaymentFormProps = {
+  booking: TBooking;
+  setPaymentOpen: (arg: boolean) => void;
+  setStripeDialogOpen: (arg: boolean) => void;
+};
 
-const StripePaymentForm = ({ booking }: TStripePaymentFormProps) => {
+const today = new Date();
+
+const StripePaymentForm = ({
+  booking,
+  setStripeDialogOpen,
+  setPaymentOpen,
+}: TStripePaymentFormProps) => {
+  const navigate = useNavigate();
+  const { toastPromise } = useToastPromise();
+  const [modifyBooking] = useModifyBookingMutation();
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
 
-  const user = useAppSelector(selectAuthUser)
+  const user = useAppSelector(selectAuthUser);
 
   console.log(booking);
 
@@ -49,9 +63,32 @@ const StripePaymentForm = ({ booking }: TStripePaymentFormProps) => {
       setError(error.message as string);
       console.error("Payment confirmation error:", error);
     } else {
-      console.log(paymentIntent);
+      const { carId, _id, ...rest } = booking;
 
-      console.log("Payment successful:", paymentIntent);
+      const data = { ...rest };
+
+      if (paymentIntent.id) {
+        data.completedPayment = true;
+        data.paymentType = "stripe";
+        data.paymentId = paymentIntent.id;
+
+        if (new Date(data.endDate) < today) {
+          data.status = "completed";
+        }
+
+        const res = (await toastPromise(
+          modifyBooking,
+          { data, id: _id },
+          "Completing payment...",
+          "Payment completed!"
+        )) as any;
+
+        if (res.success) {
+          setStripeDialogOpen(false);
+          setPaymentOpen(false);
+          navigate("/dashboard/payment", { state: "recent" });
+        }
+      }
     }
 
     setIsProcessing(false);
@@ -59,8 +96,8 @@ const StripePaymentForm = ({ booking }: TStripePaymentFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <PaymentElement />
       <AnimatePresence>
+        <PaymentElement />
         <motion.button
           layout
           type="submit"

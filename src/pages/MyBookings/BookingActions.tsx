@@ -39,6 +39,7 @@ const BookingActions = ({ booking }: BookingActionsProps) => {
   const [paymentSecret, setPaymentSecret] = useState("");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash");
   const [stripeDialogOpen, setStripeDialogOpen] = useState(false);
+  const [paymentOpen, setPaymentOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false); 
   const [showDatePicker, setShowDatePicker] = useState(false); 
@@ -160,7 +161,7 @@ useEffect(() => {
         className="mt-4 space-x-4 self-end"
       >
         {booking.status === "rejected" ? (
-          <h1 className="text-white bg-primary !text-white p-2 rounded-xl uppercase">
+          <h1 className="bg-primary text-white p-2 rounded-xl uppercase">
             Booking has been rejected
           </h1>
         ) : (
@@ -185,96 +186,96 @@ useEffect(() => {
 
             {/* Payment Button (only if approved) */}
             {booking.status === "approved" && !booking.completedPayment && (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-2xl hover:bg-indigo-600 transition-all duration-300 ease-in-out">
-                    Make Payment
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 text-black dark:text-white rounded-xl shadow-lg p-8">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl text-gray-900 dark:text-white font-bold">
-                      Payment for {booking.carId.name}
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="p-4">
-                    <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                      <strong>Total Amount:</strong> ${booking.totalCost}
-                    </p>
-
-                    {/* Payment Method Selection */}
-                    <div className="mt-6">
-                      <p className="font-semibold mb-2 text-gray-700 dark:text-gray-300">
-                        Select Payment Method:
-                      </p>
-                      <RadioGroup
-                        value={selectedPaymentMethod}
-                        onChange={handlePaymentSelection}
-                        className="space-y-2"
-                      >
-                        {paymentOptions.map((option) => (
-                          <RadioGroup.Option
-                            key={option.name}
-                            value={option.name}
-                            className={({ checked }) =>
-                              `group relative flex cursor-pointer rounded-lg bg-white dark:bg-gray-700 py-4 px-5 text-gray-700 dark:text-gray-200 shadow-md transition-all focus:outline-none ${
-                                checked
-                                  ? "border-2 border-primary/50"
-                                  : "bg-gray-100 dark:bg-gray-600"
-                              }`
-                            }
-                          >
-                            {({ checked }) => (
-                              <>
-                                <div className="flex w-full items-center justify-between">
-                                  <div className="text-sm w-11/12">
-                                    <p className="font-semibold text-gray-900 dark:text-gray-100">
-                                      {option.name}
-                                    </p>
-                                    <p className="text-gray-500 dark:text-gray-400">
-                                      {option.description}
-                                    </p>
-                                  </div>
-                                  <CheckCircleIcon
-                                    className={`size-5 ${
-                                      checked
-                                        ? "opacity-100 text-primary"
-                                        : "opacity-0"
-                                    } transition-opacity`}
-                                  />
-                                </div>
-                              </>
-                            )}
-                          </RadioGroup.Option>
-                        ))}
-                      </RadioGroup>
-                    </div>
-
-                    {/* Confirm Payment Button */}
-                    <div className="mt-6">
-                      <Button
-                        disabled={selectedPaymentMethod === "Cash"}
-                        className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${
-                          selectedPaymentMethod === "Cash"
-                            ? "bg-gray-500 dark:bg-gray-600 cursor-not-allowed"
-                            : "transition-all"
-                        }`}
-                        onClick={() => handleConfirmPayment(booking.totalCost)}
-                      >
-                        Confirm Payment
-                      </Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <Button
+                onClick={() => setPaymentOpen(true)}
+                className="px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-2xl hover:bg-indigo-600 transition-all duration-300 ease-in-out"
+              >
+                Make Payment
+              </Button>
             )}
           </>
         )}
       </div>
 
+      <Dialog open={paymentOpen} onOpenChange={setPaymentOpen}>
+        <DialogContent className="backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 text-black dark:text-white rounded-xl shadow-lg p-8">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-gray-900 dark:text-white font-bold">
+              Payment for {booking.carId.name}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="p-4">
+            <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              <strong>Total Amount:</strong> ${booking.totalCost}
+            </p>
+
+            {/* Payment Method Selection */}
+            <div className="mt-6">
+              <p className="font-semibold mb-2 text-gray-700 dark:text-gray-300">
+                Select Payment Method:
+              </p>
+              <RadioGroup
+                value={selectedPaymentMethod}
+                onChange={handlePaymentSelection}
+                className="space-y-2"
+              >
+                {paymentOptions.map((option) => (
+                  <RadioGroup.Option
+                    key={option.name}
+                    value={option.name}
+                    className={({ checked }) =>
+                      `group relative flex cursor-pointer rounded-lg bg-white dark:bg-gray-700 py-4 px-5 text-gray-700 dark:text-gray-200 shadow-md transition-all focus:outline-none ${
+                        checked
+                          ? "border-2 border-primary/50"
+                          : "bg-gray-100 dark:bg-gray-600"
+                      }`
+                    }
+                  >
+                    {({ checked }) => (
+                      <>
+                        <div className="flex w-full items-center justify-between">
+                          <div className="text-sm w-11/12">
+                            <p className="font-semibold text-gray-900 dark:text-gray-100">
+                              {option.name}
+                            </p>
+                            <p className="text-gray-500 dark:text-gray-400">
+                              {option.description}
+                            </p>
+                          </div>
+                          <CheckCircleIcon
+                            className={`size-5 ${
+                              checked ? "opacity-100 text-primary" : "opacity-0"
+                            } transition-opacity`}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </RadioGroup.Option>
+                ))}
+              </RadioGroup>
+            </div>
+
+            {/* Confirm Payment Button */}
+            <div className="mt-6">
+              <Button
+                disabled={selectedPaymentMethod === "Cash"}
+                className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${
+                  selectedPaymentMethod === "Cash"
+                    ? "bg-gray-500 dark:bg-gray-600 cursor-not-allowed"
+                    : "transition-all"
+                }`}
+                onClick={() => handleConfirmPayment(booking.totalCost)}
+              >
+                Confirm Payment
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Stripe Payment Dialog */}
       <Dialog open={stripeDialogOpen} onOpenChange={setStripeDialogOpen}>
-        <DialogContent className="!bg-white p-8 rounded-lg shadow-lg">
+        <DialogContent className="!bg-white p-8 rounded-lg shadow-lg max-h-screen overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Stripe Payment</DialogTitle>
           </DialogHeader>
@@ -282,7 +283,11 @@ useEffect(() => {
             stripe={stripePromise}
             options={{ clientSecret: paymentSecret }}
           >
-            <StripePaymentForm booking={booking} />
+            <StripePaymentForm
+              booking={booking}
+              setStripeDialogOpen={setStripeDialogOpen}
+              setPaymentOpen={setPaymentOpen}
+            />
           </Elements>
         </DialogContent>
       </Dialog>
