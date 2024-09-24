@@ -86,7 +86,7 @@ const StripePaymentForm = ({
         if (res.success) {
           setStripeDialogOpen(false);
           setPaymentOpen(false);
-          navigate("/dashboard/payment", { state: "recent" });
+          navigate("/dashboard/payments", { state: "recent" });
         }
       }
     }

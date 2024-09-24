@@ -76,7 +76,7 @@ export type TBooking = {
   endDate: string;
   totalCost: number;
   additionalFeatures: { name: string; price: number }[];
-  paymentType: string;
+  paymentType: "cash"| "stripe";
   paymentId: string;
   completedPayment: boolean;
   createdAt: string;

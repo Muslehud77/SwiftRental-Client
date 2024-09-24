@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef} from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+ 
   DialogDescription,
 } from "../../components/ui/dialog";
 import { RadioGroup } from "@headlessui/react";
@@ -29,9 +29,11 @@ const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PublishableKey);
 
 type BookingActionsProps = {
   booking: TBooking;
+  payment?: boolean
 };
 
-const BookingActions = ({ booking }: BookingActionsProps) => {
+const BookingActions = ({ booking ,payment}: BookingActionsProps) => {
+
     const { tripTime } = useAppSelector(selectLocation);
     const {toastPromise} = useToastPromise()
     const [cancelBooking] = useDeleteBookingMutation()
@@ -41,6 +43,8 @@ const BookingActions = ({ booking }: BookingActionsProps) => {
   const [stripeDialogOpen, setStripeDialogOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const [printDialogOpen, setPrintDialogOpen] = useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false); 
   const [showDatePicker, setShowDatePicker] = useState(false); 
  const [selectedFeatures, setSelectedFeatures] = useState<
@@ -153,12 +157,28 @@ useEffect(() => {
     };
 
 
+    const handlePrintInvoice = () => {
+      setPrintDialogOpen(true);
+    };
+  
+    const printInvoice = () => {
+      if (printRef.current) {
+        const printContent = printRef.current.innerHTML;
+        const originalContent = document.body.innerHTML;
+  
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+        window.location.reload();
+      }
+    };
+
 
   return (
     <>
       <div
         onClick={() => setShowDatePicker(false)}
-        className="mt-4 space-x-4 self-end"
+        className={`${!payment && "mt-4"} space-x-4 self-end`}
       >
         {booking.status === "rejected" ? (
           <h1 className="bg-primary text-white p-2 rounded-xl uppercase">
@@ -166,8 +186,10 @@ useEffect(() => {
           </h1>
         ) : (
           <>
-            {/* Modify Button */}
-            <Button
+          {
+            !payment && <>
+              {/* Modify Button */}
+              <Button
               disabled={booking.status !== "pending"}
               className=""
               onClick={() => setModifyDialogOpen(true)}
@@ -183,6 +205,8 @@ useEffect(() => {
             >
               Cancel
             </Button>
+            </>
+          }
 
             {/* Payment Button (only if approved) */}
             {booking.status === "approved" && !booking.completedPayment && (
@@ -193,6 +217,12 @@ useEffect(() => {
                 Make Payment
               </Button>
             )}
+
+
+<Button onClick={handlePrintInvoice} className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg">
+          Print Invoice
+        </Button>
+            
           </>
         )}
       </div>
@@ -387,8 +417,85 @@ useEffect(() => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={printDialogOpen} onOpenChange={setPrintDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Invoice for Booking</DialogTitle>
+          </DialogHeader>
+
+          {/* Styled Invoice Format */}
+          <div ref={printRef} className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold mb-2">Booking Invoice</h2>
+              <p className="text-sm text-gray-500">Generated on {new Date().toLocaleDateString()}</p>
+            </div>
+
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold">Booking Details</h3>
+              <p><strong>Booking ID:</strong> {booking._id}</p>
+              <p><strong>Car:</strong> {booking.carId.name} ({booking.carId.model} - {booking.carId.year})</p>
+              <p><strong>Origin:</strong> {booking.origin}</p>
+              <p><strong>Destination:</strong> {booking.destination}</p>
+              <p><strong>Start Date:</strong> {new Date(booking.startDate).toLocaleString()}</p>
+              <p><strong>End Date:</strong> {new Date(booking.endDate).toLocaleString()}</p>
+              <p><strong>Status:</strong> {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</p>
+            </div>
+
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold">Payment Details</h3>
+              <p>
+                <strong>Payment Status:</strong>{" "}
+                <span
+                  className={`${
+                    booking.completedPayment ? "text-green-600" : "text-red-600"
+                  } font-bold`}
+                >
+                  {booking.completedPayment ? "Completed" : "Pending"}
+                </span>
+              </p>
+              <p><strong>Payment Method:</strong> {booking.paymentType === "cash" ? "Cash" : "Stripe"}</p>
+              {booking.paymentId && (
+                <p><strong>Payment ID:</strong> {booking.paymentId}</p>
+              )}
+              <p><strong>Total Cost:</strong> ${totalPrice.toFixed(2)}</p>
+            </div>
+
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold">Additional Features</h3>
+              <ul className="list-disc ml-5">
+                {booking.additionalFeatures.length > 0 ? (
+                  booking.additionalFeatures.map((feature) => (
+                    <li key={feature.name}>
+                      {feature.name}: ${feature.price}
+                    </li>
+                  ))
+                ) : (
+                  <li>No additional features selected</li>
+                )}
+              </ul>
+            </div>
+
+            <div className="flex justify-between items-center border-t pt-4 mt-4">
+              <p className="font-bold text-lg">Total Cost</p>
+              <p className="text-xl font-semibold">${totalPrice.toFixed(2)}</p>
+            </div>
+
+            <div className="flex justify-center mt-6 space-x-4">
+              <Button onClick={printInvoice} className="bg-blue-600 text-white px-6 py-2 rounded-lg">
+                Print Invoice
+              </Button>
+              <Button variant="secondary" onClick={() => setPrintDialogOpen(false)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
 
 export default BookingActions;
+
+
