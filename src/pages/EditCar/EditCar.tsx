@@ -32,6 +32,7 @@ import { Image, TCar } from "../../types/global.type";
 import { useNavigate, useParams } from "react-router-dom";
 import ModifyStatus from "../../components/ModifyStatus/ModifyStatus";
 
+
 export default function EditCar() {
   const { id } = useParams();
 
@@ -135,6 +136,9 @@ export default function EditCar() {
     setSelectedFeatures(selectedOptions || []);
   };
 
+
+ 
+
   useEffect(() => {
     if (isSuccess) {
       setValue("name", car?.name);
@@ -148,6 +152,9 @@ export default function EditCar() {
       setFiles([...car.images]);
       setCarType(car?.carType)
     }
+
+     window.scrollTo({ top: 0, behavior: "smooth" });
+
   }, [data]);
 
   return (

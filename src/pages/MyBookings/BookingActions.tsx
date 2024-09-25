@@ -182,32 +182,32 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
 
   const downloadInvoiceAsPDF = () => {
     if (printRef.current) {
-       const invoiceContent = printRef.current.innerHTML;
+      const invoiceContent = printRef.current.innerHTML;
 
-       // Create a new div element to inject styles for the PDF
-       const contentWithStyles = `
-    <div style="background: white; color: black; font-family: Arial, sans-serif;">
-      ${invoiceContent}
-      <style>
-        * {
-          background: white !important;
-          color: black !important;
-        }
-      </style>
-    </div>
-  `;
+   
+      const tempDiv = document.createElement("div") as HTMLElement;
+      tempDiv.innerHTML = invoiceContent;
 
-       const opt = {
-         margin: 0.5,
-         filename: `invoice_${booking._id}.pdf`,
-         image: { type: "jpeg", quality: 0.98 },
-         html2canvas: { scale: 2 },
-         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-       };
+    
+      tempDiv.style.background = "white";
+      tempDiv.style.color = "black";
+      tempDiv.style.fontFamily = "Arial, sans-serif";
+      tempDiv.style.overflow = "hidden"; 
+      tempDiv.style.padding = "20px"; 
 
-       html2pdf().from(contentWithStyles).set(opt).save();
+
+      const opt = {
+        margin: 0.5,
+        filename: `invoice_${booking._id}.pdf`,
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+      };
+
+      html2pdf().from(tempDiv).set(opt).save();
     }
   };
+
 
 
   return (
@@ -450,8 +450,8 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
         </DialogContent>
       </Dialog>
       <Dialog open={printDialogOpen} onOpenChange={setPrintDialogOpen}>
-        <DialogContent>
-          <DialogHeader></DialogHeader>
+        <DialogContent className="overflow-y-auto max-h-screen">
+      
 
           {/* Styled Invoice Format */}
           <div ref={printRef} className="text-foreground ">

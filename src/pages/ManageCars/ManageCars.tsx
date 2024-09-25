@@ -24,10 +24,10 @@ export default function ManageCars() {
   return (
     <div className="p-6 mx-auto rounded-xl text-foreground bg-background/50 mb-10">
       <Helmet>
-        <title>Dashboard | Manage Products</title>
+        <title>Dashboard | Manage Cars</title>
       </Helmet>
       <div className="mb-6 space-y-5">
-        <h1 className="text-3xl font-semibold">Manage Products</h1>
+        <h1 className="text-3xl font-semibold">Manage Cars</h1>
 
         <div className="w-full grid grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
           {isLoading || isError ? (

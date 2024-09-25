@@ -1,31 +1,23 @@
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "../../components/ui/card";
 
 
 import { Helmet } from "react-helmet-async";
+import { useGetAllBookingsQuery } from "../../redux/features/Booking/bookingApi";
 
 export default function ManageBookings() {
  
+const {data} = useGetAllBookingsQuery(undefined)
+
+console.log(data);
+
 
   return (
-    <Card className="!bg-secondary">
+    <div className="p-6">
       <Helmet>
-        <title>Dashboard | Manage Orders</title>
+        <title>Dashboard | Manage Bookings</title>
       </Helmet>
-      <CardHeader>
-        <CardTitle className="text-2xl">Orders</CardTitle>
-        <CardDescription>
-          Here you can manage your orders and update their status.
-        </CardDescription>
-      </CardHeader>
-
-   
-    </Card>
+      <h1 className="text-2xl font-bold text-foreground mb-4">My Bookings</h1>
+    </div>
   );
 }
 

@@ -1,7 +1,32 @@
+import { TBooking, TQueryParams, TResponseRedux } from "../../../types/global.type";
 import { baseApi } from "../../api/baseApi";
 
 const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getAllBookings: builder.query({
+      query: (args: TQueryParams | undefined) => {
+        const params = new URLSearchParams();
+
+        if (args?.length) {
+          args.map((arg) =>
+            params.append(arg.name.toString(), arg.value.toString())
+          );
+        }
+
+        return {
+          url: "/bookings",
+          method: "GET",
+          params,
+        };
+      },
+      transformResponse: (response: TResponseRedux<TBooking[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+      providesTags: ["bookings"],
+    }),
     getMyBookings: builder.query({
       query: () => {
         return {
@@ -42,5 +67,6 @@ export const {
   useCreateBookingMutation,
   useGetMyBookingsQuery,
   useModifyBookingMutation,
-  useDeleteBookingMutation
+  useDeleteBookingMutation,
+  useGetAllBookingsQuery
 } = bookingApi;
