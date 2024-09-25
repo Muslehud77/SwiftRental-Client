@@ -114,7 +114,7 @@ const ManageUsersTable = ({ users }: ManageUsersTableProps) => {
             <TableRow key={user?._id}>
               <TableCell>
                 <Avatar className="w-10 h-10 border">
-                  <AvatarImage src={user?.image} className="object-cover" />
+                  <AvatarImage src={user?.image?.url} className="object-cover" />
                   <AvatarFallback>
                     {getInitials(user?.name as string)}
                   </AvatarFallback>

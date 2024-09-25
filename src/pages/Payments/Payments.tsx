@@ -14,6 +14,7 @@ import { Chip } from "../../components/ui/Chip"; // Importing Chip for sorting
 import { Skeleton } from "../../components/ui/skeleton"; // Skeleton for loading state
 import BookingActions from "../MyBookings/BookingActions";
 import { useLocation } from "react-router-dom";
+import { Badge } from "../../components/ui/badge";
 
 // Define sort options with corresponding labels
 const sortOptions = [
@@ -23,6 +24,7 @@ const sortOptions = [
 ];
 
 const paymentTypeOptions = [
+  { value: "Aamar Pay", label: "Aamar Pay" },
   { value: "stripe", label: "Stripe" },
   { value: "cash", label: "Cash" },
 ];
@@ -109,7 +111,7 @@ const Payments = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 md:px-6 py-8">
+    <div className=" px-6 md:px-6 py-8">
       <h1 className="text-foreground text-2xl font-bold mb-6">My Payments</h1>
 
       <motion.div
@@ -209,12 +211,20 @@ const Payments = () => {
                       <TableCell>
                         {new Date(booking.endDate).toLocaleString()}
                       </TableCell>
-                      <TableCell>${booking.totalCost.toFixed(2)}</TableCell>
+                      <TableCell className="font-bold">${booking.totalCost.toFixed(2)}</TableCell>
                       <TableCell>
-                        {booking.completedPayment ? "Paid" : "Awaiting Payment"}
+                        {booking.completedPayment ? (
+                          <Badge variant="secondary">Paid</Badge>
+                        ) : (
+                          <Badge variant="destructive">Awaiting Payment</Badge>
+                        )}
                       </TableCell>
-                      <TableCell>
-                        {booking.completedPayment ? booking.paymentType : "N/A"}
+                      <TableCell className="capitalize">
+                        {booking.completedPayment ? (
+                          <Badge variant="outline">{booking.paymentType}</Badge>
+                        ) : (
+                          <Badge variant="destructive">N/A</Badge>
+                        )}
                       </TableCell>
                       <TableCell>
                         <BookingActions payment={true} booking={booking} />

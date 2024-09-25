@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../../components/ui/dialog";
+import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { Button } from "../../components/ui/button";
@@ -27,14 +28,21 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectLocation } from "../../redux/features/Map/mapSlice";
 import dayjs from "dayjs";
 import html2pdf from "html2pdf.js";
+import { useUser } from "../../hooks/useUser";
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PublishableKey);
 
 type BookingActionsProps = {
   booking: TBooking;
   payment?: boolean;
+  manageBookings?: boolean;
 };
 
-const BookingActions = ({ booking, payment }: BookingActionsProps) => {
+const BookingActions = ({
+  booking,
+  payment,
+  manageBookings,
+}: BookingActionsProps) => {
+  const { user } = useUser();
   const { tripTime } = useAppSelector(selectLocation);
   const { toastPromise } = useToastPromise();
   const [cancelBooking] = useDeleteBookingMutation();
@@ -48,6 +56,7 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
   const printRef = useRef<HTMLDivElement>(null);
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   const [selectedFeatures, setSelectedFeatures] = useState<
     { label: string; price: number }[]
   >([]);
@@ -104,7 +113,12 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
     },
     {
       name: "Stripe",
-      description: "Pay using credit/debit card via Stripe",
+      description: "Pay using credit/debit card via Stripe.",
+    },
+    {
+      name: "Aamar Pay",
+      description:
+        "Pay using credit/debit/bKash/Rocket/Nagad card via Aamar Pay (A Bangladeshi payment gateway).",
     },
   ];
 
@@ -114,16 +128,33 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
 
   const handleConfirmPayment = async (cost: number) => {
     setPaymentSecret("");
+    setDisableButton(true);
     if (selectedPaymentMethod === "Cash") {
       console.log("Processing cash payment...");
     } else if (selectedPaymentMethod === "Stripe") {
       const data = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/create-payment-intent`,
+        `${import.meta.env.VITE_BASE_URL}/pay/create-payment-intent-stripe`,
         { price: cost },
         { withCredentials: true }
       );
       setStripeDialogOpen(true);
       setPaymentSecret(data.data.clientSecret);
+    } else if (selectedPaymentMethod === "Aamar Pay") {
+      const data = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/pay/create-payment-intent-aamarpay`,
+        {
+          price: cost,
+          _id: booking._id,
+          user: { name: user?.name, email: user?.email, phone: user?.phone },
+        },
+        { withCredentials: true }
+      );
+
+      if (data?.data?.payment_url) {
+        window.location.href = data.data.payment_url;
+      } else {
+        setDisableButton(false);
+      }
     }
   };
 
@@ -184,17 +215,14 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
     if (printRef.current) {
       const invoiceContent = printRef.current.innerHTML;
 
-   
       const tempDiv = document.createElement("div") as HTMLElement;
       tempDiv.innerHTML = invoiceContent;
 
-    
       tempDiv.style.background = "white";
       tempDiv.style.color = "black";
       tempDiv.style.fontFamily = "Arial, sans-serif";
-      tempDiv.style.overflow = "hidden"; 
-      tempDiv.style.padding = "20px"; 
-
+      tempDiv.style.overflow = "hidden";
+      tempDiv.style.padding = "20px";
 
       const opt = {
         margin: 0.5,
@@ -208,21 +236,21 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
     }
   };
 
-
-
   return (
     <>
       <div
         onClick={() => setShowDatePicker(false)}
-        className={`${!payment && "mt-4"} space-x-4 self-end`}
+        className={`${
+          !payment && !manageBookings && "mt-4"
+        } flex justify-end items-center space-x-4 `}
       >
-        {booking.status === "rejected" ? (
+        {booking.status === "rejected" && !manageBookings ? (
           <h1 className="bg-primary text-white p-2 rounded-xl uppercase">
             Booking has been rejected
           </h1>
         ) : (
           <>
-            {!payment && (
+            {!manageBookings && !payment && (
               <>
                 {/* Modify Button */}
                 <Button
@@ -236,7 +264,7 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
                 {/* Cancel Button */}
                 <Button
                   disabled={booking.status !== "pending"}
-                  className="px-4 py-2 rounded-lg font-semibold shadow-lg !bg-primary !text-white"
+                  className=" font-semibold shadow-lg !bg-primary !text-white"
                   onClick={() => setCancelDialogOpen(true)}
                 >
                   Cancel
@@ -244,17 +272,21 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
               </>
             )}
 
+            {/* Payment Button (only if approved) */}
+            {!manageBookings &&
+              booking.status === "approved" &&
+              !booking.completedPayment && (
+                <Button onClick={() => setPaymentOpen(true)}>
+                  Make Payment
+                </Button>
+              )}
             <Button
               onClick={handlePrintInvoice}
-              className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg"
+              variant="outline"
+              className="text-foreground text-2xl"
             >
-              Invoice
+              <LiaFileInvoiceSolid />
             </Button>
-
-            {/* Payment Button (only if approved) */}
-            {booking.status === "approved" && !booking.completedPayment && (
-              <Button onClick={() => setPaymentOpen(true)}>Make Payment</Button>
-            )}
           </>
         )}
       </div>
@@ -320,7 +352,7 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
             {/* Confirm Payment Button */}
             <div className="mt-6">
               <Button
-                disabled={selectedPaymentMethod === "Cash"}
+                disabled={selectedPaymentMethod === "Cash" || disableButton}
                 className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${
                   selectedPaymentMethod === "Cash"
                     ? "bg-gray-500 dark:bg-gray-600 cursor-not-allowed"
@@ -451,8 +483,6 @@ const BookingActions = ({ booking, payment }: BookingActionsProps) => {
       </Dialog>
       <Dialog open={printDialogOpen} onOpenChange={setPrintDialogOpen}>
         <DialogContent className="overflow-y-auto max-h-screen">
-      
-
           {/* Styled Invoice Format */}
           <div ref={printRef} className="text-foreground ">
             <div className="text-center mb-6">

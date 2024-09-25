@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetMyBookingsQuery } from "../../redux/features/Booking/bookingApi";
 import ImageWithBlurHash from "../../components/ImageWithBlurHash/ImageWithBlurHash";
 import { motion } from "framer-motion";
@@ -46,6 +46,11 @@ const MyBookings = () => {
       }
     }
   );
+
+  useEffect(()=>{
+     window.scrollTo({ top: 0, behavior: "smooth" });
+  },[])
+
 
   // Loading state
   if (isLoading) {
@@ -173,9 +178,13 @@ const MyBookings = () => {
                     >
                       <span className="capitalize">{booking.status}</span>
                     </p>
-                  
-                      <span className="text-foreground bg-primary/80 px-1 text-xs rounded-xl">{booking.completedPayment && "PAID"}</span>
-                
+
+                    {booking.completedPayment &&
+                      <span className="text-foreground bg-primary/80 px-1 text-xs rounded-xl">
+                        PAID
+                      </span>
+                    }
+
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2 leading-relaxed">
                       {booking.carId.description}
                     </p>

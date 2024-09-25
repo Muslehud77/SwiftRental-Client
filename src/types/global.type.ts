@@ -1,4 +1,5 @@
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
+import { TUser } from "../redux/features/auth/authSlice";
 
 export type TMeta = {
   total: number;
@@ -66,7 +67,7 @@ export type TQueryParams = { name: string; value: string | boolean | number  }[]
 
 export type TBooking = {
   _id: string;
-  user: string;
+  user: TUser | string;
   carId: TCar;
   origin: string;
   destination: string;
@@ -76,7 +77,7 @@ export type TBooking = {
   endDate: string;
   totalCost: number;
   additionalFeatures: { name: string; price: number }[];
-  paymentType: "cash"| "stripe";
+  paymentType: "cash"| "stripe" | "Aamar Pay";
   paymentId: string;
   completedPayment: boolean;
   createdAt: string;
