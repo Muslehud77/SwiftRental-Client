@@ -227,7 +227,7 @@ export default function ManageBookings() {
                   <Badge
                     variant={getPaymentBadgeVariant(booking.completedPayment)}
                   >
-                    {booking.completedPayment ? "Paid" : "Pending"}
+                    {booking.completedPayment ? "Paid" : booking.status ==="rejected" ? "N/A" : "Pending"}
                   </Badge>
                 </TableCell>
                 <TableCell className="capitalize">

@@ -19,6 +19,7 @@ import BookingActions from "../MyBookings/BookingActions";
 import { FiCheckCircle, FiStopCircle, FiXCircle } from "react-icons/fi";
 import { useToastPromise } from "../../hooks/useToastPromise";
 import { useUpdateStatusMutation } from "../../redux/features/Booking/bookingApi";
+import { useReturnCarMutation } from "../../redux/features/Car/carApi";
 
 type BookingStatusProps = {
   booking: TBooking;
@@ -27,9 +28,16 @@ type BookingStatusProps = {
 const BookingStatusHandler = ({ booking }: BookingStatusProps) => {
   const { toastPromise } = useToastPromise();
   const [updateStatus] = useUpdateStatusMutation();
+  const [endTrip] = useReturnCarMutation()
 
-  const handleEndTrip = (bookingId: string) => {
-    // Logic to end the trip
+  const handleEndTrip = async (bookingId: string) => {
+  const res =  await toastPromise(
+      endTrip,
+      { _id: bookingId,endDate:"habijabi",paymentType:"cash",paymentId:"string" },
+      "Ending the trip..."
+    );
+
+    console.log(res)
   };
 
   const handleStatusChange = async (
@@ -38,7 +46,7 @@ const BookingStatusHandler = ({ booking }: BookingStatusProps) => {
   ) => {
     await toastPromise(
       updateStatus,
-      { data: { status,_id:bookingId }},
+      { status, _id: bookingId },
       "Changing the status",
       "Status updated.."
     );
