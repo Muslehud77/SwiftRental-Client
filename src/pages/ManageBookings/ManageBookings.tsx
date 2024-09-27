@@ -219,7 +219,7 @@ export default function ManageBookings() {
                   ${booking.totalCost.toFixed(2)}
                 </TableCell>
                 <TableCell>
-                  <Badge variant={getStatusBadgeVariant(booking.status)}>
+                  <Badge className="capitalize" variant={getStatusBadgeVariant(booking.status)}>
                     {booking.status}
                   </Badge>
                 </TableCell>

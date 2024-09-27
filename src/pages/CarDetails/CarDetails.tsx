@@ -36,7 +36,7 @@ export default function CarDetails() {
 
   const [startDate, endDate] = tripTime;
 
-  let tripDuration = dayjs(endDate).isAfter(dayjs(startDate))
+  const tripDuration = dayjs(endDate).isAfter(dayjs(startDate))
     ? dayjs(endDate).diff(dayjs(startDate), "hour")
     : 0;
 

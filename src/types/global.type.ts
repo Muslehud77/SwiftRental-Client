@@ -73,8 +73,8 @@ export type TBooking = {
   destination: string;
   drivingLicense: string;
   nidOrPassport: string;
-  startDate: string;
-  endDate: string;
+  startDate: string | Date;
+  endDate: string | Date;
   totalCost: number;
   additionalFeatures: { name: string; price: number }[];
   paymentType: "cash"| "stripe" | "Aamar Pay";
