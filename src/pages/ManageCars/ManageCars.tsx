@@ -27,7 +27,9 @@ export default function ManageCars() {
         <title>Dashboard | Manage Cars</title>
       </Helmet>
       <div className="mb-6 space-y-5">
-        <h1 className="text-3xl font-semibold">Manage Cars</h1>
+        <h1 className="text-2xl font-bold text-foreground mb-6">
+          Manage Cars
+        </h1>
 
         <div className="w-full grid grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
           {isLoading || isError ? (
@@ -39,10 +41,10 @@ export default function ManageCars() {
               {cars?.map((car) => (
                 <ManageProductCard key={car._id} car={car} />
               ))}
-              <Paginate meta={meta} setPage={setPage} />
             </>
           )}
         </div>
+        {!isLoading || (!isError && <Paginate meta={meta} setPage={setPage} />)}
       </div>
     </div>
   );

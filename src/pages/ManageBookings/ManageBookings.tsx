@@ -1,14 +1,9 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useGetAllBookingsQuery } from "../../redux/features/Booking/bookingApi";
-import { Button } from "../../components/ui/button";
+
 import { Badge } from "../../components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-} from "../../components/ui/tooltip";
-import { FiCheckCircle, FiXCircle, FiStopCircle } from "react-icons/fi";
+
 import {
   Table,
   TableHeader,
@@ -17,7 +12,7 @@ import {
   TableBody,
   TableHead,
 } from "../../components/ui/table";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
+
 import {
   Select,
   SelectContent,
@@ -25,11 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import BookingActions from "../MyBookings/BookingActions";
+
 import { TMeta, TQueryParams } from "../../types/global.type";
 import { TUser } from "../../redux/features/auth/authSlice";
 import { Paginate } from "../../components/Pagination/Pagination";
 import { Skeleton } from "../../components/ui/skeleton";
+import BookingStatusHandler from "./BookingStatus";
 
 export default function ManageBookings() {
   const [page, setPage] = useState(1);
@@ -56,16 +52,7 @@ export default function ManageBookings() {
   const { data, isLoading, isError, refetch } =
     useGetAllBookingsQuery(queryParams);
   const bookings = data?.data || [];
-  const meta = data?.meta || {} as TMeta;
-  // Function to handle status change
-  const handleStatusChange = (bookingId: string, newStatus: string) => {
-    console.log(`Change status for booking ${bookingId} to ${newStatus}`);
-  };
-
-  // Function to end trip
-  const handleEndTrip = (bookingId: string) => {
-    console.log(`End trip for booking ${bookingId}`);
-  };
+  const meta = data?.meta || ({} as TMeta);
 
   // Badge variant logic
   const getStatusBadgeVariant = (status: string) => {
@@ -87,28 +74,30 @@ export default function ManageBookings() {
     return isPaid ? "default" : "secondary";
   };
 
-   if (isError) {
-     return (
-       <div className="p-6 text-center">
-         <h2 className="text-xl font-bold text-red-600">
-           Something went wrong!
-         </h2>
-         <button
-           className="mt-4 px-4 py-2 bg-primary text-white rounded-md shadow-md hover:bg-primary-dark transition"
-           onClick={refetch}
-         >
-           Retry
-         </button>
-       </div>
-     );
-   }
+  if (isError) {
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-xl font-bold text-red-600">
+          Something went wrong!
+        </h2>
+        <button
+          className="mt-4 px-4 py-2 bg-primary text-white rounded-md shadow-md hover:bg-primary-dark transition"
+          onClick={refetch}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 text-foreground">
       <Helmet>
         <title>Dashboard | Manage Bookings</title>
       </Helmet>
-      <h1 className="text-2xl font-bold text-foreground mb-4">My Bookings</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">
+        Manage Bookings
+      </h1>
 
       {/* Filters */}
       <div className="flex gap-4 mb-6">
@@ -249,60 +238,7 @@ export default function ManageBookings() {
                   )}
                 </TableCell>
                 <TableCell>
-                  <TooltipProvider>
-                    <div className="flex gap-2 justify-end">
-                      {booking.status === "approved" && (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              onClick={() => handleEndTrip(booking._id)}
-                              className="text-xl"
-                              variant="outline"
-                            >
-                              {new Date(booking.endDate) > new Date() ? (
-                                <FiStopCircle />
-                              ) : (
-                                <FiStopCircle className="text-red-500 animate-pulse" />
-                              )}
-                              <span className="sr-only">End Trip</span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>End Trip?</TooltipContent>
-                        </Tooltip>
-                      )}
-
-                      {booking.status === "pending" && (
-                        <>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                onClick={() =>
-                                  handleStatusChange(booking._id, "approved")
-                                }
-                              >
-                                <FiCheckCircle className="text-xl" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Approve?</TooltipContent>
-                          </Tooltip>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                onClick={() =>
-                                  handleStatusChange(booking._id, "rejected")
-                                }
-                                variant="destructive"
-                              >
-                                <FiXCircle className="text-xl" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Reject?</TooltipContent>
-                          </Tooltip>
-                        </>
-                      )}
-                      <BookingActions manageBookings={true} booking={booking} />
-                    </div>
-                  </TooltipProvider>
+                  <BookingStatusHandler booking={booking} />
                 </TableCell>
               </TableRow>
             ))
