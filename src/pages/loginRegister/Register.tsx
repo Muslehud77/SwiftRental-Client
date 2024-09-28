@@ -20,6 +20,8 @@ interface RegisterFormInputs {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
+  phone?: string; // Optional
   image: FileList;
 }
 
@@ -31,7 +33,9 @@ const Register = () => {
   } = useForm<RegisterFormInputs>();
   const [showPassword, setShowPassword] = useState(false);
   const [imageData, setImageData] = useState<File | null>(null);
-  const [imageLink, setImageLink] = useState("");
+  const [imageLink, setImageLink] = useState<{ url: string; blurHash: string } | {}>(
+    {}
+  );
   const [error, setError] = useState("");
 
   const [signUp, { isLoading }] = useSignUpMutation();
@@ -40,12 +44,21 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     setError("");
+
+      if (data.password !== data.confirmPassword) {
+        setError("Passwords do not match!");
+        return;
+      }
+
     const { name, email, password } = data;
 
-    let image = imageLink;
+    let image = imageLink as unknown as { url: string; blurHash: string|null };
 
     if (imageData && !imageLink) {
-      image = await sendImageToBB(imageData as File);
+      image = (await sendImageToBB(imageData as File)) as {
+        url: string;
+        blurHash: string | null;
+      };
       setImageLink(image);
     }
 
@@ -95,25 +108,27 @@ const Register = () => {
   };
 
   return (
-    <div className="flex relative items-center justify-center min-h-screen bg-secondary text-foreground">
+    <div className="flex relative items-center justify-center min-h-screen  text-white">
       <Helmet>
         <title>SwiftRental | Register</title>
       </Helmet>
       <Link to={"/"} className="absolute left-10 top-10 text-2xl">
         <IoMdHome />
       </Link>
-      <Card className="w-full max-w-2xl flex flex-col md:flex-row shadow-lg gap-8 p-6 md:p-8 lg:p-12">
+      <Card className="w-full max-w-2xl flex flex-col md:flex-row shadow-lg gap-8 p-6 md:p-8 bg-zinc-700/10 backdrop-blur-xl text-white">
         <div className="flex-1 space-y-6">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold">Create an Account</h1>
-            <p className="text-muted-foreground">
-              Get started by filling out the form below.
-            </p>
+            <p>Get started by filling out the form below.</p>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 text-white"
+          >
             <div className="space-y-2 relative">
               <Label htmlFor="name">Name</Label>
               <Input
+                className="text-foreground"
                 id="name"
                 placeholder="Enter your name"
                 {...register("name", {
@@ -133,6 +148,7 @@ const Register = () => {
             <div className="space-y-2 relative">
               <Label htmlFor="email">Email</Label>
               <Input
+                className="text-foreground"
                 id="email"
                 type="email"
                 placeholder="Enter your email"
@@ -150,10 +166,20 @@ const Register = () => {
                 </p>
               )}
             </div>
+            <div className="space-y-2 relative">
+              <Label htmlFor="phone">Phone Number (optional)</Label>
+              <Input
+                className="text-foreground"
+                id="phone"
+                placeholder="Enter your phone number"
+                {...register("phone")}
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
+                  className="text-foreground"
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter a password"
@@ -178,6 +204,23 @@ const Register = () => {
                 </p>
               )}
             </div>
+            <div className="space-y-2 relative">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                className="text-foreground"
+                id="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                {...register("confirmPassword", {
+                  required: "Confirm Password is required",
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
             {error && (
               <p className="text-center text-red-500 font-semibold text-base">
                 {error}
@@ -186,9 +229,9 @@ const Register = () => {
             <Button disabled={isLoading} type="submit" className="w-full">
               Create Account
             </Button>
-            <p className="text-center text-muted-foreground">
+            <p className="text-center ">
               Have an account?{" "}
-              <Link to="/login" className="text-primary">
+              <Link to="/login" className="text-muted-foreground">
                 Login
               </Link>
             </p>
@@ -197,9 +240,7 @@ const Register = () => {
         <div className="flex-1 space-y-6">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold">Upload Profile Image</h2>
-            <p className="text-muted-foreground">
-              Choose an image to represent your account.
-            </p>
+            <p className="">Choose an image to represent your account.</p>
           </div>
           <div className="flex items-center justify-center bg-muted rounded-lg p-4 h-46 border">
             <Input
@@ -225,8 +266,8 @@ const Register = () => {
               ) : (
                 <>
                   {" "}
-                  <ImageIcon className="w-8 h-8 text-muted-foreground" />
-                  <span className="text-muted-foreground">Upload Image</span>
+                  <ImageIcon className="w-8 h-8 text-foreground" />
+                  <span className="text-foreground">Upload Image</span>
                 </>
               )}
             </label>

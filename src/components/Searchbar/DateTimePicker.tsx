@@ -13,11 +13,14 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { selectLocation, setTripTime } from "../../redux/features/Map/mapSlice";
 import { isMobile } from "../../utils/isMobile";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 type DateTimePickerProps = {
   showDatePicker: boolean;
   setShowDatePicker: (arg: boolean) => void;
   dates? : [Date,Date];
+  banner:boolean;
 };
 
 const today = new Date();
@@ -25,7 +28,8 @@ const today = new Date();
 const DateTimePicker = ({
   showDatePicker,
   setShowDatePicker,
-  dates
+  dates,
+  banner
 }: DateTimePickerProps) => {
   const { tripTime } = useAppSelector(selectLocation);
 
@@ -58,14 +62,16 @@ const DateTimePicker = ({
 
   return (
     <div onClick={(e) => e.stopPropagation()} className="space-y-2 w-full">
-      <Label className="font-semibold text-lg text-white">
-        <FaCalendarAlt className="inline-block text-primary mr-2" />
-        Set Trip Duration
-      </Label>
+      {!banner && (
+        <Label className="font-semibold text-lg text-white">
+          <FaCalendarAlt className="inline-block text-primary mr-2" />
+          Set Trip Duration
+        </Label>
+      )}
 
       <motion.div
         onClick={() => setShowDatePicker(!showDatePicker)}
-        className="relative z-20 flex gap-4 max-w-2xl p-3 border border-primary/20 rounded-lg bg-black/60  transition w-full"
+        className="relative z-20 flex items-center gap-4 max-w-2xl p-3 border border-primary/20 rounded-lg bg-black/60 transition w-full"
       >
         <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
           <FaClock className="text-primary" />
@@ -90,6 +96,14 @@ const DateTimePicker = ({
             </span>
           </p>
         </div>
+        {banner && (
+          <Link
+            to="/inventory"
+            className="text-white bg-muted/30  rounded-lg hover:scale-105  duration-300"
+          >
+            <Button variant={"ghost"}>Search</Button>
+          </Link>
+        )}
       </motion.div>
 
       <AnimatePresence initial={false}>

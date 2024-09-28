@@ -11,8 +11,8 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logos/black-without-branding.png";
-import whiteLogo from "../../assets/logos/white-without-branding.png";
+import logo from "../../assets/logos/dark_onlyLogo.png";
+import whiteLogo from "../../assets/logos/light_onlyLogo.png";
 import { IoMdHome } from "react-icons/io";
 import { Helmet } from "react-helmet-async";
 import { useTheme } from "../../components/ThemeProvider";
@@ -65,34 +65,34 @@ const LoginPage = () => {
   };
 
   return (
-    <motion.div className="flex text-foreground relative justify-center items-center min-h-screen bg-background px-4 py-12 sm:px-6 lg:px-8">
+    <motion.div className="flex text-white relative justify-center items-center min-h-screen px-4 py-12 sm:px-6 lg:px-8">
       <Helmet>
         <title>SwiftRental | Login</title>
       </Helmet>
       <Link to={"/"} className="absolute left-10 top-10 text-2xl">
         <IoMdHome />
       </Link>
-      <div className="mx-auto w-full max-w-md space-y-8">
+      <div className="mx-auto w-full max-w-md space-y-8 bg-zinc-700/10 backdrop-blur-xl p-8 border border-primary/20 rounded-xl">
         <div className="relative text-center space-y-4">
           <div className="flex flex-col justify-center items-center">
             <img
-              src={actualTheme === "dark" ? whiteLogo : logo}
+              src={actualTheme !== "dark" ? whiteLogo : logo}
               className="h-20"
             />
-            <h2 className="text-center mt-2 text-3xl font-bold tracking-tight text-foreground">
+            <h2 className="text-center mt-2 text-3xl font-bold tracking-tight ">
               Sign In
             </h2>
           </div>
 
           <p className="font-extralight text-sm">
-            Join us for an Adventure of a Lifetime – Sign In Now and Explore!
+            Join us for an Adventure of a Lifetime – Sign In Now and Ride!
           </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <Label
               htmlFor="email"
-              className="block text-sm font-medium text-muted-foreground"
+              className="block text-sm font-medium "
             >
               Email
             </Label>
@@ -123,7 +123,7 @@ const LoginPage = () => {
           <div>
             <Label
               htmlFor="password"
-              className="block text-sm font-medium text-muted-foreground"
+              className="block text-sm font-medium "
             >
               Password
             </Label>
@@ -164,16 +164,16 @@ const LoginPage = () => {
             Sign In
           </Button>
           <div className="text-center">
-            <a href="#" className="text-sm text-primary hover:text-primary/90">
+            <a href="#" className="text-sm text-black">
               Forgot your password?
             </a>
           </div>
           <div className="text-center mt-2">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm ">
               Don't have an account?{" "}
               <Link
                 to="/sign-up"
-                className="text-sm text-primary hover:text-primary/90"
+                className="text-sm text-muted hover:text-primary/90"
               >
                 Sign Up
               </Link>

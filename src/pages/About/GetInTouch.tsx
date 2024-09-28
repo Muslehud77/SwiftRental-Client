@@ -1,10 +1,10 @@
 const GetInTouch = () => {
   return (
-    <section className="bg-white text-foreground dark:bg-gray-900">
+    <section className="text-foreground bg-gray-900/50 backdrop-blur-xl">
       <div className="container px-6 py-12 mx-auto">
         <div className="grid grid-cols-1 gap-12 mt-10 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col items-center justify-center text-center">
-            <span className="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span className="p-3 text-primary rounded-full bg-blue-100/80 bg-gray-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -21,19 +21,19 @@ const GetInTouch = () => {
               </svg>
             </span>
 
-            <h2 className="mt-4 text-lg font-medium text-gray-800 dark:text-white">
+            <h2 className="mt-4 text-lg font-medium text-white">
               Email
             </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
+            <p className="mt-2  text-gray-400">
               Our friendly team is here to help.
             </p>
-            <p className="mt-2 text-blue-500 dark:text-blue-400">
+            <p className="mt-2 text-primary">
               support@SwiftRental.com
             </p>
           </div>
 
           <div className="flex flex-col items-center justify-center text-center">
-            <span className="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span className="p-3 text-primary rounded-full bg-blue-100/80 bg-gray-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -55,19 +55,19 @@ const GetInTouch = () => {
               </svg>
             </span>
 
-            <h2 className="mt-4 text-lg font-medium text-gray-800 dark:text-white">
+            <h2 className="mt-4 text-lg font-medium text-white">
               Office
             </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
+            <p className="mt-2  text-gray-400">
               Come say hello at our office HQ.
             </p>
-            <p className="mt-2 text-blue-500 dark:text-blue-400">
+            <p className="mt-2 text-primary">
               100 Smith Street Collingwood VIC 3066 AU
             </p>
           </div>
 
           <div className="flex flex-col items-center justify-center text-center">
-            <span className="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span className="p-3 text-primary rounded-full bg-blue-100/80 bg-gray-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -84,13 +84,13 @@ const GetInTouch = () => {
               </svg>
             </span>
 
-            <h2 className="mt-4 text-lg font-medium text-gray-800 dark:text-white">
+            <h2 className="mt-4 text-lg font-medium text-white">
               Phone
             </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
+            <p className="mt-2  text-gray-400">
               Mon-Fri from 8am to 5pm.
             </p>
-            <p className="mt-2 text-blue-500 dark:text-blue-400">
+            <p className="mt-2 text-primary">
               +1 (123) 456-7890
             </p>
           </div>

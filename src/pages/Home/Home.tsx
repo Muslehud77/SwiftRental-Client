@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 import LocomotiveScroll from "locomotive-scroll";
 import { useEffect, useRef } from "react";
+import Banner from "./Banner";
 
 const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -20,10 +21,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div ref={scrollContainerRef}>
+    <div
+      ref={scrollContainerRef}
+      className="bg-gray-900/50 backdrop-blur-xl"
+    >
       <Helmet>
         <title>SwiftRental</title>
       </Helmet>
+      <Banner />
     </div>
   );
 };

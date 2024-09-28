@@ -17,7 +17,7 @@ const MeetOurTeam = () => {
         Meet the dedicated team behind SwiftRental.
       </p>
       <div className="flex mt-6 justify-center">
-        <div className="w-16 h-1 rounded-full bg-foreground inline-flex"></div>
+        <div className="w-16 h-1 rounded-full bg-white inline-flex"></div>
       </div>
 
       <div className=" grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
@@ -30,18 +30,18 @@ const MeetOurTeam = () => {
                 alt=""
               />
 
-              <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
+              <h1 className="mt-4 text-2xl font-semibold text-gray-300 capitalize dark:text-white group-hover:text-white">
                 {member.name}
               </h1>
 
-              <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
+              <p className="mt-2 text-gray-100 capitalize dark:text-gray-300 group-hover:text-gray-300">
                 {member.role}
               </p>
 
               <div className="flex mt-3 -mx-2">
                 <a
                   href="#"
-                  className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+                  className="mx-2 text-2xl  dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-300 group-hover:text-white"
                   aria-label="Reddit"
                 >
                   <FaInstagramSquare />
@@ -49,7 +49,7 @@ const MeetOurTeam = () => {
 
                 <a
                   href="#"
-                  className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+                  className="mx-2 text-2xl  dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-300 group-hover:text-white"
                   aria-label="Facebook"
                 >
                   <FaFacebook />
@@ -57,7 +57,7 @@ const MeetOurTeam = () => {
 
                 <a
                   href="#"
-                  className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+                  className="mx-2 text-2xl  dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-300 group-hover:text-white"
                   aria-label="Github"
                 >
                   <FaWhatsapp />
