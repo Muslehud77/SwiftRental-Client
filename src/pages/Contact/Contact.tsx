@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useTheme } from "../../components/ThemeProvider";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
@@ -7,6 +8,9 @@ const Contact = () => {
 
   return (
     <div className=" body-font relative text-foreground ">
+      <Helmet>
+        <title>SwiftRental | Contact</title>
+      </Helmet>
       <div className="absolute inset-0 bg-gray-300">
         <iframe
           className={`hover:opacity-100 duration-500 ${
@@ -24,7 +28,7 @@ const Contact = () => {
           <h2 className=" text-2xl mb-1 font-light title-font">Feedback</h2>
           <p className="leading-relaxed mb-5 font-extralight">
             Your feedback helps us improve our products and services. Please let
-            us know about your experience with AdventureAlly.com. We appreciate
+            us know about your experience with SwiftRental.com. We appreciate
             your thoughts and suggestions!
           </p>
           <div className="relative mb-4">

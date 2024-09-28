@@ -6,12 +6,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { Link, useLocation } from "react-router-dom";
-import {  useAppDispatch, useAppSelector } from "../../redux/hooks";
-import {  logout, selectAuthUser } from "../../redux/features/auth/authSlice";
 
-import {Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Link, useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout, selectAuthUser } from "../../redux/features/auth/authSlice";
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getInitials } from "../../utils/getInitialsForUserName";
 import ImageWithBlurHash from "../ImageWithBlurHash/ImageWithBlurHash";
 
@@ -20,57 +20,47 @@ type UserProps = {
 };
 
 const User = ({ isDashboard }: UserProps) => {
-    const dispatch = useAppDispatch()
-    const {pathname} = useLocation()
-    
-    const user = useAppSelector(selectAuthUser)
+  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
 
-   
-
- 
+  const user = useAppSelector(selectAuthUser);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <button className="flex justify-center items-center gap-2 userPill  p-1 rounded-full bg-transparent">
           <Avatar>
-            {
-              user?.image?.url ?  <ImageWithBlurHash
-              src={user?.image?.url as string}
-              blurHash={user?.image?.blurHash}
-              object="contain"
-              className="rounded-full size-10 object-contain bg-black "
-              />: 
-            <AvatarFallback className="!text-foreground">{getInitials(user?.name as string)}</AvatarFallback>
-            }
-         
-           
+            {user?.image?.url ? (
+              <ImageWithBlurHash
+                src={user?.image?.url as string}
+                blurHash={user?.image?.blurHash}
+                object="contain"
+                className="rounded-full size-10 object-contain bg-black "
+              />
+            ) : (
+              <AvatarFallback className="!text-foreground">
+                {getInitials(user?.name as string)}
+              </AvatarFallback>
+            )}
           </Avatar>
-        </Button>
+          <h1 className="text-white">{user?.name}</h1>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align={isDashboard ? "start" : "end"}>
         <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          {pathname.includes("dashboard") ? (
-            <Link to="/" className="w-full">
-              Home
-            </Link>
-          ) : (
-            <Link to="/dashboard" className="w-full">
-              Dashboard
-            </Link>
-          )}
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link
-            className="w-full"
-            to="/"
-           onClick={()=>dispatch(logout())}
-          >
-            Logout
+        {pathname.includes("dashboard") ? (
+          <Link to="/" className="w-full">
+            <DropdownMenuItem>Home</DropdownMenuItem>
           </Link>
-        </DropdownMenuItem>
+        ) : (
+          <Link to="/dashboard" className="w-full">
+            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+          </Link>
+        )}
+        <Link className="w-full" to="/" onClick={() => dispatch(logout())}>
+          <DropdownMenuItem>Logout</DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

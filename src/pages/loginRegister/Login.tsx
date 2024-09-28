@@ -16,7 +16,7 @@ import whiteLogo from "../../assets/logos/white-without-branding.png";
 import { IoMdHome } from "react-icons/io";
 import { Helmet } from "react-helmet-async";
 import { useTheme } from "../../components/ThemeProvider";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface LoginFormInputs {
   email: string;
@@ -24,16 +24,14 @@ interface LoginFormInputs {
 }
 
 const LoginPage = () => {
-
-  
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>({
     // defaultValues: { email: "sheikmuslehud@gmail.com", password: "hello123" },
-  });``
+  });
+  ``;
 
   const { actualTheme } = useTheme();
 
@@ -69,7 +67,7 @@ const LoginPage = () => {
   return (
     <motion.div className="flex text-foreground relative justify-center items-center min-h-screen bg-background px-4 py-12 sm:px-6 lg:px-8">
       <Helmet>
-        <title>AdventureAlly | Login</title>
+        <title>SwiftRental | Login</title>
       </Helmet>
       <Link to={"/"} className="absolute left-10 top-10 text-2xl">
         <IoMdHome />

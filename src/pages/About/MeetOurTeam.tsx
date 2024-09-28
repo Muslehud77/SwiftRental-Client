@@ -11,72 +11,69 @@ import {
 
 const MeetOurTeam = () => {
   return (
-    <section className="bg-background text-foreground">
-      <div className="text-center py-10 container mx-auto">
-        
-        <h1 className="text-3xl md:text-5xl font-light  mb-4">Meet Our Team</h1>
-        <p className="text-xl font-light leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
-          Meet the dedicated team behind AdventureAlly.
-        </p>
-        <div className="flex mt-6 justify-center">
-          <div className="w-16 h-1 rounded-full bg-foreground inline-flex"></div>
-        </div>
-
-        <div className=" grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
-          {team.map((member) => (
-            <Drawer>
-              <DrawerTrigger className="flex flex-col items-center p-8 transition-colors duration-300 transform group hover:bg-primary rounded-xl">
-                <img
-                  className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300"
-                  src={member.photo}
-                  alt=""
-                />
-
-                <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                  {member.name}
-                </h1>
-
-                <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                  {member.role}
-                </p>
-
-                <div className="flex mt-3 -mx-2">
-                  <a
-                    href="#"
-                    className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
-                    aria-label="Reddit"
-                  >
-                    <FaInstagramSquare />
-                  </a>
-
-                  <a
-                    href="#"
-                    className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
-                    aria-label="Facebook"
-                  >
-                    <FaFacebook />
-                  </a>
-
-                  <a
-                    href="#"
-                    className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
-                    aria-label="Github"
-                  >
-                    <FaWhatsapp />
-                  </a>
-                </div>
-              </DrawerTrigger>
-              <DrawerContent className="text-foreground">
-                <DrawerHeader>
-                  <DrawerTitle>{member.name}</DrawerTitle>
-                  <DrawerDescription>{member.bio}</DrawerDescription>
-                </DrawerHeader>
-              </DrawerContent>
-            </Drawer>
-          ))}
-        </div>
+    <div className="text-center py-10 container mx-auto text-white">
+      <h1 className="text-3xl md:text-5xl font-light  mb-4">Meet Our Team</h1>
+      <p className="text-xl font-light leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
+        Meet the dedicated team behind SwiftRental.
+      </p>
+      <div className="flex mt-6 justify-center">
+        <div className="w-16 h-1 rounded-full bg-foreground inline-flex"></div>
       </div>
-    </section>
+
+      <div className=" grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
+        {team.map((member) => (
+          <Drawer>
+            <DrawerTrigger className="flex flex-col items-center p-8 transition-colors duration-300 transform group hover:bg-primary rounded-xl">
+              <img
+                className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300"
+                src={member.photo}
+                alt=""
+              />
+
+              <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
+                {member.name}
+              </h1>
+
+              <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
+                {member.role}
+              </p>
+
+              <div className="flex mt-3 -mx-2">
+                <a
+                  href="#"
+                  className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+                  aria-label="Reddit"
+                >
+                  <FaInstagramSquare />
+                </a>
+
+                <a
+                  href="#"
+                  className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+                  aria-label="Facebook"
+                >
+                  <FaFacebook />
+                </a>
+
+                <a
+                  href="#"
+                  className="mx-2 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+                  aria-label="Github"
+                >
+                  <FaWhatsapp />
+                </a>
+              </div>
+            </DrawerTrigger>
+            <DrawerContent className="text-foreground">
+              <DrawerHeader>
+                <DrawerTitle>{member.name}</DrawerTitle>
+                <DrawerDescription>{member.bio}</DrawerDescription>
+              </DrawerHeader>
+            </DrawerContent>
+          </Drawer>
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -87,7 +84,7 @@ export const team = [
     name: "John Smith",
     role: "Founder & CEO",
     photo: "https://i.postimg.cc/cLp8Tj6F/man1.webp",
-    bio: "John is a seasoned outdoor enthusiast with over 20 years of camping experience. He founded AdventureAlly to share his passion and knowledge with fellow adventurers.",
+    bio: "John is a seasoned outdoor enthusiast with over 20 years of camping experience. He founded SwiftRental to share his passion and knowledge with fellow adventurers.",
   },
   {
     name: "Jane Doe",

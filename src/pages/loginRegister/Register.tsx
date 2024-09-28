@@ -63,10 +63,10 @@ const Register = () => {
           throw new Error(res?.error?.data?.message);
         }
 
-        console.log(res)
+        console.log(res);
 
         dispatch(signIn({ user: res?.data?.data, token: res?.data?.token }));
-        
+
         return (
           <p className="font-bold text-gray-500">
             {res?.data?.data?.name} Welcome!
@@ -97,7 +97,7 @@ const Register = () => {
   return (
     <div className="flex relative items-center justify-center min-h-screen bg-secondary text-foreground">
       <Helmet>
-        <title>AdventureAlly | Register</title>
+        <title>SwiftRental | Register</title>
       </Helmet>
       <Link to={"/"} className="absolute left-10 top-10 text-2xl">
         <IoMdHome />

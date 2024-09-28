@@ -69,7 +69,7 @@ const DateTimePicker = ({
       >
         <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
           <FaClock className="text-primary" />
-          <p className=" dark:text-slate-400">
+          <p className="text-white dark:text-slate-400">
             Pick-up:{" "}
             <span className="font-semibold text-primary">
               {dayjs(tripTime[0] as unknown as Date).format(
@@ -81,7 +81,7 @@ const DateTimePicker = ({
 
         <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
           <FaClock className="text-primary" />
-          <p className=" dark:text-slate-400">
+          <p className="text-white dark:text-slate-400">
             Return:{" "}
             <span className="font-semibold text-primary">
               {dayjs(tripTime[1] as unknown as Date).format(

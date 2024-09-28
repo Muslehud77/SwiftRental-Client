@@ -63,7 +63,9 @@ export default function Dashboard() {
   return (
     <div className="flex gap-5 min-h-screen w-full bg-background ">
       <div
-        className={`${open ? "w-56" : "w-0  md:w-16"} absolute md:static duration-500`}
+        className={`${
+          open ? "w-56" : "w-0  md:w-16"
+        } absolute md:static duration-500`}
       >
         <aside
           ref={dashNavContainer}
@@ -86,13 +88,12 @@ export default function Dashboard() {
             <NavRoutes open={open} setOpen={setOpen} />
           </div>
           <div className="flex justify-between items-center">
-            <User isDashboard={true} />
             {isMobile() && <SidebarOpener open={open} setOpen={setOpen} />}
           </div>
         </aside>
       </div>
       <div className="w-full">
-        <div className={`w-full flex  items-end p-1 justify-between`}>
+        <div className={`w-full flex  items-end justify-between px-5 pt-5`}>
           {isMobile() ? (
             !open ? (
               <SidebarOpener open={open} setOpen={setOpen} />
@@ -103,7 +104,10 @@ export default function Dashboard() {
             <SidebarOpener open={open} setOpen={setOpen} />
           )}
 
-          <ThemeChanger />
+          <div className="flex items-center gap-4">
+            <ThemeChanger />
+            <User isDashboard={true} />
+          </div>
         </div>
         <div
           onClick={() => setOpen(false)}

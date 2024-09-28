@@ -15,6 +15,7 @@ import { adminDashboardRoutes } from "./AdminRoutes";
 import Dashboard from "../Layout/Dashboard/Dashboard";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -31,16 +32,16 @@ export const router = createBrowserRouter([
         element: <About />,
       },
       {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
         path: "/inventory",
         element: <Inventory />,
       },
       {
         path: "/car-details/:id",
         element: <CarDetails />,
-      },
-      {
-        path: "/add-product",
-        element: <AddCar />,
       },
     ],
   },

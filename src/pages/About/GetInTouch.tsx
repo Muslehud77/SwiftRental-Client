@@ -2,9 +2,6 @@ const GetInTouch = () => {
   return (
     <section className="bg-white text-foreground dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
-        
-       
-
         <div className="grid grid-cols-1 gap-12 mt-10 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col items-center justify-center text-center">
             <span className="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
@@ -31,7 +28,7 @@ const GetInTouch = () => {
               Our friendly team is here to help.
             </p>
             <p className="mt-2 text-blue-500 dark:text-blue-400">
-              support@adventureally.com
+              support@SwiftRental.com
             </p>
           </div>
 

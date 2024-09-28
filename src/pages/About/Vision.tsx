@@ -1,5 +1,3 @@
-
-
 const Vision = () => {
   return (
     <section className="bg-white dark:bg-gray-900 pb-10">
@@ -25,7 +23,7 @@ const Vision = () => {
               </h1>
 
               <p className="max-w-lg mt-6 text-gray-500 dark:text-gray-400">
-                "Hello, I'm John Smith, the Founder & CEO of AdventureAlly. Our
+                "Hello, I'm John Smith, the Founder & CEO of SwiftRental. Our
                 mission is to equip you with the highest quality camping gear
                 and accessories to ensure that your outdoor experiences are
                 safe, enjoyable, and unforgettable. We understand the importance

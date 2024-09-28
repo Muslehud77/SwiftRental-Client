@@ -80,6 +80,20 @@ background-attachment: fixed;
 background-size: cover;
 }
 
+.navbarBoxShadow{
+ box-shadow: rgba(110, 110, 110, 0.17) 0px -23px 25px 0px inset, rgba(92, 91, 91, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+}
+
+.navHoverPillActive{
+box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(250, 250, 250, 0.911) 0px 18px 36px -18px inset;
+}
+.navHoverPill{
+box-shadow:  1px 2px 8px hsl(0, 0%, 100%);
+}
+.userPill{
+box-shadow: rgba(110, 110, 110, 0.17) 0px -23px 25px 0px inset, rgba(92, 91, 91, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px;
+}
 
 ::-webkit-scrollbar {
   width: 4px;

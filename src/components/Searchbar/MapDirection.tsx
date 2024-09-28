@@ -127,7 +127,7 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
                         onBlur={(e) => setCurrentOrigin(e.target.value)}
                         defaultValue={destinationInfo.origin}
                         placeholder="Enter your origin"
-                        className="bg-transparent text-white placeholder-gray-400"
+                        className=" text-foreground placeholder-white"
                       />
                     </Autocomplete>
                     <Button
@@ -153,7 +153,7 @@ const MapDirection = ({ className }: TMapDirectionProps) => {
                       defaultValue={destinationInfo.destination}
                       id="destination"
                       placeholder="Enter your destination"
-                      className="bg-transparent text-white placeholder-gray-400"
+                      className=" text-foreground placeholder-white"
                     />
                   </Autocomplete>
                 </div>
