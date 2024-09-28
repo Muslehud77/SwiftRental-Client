@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import LocomotiveScroll from "locomotive-scroll";
 import { useEffect, useRef } from "react";
 import Banner from "./Banner";
+import Experience from "./Experience";
 
 const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -29,6 +30,7 @@ const Home = () => {
         <title>SwiftRental</title>
       </Helmet>
       <Banner />
+      <Experience/>
     </div>
   );
 };
