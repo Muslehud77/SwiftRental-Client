@@ -36,6 +36,15 @@ const bookingApi = baseApi.injectEndpoints({
       },
       providesTags: ["bookings"],
     }),
+    getDashboardStats: builder.query({
+      query: () => {
+        return {
+          url: "/bookings/dashboard-stats",
+          method: "GET",
+        };
+      },
+      providesTags: ["bookings","cars","users"],
+    }),
 
     modifyBooking: builder.mutation({
       query: ({ data, id }) => ({
@@ -72,6 +81,7 @@ const bookingApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetDashboardStatsQuery,
   useCreateBookingMutation,
   useGetMyBookingsQuery,
   useModifyBookingMutation,

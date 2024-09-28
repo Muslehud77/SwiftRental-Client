@@ -68,7 +68,7 @@ const BookingStatusHandler = ({ booking }: BookingStatusProps) => {
 
     setError(null); // Clear any previous errors
 
-    const res = await toastPromise(
+    await toastPromise(
       endTrip,
       data,
       "Ending the trip..."
@@ -76,7 +76,7 @@ const BookingStatusHandler = ({ booking }: BookingStatusProps) => {
 
     setPaymentConfirmation(false)
 
-    console.log(res);
+   
   };
 
   const handleStatusChange = async (

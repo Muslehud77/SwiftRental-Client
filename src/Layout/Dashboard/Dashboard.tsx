@@ -34,18 +34,18 @@ export default function Dashboard() {
     return () => clearTimeout(closeSidebar);
   }, []);
 
-  //  useGSAP(
-  //    () => {
-  //      dashNavContainer.current = gsap.timeline().from("a,button,hr", {
-  //        x: -200,
-  //        duration: 0.5,
-  //        delay: 0,
-  //        stagger: 0.1,
-  //        ease: "back.out(1.7)",
-  //      });
-  //    },
-  //    { scope: dashNavContainer }
-  //  );
+   useGSAP(
+     () => {
+       dashNavContainer.current = gsap.timeline().from("a,button,hr", {
+         x: -200,
+         duration: 0.5,
+         delay: 0,
+         stagger: 0.1,
+         ease: "back.out(1.7)",
+       });
+     },
+     { scope: dashNavContainer }
+   );
 
    const logo =
      actualTheme === "light"

@@ -96,6 +96,29 @@ background-size: cover;
   background: #b0b0b0;
 }
 
+@media print {
+  /* Hide elements that shouldn't appear in the print version */
+  .no-print {
+    display: none;
+  }
+
+  /* Ensure the layout is optimized for printing */
+  .grid {
+    display: block;
+  }
+
+  /* Adjust font sizes for better readability */
+  h1, h2, h3 {
+    font-size: 1.5em;
+  }
+
+  /* Ensure charts and other content fit within page margins */
+  .card, .chart-container {
+    width: 100%;
+    page-break-inside: avoid;
+  }
+}
+
 
 .rmdp-input{
   color: black
