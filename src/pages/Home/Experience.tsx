@@ -3,7 +3,7 @@ import image from "../../assets/Home/(2).png"
 
 const Experience = () => {
   return (
-    <div className="relative h-screen text-white  flex flex-col items-center gap-16 pt-20">
+    <div className=" text-white  flex flex-col items-center gap-16 pt-20">
       {/* Left side: Experience Info */}
       <div className="flex justify-between items-center w-full">
         <h2 className="pl-8 text-6xl font-bold text-white mt-4 uppercase italic">

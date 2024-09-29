@@ -4,6 +4,7 @@ import LocomotiveScroll from "locomotive-scroll";
 import { useEffect, useRef } from "react";
 import Banner from "./Banner";
 import Experience from "./Experience";
+import ExteriorDesignBanner from "./ExteriorDesign";
 
 const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -31,6 +32,7 @@ const Home = () => {
       </Helmet>
       <Banner />
       <Experience/>
+      <ExteriorDesignBanner/>
     </div>
   );
 };

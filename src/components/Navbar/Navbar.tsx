@@ -1,6 +1,7 @@
 import { ReactNode, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/logos/dark_mode_full.png";
+import desktopLogo from "../../assets/logos/dark_mode_full.png";
+import mobileLogo from "../../assets/logos/dark_onlyLogo.png"
 
 import { useUser } from "../../hooks/useUser";
 import { ThemeChanger } from "../ThemeChanger/ThemeChanger";
@@ -9,6 +10,7 @@ import { motion } from "framer-motion";
 import Headroom from "react-headroom";
 
 import User from "../User/User";
+import { isMobile } from "../../utils/isMobile";
 
 export default function Navbar() {
   const { user } = useUser();
@@ -27,15 +29,24 @@ export default function Navbar() {
   return (
     <Headroom>
       <header
-        className={`${pathname==='/' ? "absolute" : "relative"} z-20 flex w-full items-center justify-between p-5`}
+        className={`${
+          pathname === "/" ? "fixed" : "relative"
+        } z-20 flex w-full items-center justify-between p-5`}
       >
         <Link to="/" className="mr-6 flex items-center">
-          <img src={logo} className="w-44" alt="Logo" />
+          <img
+            src={isMobile() ? mobileLogo : desktopLogo}
+            className={isMobile() ? "w-10" : "w-44"}
+            alt="Logo"
+          />
           <span className="sr-only">SwiftRental</span>
         </Link>
 
         {/* Slide Tabs for Navigation */}
-        <motion.nav animate={{}} className="flex-grow flex justify-center">
+        <motion.nav
+          animate={{}}
+          className="hidden flex-grow md:flex justify-center"
+        >
           <ul
             onMouseLeave={() =>
               setPosition((prev) => ({ ...prev, opacity: 0 }))
@@ -70,6 +81,33 @@ export default function Navbar() {
           )}
         </div>
       </header>
+      <div className="flex md:hidden justify-center items-center relative">
+        <motion.nav
+          animate={{}}
+          className="absolute top-20 flex-grow flex justify-center"
+        >
+          <ul
+            onMouseLeave={() =>
+              setPosition((prev) => ({ ...prev, opacity: 0 }))
+            }
+            className="relative mx-auto flex w-fit rounded-full  p-1  navbarBoxShadow "
+          >
+            <Tab setPosition={setPosition} path="/">
+              Home
+            </Tab>
+            <Tab setPosition={setPosition} path="/inventory">
+              Inventory
+            </Tab>
+            <Tab setPosition={setPosition} path="/about">
+              About Us
+            </Tab>
+            <Tab setPosition={setPosition} path="/contact">
+              Contact
+            </Tab>
+            <Cursor position={position} />
+          </ul>
+        </motion.nav>
+      </div>
     </Headroom>
   );
 }
