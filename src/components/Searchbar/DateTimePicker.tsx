@@ -101,7 +101,7 @@ const DateTimePicker = ({
             to="/inventory"
             className="text-white bg-muted/30  rounded-lg hover:scale-105  duration-300 w-full py-3"
           >
-            <Button variant={"link"} className="w-full text-base">Book Now!</Button>
+            <Button variant={"link"} className="w-full text-base text-white">Book Now!</Button>
           </Link>
         )}
       </motion.div>

@@ -33,7 +33,7 @@ const ContactUs = () => {
               <p className="mt-2 text-sm text-white/80">
                 Our friendly team is here to help.
               </p>
-              <p className="mt-2 text-sm text-white dark:text-blue-400">
+              <p className="mt-2 text-sm text-gray-100">
                 support@SwiftRental.com
               </p>
             </div>
@@ -48,7 +48,7 @@ const ContactUs = () => {
               <p className="mt-2 text-sm text-white/80">
                 Our friendly team is here to help.
               </p>
-              <p className="mt-2 text-sm text-white dark:text-blue-400">
+              <p className="mt-2 text-sm text-gray-100">
                 Start new chat
               </p>
             </div>
@@ -61,7 +61,7 @@ const ContactUs = () => {
               <p className="mt-2 text-sm text-white/80">
                 Come say hello at our office HQ.
               </p>
-              <p className="mt-2 text-sm text-white dark:text-blue-400">
+              <p className="mt-2 text-sm text-gray-100">
                 100 Smith Street Collingwood VIC 3066 AU
               </p>
             </div>
@@ -74,7 +74,7 @@ const ContactUs = () => {
               <p className="mt-2 text-sm text-white/80">
                 Mon-Fri from 8am to 5pm.
               </p>
-              <p className="mt-2 text-sm text-white dark:text-blue-400">
+              <p className="mt-2 text-sm text-gray-100">
                 +1 (555) 000-0000
               </p>
             </div>

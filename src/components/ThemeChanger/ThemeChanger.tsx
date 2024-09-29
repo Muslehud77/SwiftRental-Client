@@ -14,7 +14,7 @@ export function ThemeChanger() {
   const { setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
@@ -23,8 +23,8 @@ export function ThemeChanger() {
         >
           <Palette className="w-6 h-6" />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      </DropdownMenuTrigger> 
+      <DropdownMenuContent align="end" >
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>

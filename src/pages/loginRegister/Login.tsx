@@ -90,10 +90,7 @@ const LoginPage = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <Label
-              htmlFor="email"
-              className="block text-sm font-medium "
-            >
+            <Label htmlFor="email" className="block text-sm font-medium ">
               Email
             </Label>
             <div className="mt-1 relative">
@@ -121,10 +118,7 @@ const LoginPage = () => {
             </div>
           </div>
           <div>
-            <Label
-              htmlFor="password"
-              className="block text-sm font-medium "
-            >
+            <Label htmlFor="password" className="block text-sm font-medium ">
               Password
             </Label>
             <div className="mt-1 relative">
@@ -164,7 +158,7 @@ const LoginPage = () => {
             Sign In
           </Button>
           <div className="text-center">
-            <a href="#" className="text-sm text-black">
+            <a href="#" className="text-sm text-gray-300">
               Forgot your password?
             </a>
           </div>
@@ -173,7 +167,7 @@ const LoginPage = () => {
               Don't have an account?{" "}
               <Link
                 to="/sign-up"
-                className="text-sm text-muted hover:text-primary/90"
+                className="text-sm text-gray-300 hover:text-primary/90"
               >
                 Sign Up
               </Link>

@@ -23,7 +23,6 @@ export default function Navbar() {
     opacity: 0,
   });
 
-  const {pathname} = useLocation()
 
 
   return (
@@ -77,7 +76,7 @@ export default function Navbar() {
           )}
         </div>
       </header>
-      <div className="flex md:hidden justify-center items-center relative">
+      <div className="flex md:hidden justify-center items-center">
         <motion.nav
           animate={{}}
           className={`flex-grow flex justify-center`}
@@ -86,7 +85,7 @@ export default function Navbar() {
             onMouseLeave={() =>
               setPosition((prev) => ({ ...prev, opacity: 0 }))
             }
-            className="relative mx-auto flex w-fit rounded-full  p-1  navbarBoxShadow "
+            className="= mx-auto flex w-fit rounded-full  p-1  navbarBoxShadow "
           >
             <Tab setPosition={setPosition} path="/">
               Home

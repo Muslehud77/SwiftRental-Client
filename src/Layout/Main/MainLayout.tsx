@@ -10,7 +10,7 @@ function MainLayout() {
 
   return (
     <div className=" flex flex-col min-h-screen ">
-      <div className="relative z-[999]">
+      <div className="relative z-[50]">
         <Navbar />
       </div>
       <div className={`flex-1 relative z-1 transition all duration-300 `}>
