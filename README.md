@@ -95,15 +95,6 @@ To access the admin dashboard, use the following credentials:
    ```sh
    npm run dev
    ```
-
-## Environment Variables
-To run this project, you will need to add the following environment variables to your `.env.local` file:
-
-```env
-VITE_IMAGEBB_API=ecf7491c6839d363c2db65bee778dd20
-VITE_BASE_URL=http://localhost:8000/api
-VITE_GOOGLE_MAP_API_KEY=AlzaSyfNWSQ-dt4xQgrlrgRRQ9uj55vW8xFsGqS
-VITE_Stripe_PublishableKey=pk_test_51OEXu1D9ylYrcBxx8F3FA0T9N3TO5HP5EZlPHefAwcrfqYpD5gg4wBTpkcwdwzZsDUZpJJsTEr4mfk40Q6nQ8IUA00dBcymxIi
 ```
 
 Feel free to explore and contribute to the project!
@@ -113,5 +104,3 @@ Feel free to explore and contribute to the project!
 Thank you for checking out SwiftRental! If you have any questions or feedback, feel free to reach out.
 
 ---
-
-Let me know if you need further adjustments!
