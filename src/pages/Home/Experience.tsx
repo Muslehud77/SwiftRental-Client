@@ -3,10 +3,10 @@ import image from "../../assets/Home/(2).png"
 
 const Experience = () => {
   return (
-    <div className=" text-white  flex flex-col items-center gap-16 pt-20">
+    <div className=" text-white bg-gray-800/50 flex flex-col items-center gap-16 md:pt-20">
       {/* Left side: Experience Info */}
-      <div className="flex justify-between items-center w-full">
-        <h2 className="pl-8 text-6xl font-bold text-white mt-4 uppercase italic">
+      <div className="pl-2 md:pl-0 flex flex-col gap-10 md:flex-row justify-between items-start md:items-center w-full">
+        <h2 className=" md:pl-8 text-5xl md:text-6xl font-bold text-white mt-4 uppercase italic">
           10+ YEARS <br /> EXPERIENCE
         </h2>
         <div>

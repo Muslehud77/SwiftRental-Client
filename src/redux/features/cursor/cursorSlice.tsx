@@ -2,12 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
 type TCursorControl = {
-  isBig : boolean;
-  defaultColor:boolean
-}
+  isBig: boolean;
+  defaultColor: boolean;
+};
 
-
-const initialState : TCursorControl = {
+const initialState: TCursorControl = {
   isBig: false,
   defaultColor: true,
 };
@@ -17,16 +16,14 @@ const cursorSlice = createSlice({
   initialState,
   reducers: {
     cursorControl: (state, action) => {
-     
-      
-    
-     
-        state.defaultColor = typeof action?.payload?.color === "boolean" ?  action?.payload?.color : true;
+      state.defaultColor =
+        typeof action?.payload?.color === "boolean"
+          ? action?.payload?.color
+          : true;
       state.isBig =
         typeof action?.payload?.size === "boolean"
           ? action?.payload?.size
           : false;
-     
     },
   },
 });

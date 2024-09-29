@@ -10,8 +10,10 @@ function MainLayout() {
 
   return (
     <div className=" flex flex-col min-h-screen ">
-      <Navbar />
-      <div className={`flex-1 transition all duration-300 `}>
+      <div className="relative z-[999]">
+        <Navbar />
+      </div>
+      <div className={`flex-1 relative z-1 transition all duration-300 `}>
         <AnimatePresence initial={false}>
           <Outlet />
         </AnimatePresence>

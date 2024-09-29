@@ -20,7 +20,7 @@ type DateTimePickerProps = {
   showDatePicker: boolean;
   setShowDatePicker: (arg: boolean) => void;
   dates? : [Date,Date];
-  banner:boolean;
+  banner?:boolean;
 };
 
 const today = new Date();
@@ -71,9 +71,9 @@ const DateTimePicker = ({
 
       <motion.div
         onClick={() => setShowDatePicker(!showDatePicker)}
-        className="relative z-20 flex items-center gap-4 max-w-2xl p-3 border border-primary/20 rounded-lg bg-black/60 transition w-full"
+        className="flex flex-col md:flex-row items-center gap-4 max-w-96 md:max-w-2xl p-3 border border-primary/20 rounded-lg bg-black/60 transition w-full"
       >
-        <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
+        <div className="flex justify-center w-full items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
           <FaClock className="text-primary" />
           <p className="text-white dark:text-slate-400">
             Pick-up:{" "}
@@ -85,7 +85,7 @@ const DateTimePicker = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
+        <div className="flex justify-center items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300 w-full">
           <FaClock className="text-primary" />
           <p className="text-white dark:text-slate-400">
             Return:{" "}
@@ -99,9 +99,9 @@ const DateTimePicker = ({
         {banner && (
           <Link
             to="/inventory"
-            className="text-white bg-muted/30  rounded-lg hover:scale-105  duration-300"
+            className="text-white bg-muted/30  rounded-lg hover:scale-105  duration-300 w-full py-3"
           >
-            <Button variant={"ghost"}>Search</Button>
+            <Button variant={"link"} className="w-full text-base">Book Now!</Button>
           </Link>
         )}
       </motion.div>
@@ -109,7 +109,7 @@ const DateTimePicker = ({
       <AnimatePresence initial={false}>
         {showDatePicker && (
           <motion.div
-            className="absolute z-[999]"
+            className="absolute z-10"
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -50, opacity: 0 }}

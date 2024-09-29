@@ -4,7 +4,7 @@ import Home from "../pages/Home/Home";
 import About from "../pages/About/About";
 import Inventory from "../pages/Inventory/Inventory";
 import CarDetails from "../pages/CarDetails/CarDetails";
-import AddCar from "../pages/AddCar/AddCar";
+
 import LoginPage from "../pages/loginRegister/Login";
 import Register from "../pages/loginRegister/Register";
 

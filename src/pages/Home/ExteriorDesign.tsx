@@ -3,17 +3,17 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const ExteriorDesignBanner = () => {
   return (
-    <div className="relative text-white flex flex-col lg:flex-row items-center justify-between gap-8">
+    <div className="relative text-white flex flex-col lg:flex-row items-center pt-20 md:pt-0 justify-between gap-8">
       {/* Left side: Text content */}
-      <div className="pl-8 lg:flex-1 space-y-6">
-        <h2 className="text-6xl font-bold text-white  uppercase italic">
+      <div className="pl-2 md:pl-8 lg:flex-1 space-y-6">
+        <h2 className="text-5xl md:text-6xl font-bold text-white  uppercase italic">
           SPORTY STYLE <br /> EXTERIOR DESIGN
         </h2>
 
         <div className="space-y-4">
           {/* Feature 1 */}
           <div className="flex items-start space-x-2">
-            <FaCheckCircle className="text-orange-500 size-16" />
+            <FaCheckCircle className="text-primary size-16" />
             <div>
               <h3 className="text-2xl font-bold">Smart, Beautiful Cars</h3>
               <p className="text-gray-300 w-3/4">
@@ -26,7 +26,7 @@ const ExteriorDesignBanner = () => {
 
           {/* Feature 2 */}
           <div className="flex items-start space-x-2">
-            <FaCheckCircle className="text-orange-500 size-16" />
+            <FaCheckCircle className="text-primary size-16" />
             <div>
               <h3 className="text-2xl font-bold">The Roads You Travel</h3>
               <p className="text-gray-300 w-3/4">
@@ -39,7 +39,7 @@ const ExteriorDesignBanner = () => {
 
           {/* Feature 3 */}
           <div className="flex items-start space-x-2">
-            <FaCheckCircle className="text-orange-500 size-16" />
+            <FaCheckCircle className="text-primary size-16" />
             <div>
               <h3 className="text-2xl font-bold">Who Lives for It</h3>
               <p className="text-gray-300 w-3/4">

@@ -28,11 +28,7 @@ export default function Navbar() {
 
   return (
     <Headroom>
-      <header
-        className={`${
-          pathname === "/" ? "fixed" : "relative"
-        } z-20 flex w-full items-center justify-between p-5`}
-      >
+      <header className={`flex w-full items-center justify-between p-5 h-full md:h-24`}>
         <Link to="/" className="mr-6 flex items-center">
           <img
             src={isMobile() ? mobileLogo : desktopLogo}
@@ -84,7 +80,7 @@ export default function Navbar() {
       <div className="flex md:hidden justify-center items-center relative">
         <motion.nav
           animate={{}}
-          className="absolute top-20 flex-grow flex justify-center"
+          className={`flex-grow flex justify-center`}
         >
           <ul
             onMouseLeave={() =>
@@ -125,7 +121,7 @@ const Tab = ({ children, setPosition, path }:{children:ReactNode,setPosition:(ar
         const { width } = ref.current.getBoundingClientRect();
         setPosition({ left: ref.current.offsetLeft, width, opacity: 1 });
       }}
-      className={`relative hover:text-white z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white transition-all duration-500 md:px-5 md:py-3 md:text-sm ${
+      className={`relative  z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white transition-all md:px-5 md:py-3 md:text-sm ${
         pathname === path
           ? "text-bold font-semibold navHoverPillActive rounded-full"
           : ""

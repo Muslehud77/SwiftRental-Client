@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import Banner from "./Banner";
 import Experience from "./Experience";
 import ExteriorDesignBanner from "./ExteriorDesign";
+import Category from "./Category";
 
 const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -33,6 +34,7 @@ const Home = () => {
       <Banner />
       <Experience/>
       <ExteriorDesignBanner/>
+      <Category/>
     </div>
   );
 };

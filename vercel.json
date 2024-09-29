@@ -1,0 +1,4 @@
+{
+  "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }],
+  "buildCommand": "echo 'skipping build with vercel.json'"
+}

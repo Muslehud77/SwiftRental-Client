@@ -20,8 +20,9 @@ const CarCard = ({ car }: CarCardProps) => {
       }}
       key={car._id}
       layoutId={car._id}
+      
     >
-      <CardContainer>
+      <CardContainer >
         <CardBody className="hover:border border-primary/30 w-full h-full md:h-80 bg-transparent backdrop-blur-lg  p-6 rounded-xl shadow-lg flex flex-col md:flex-row gap-8">
           {/* Car Image */}
           <CardItem
