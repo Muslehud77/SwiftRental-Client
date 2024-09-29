@@ -11,19 +11,15 @@ import {
 
 const MeetOurTeam = () => {
   return (
-    <div className="text-center py-10 container mx-auto text-white">
-      <h1 className="text-3xl md:text-5xl font-light  mb-4">Meet Our Team</h1>
-      <p className="text-xl font-light leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
-        Meet the dedicated team behind SwiftRental.
-      </p>
-      <div className="flex mt-6 justify-center">
-        <div className="w-16 h-1 rounded-full bg-white inline-flex"></div>
-      </div>
+    <div className=" py-10 px-8 mx-auto text-white">
+      <h1 className=" text-5xl md:text-6xl font-bold text-white mt-4 uppercase italic">
+        Meet Our Team
+      </h1>
 
       <div className=" grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
         {team.map((member) => (
           <Drawer>
-            <DrawerTrigger className="flex flex-col items-center p-8 transition-colors duration-300 transform group hover:bg-primary rounded-xl">
+            <DrawerTrigger className="flex flex-col items-center p-8 transition-colors duration-300 transform group border border-primary/20 backdrop-blur-xl bg-gray-900/50 hover:bg-primary rounded-xl">
               <img
                 className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300"
                 src={member.photo}

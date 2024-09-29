@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 
 import MeetOurTeam from "./MeetOurTeam";
-import scrollToTop from "../../utils/scrollToTop";
+
 import GetInTouch from "./GetInTouch";
 import Vision from "./Vision";
 import { Helmet } from "react-helmet-async";
 
 const About = () => {
   useEffect(() => {
-    scrollToTop();
+   window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   return (
@@ -17,9 +17,9 @@ const About = () => {
         <title>SwiftRental | About</title>
       </Helmet>
       <MeetOurTeam />
+      <GetInTouch />
       <Vision />
     
-      <GetInTouch />
     </div>
   );
 };

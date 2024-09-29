@@ -6,6 +6,8 @@ import Banner from "./Banner";
 import Experience from "./Experience";
 import ExteriorDesignBanner from "./ExteriorDesign";
 import Category from "./Category";
+import Testimonial from "./Testimonial";
+import Vision from "../About/Vision";
 
 const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -33,8 +35,10 @@ const Home = () => {
       </Helmet>
       <Banner />
       <Experience/>
-      <ExteriorDesignBanner/>
       <Category/>
+      <ExteriorDesignBanner/>
+      <Testimonial/>
+      <Vision/>
     </div>
   );
 };
