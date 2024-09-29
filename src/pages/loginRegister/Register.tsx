@@ -11,7 +11,7 @@ import { sendImageToBB } from "../../utils/sendImageToBB";
 import { useSignUpMutation } from "../../redux/features/auth/auth.api";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../../redux/hooks";
-import { signIn } from "../../redux/features/auth/authSlice";
+import { signIn, TUser } from "../../redux/features/auth/authSlice";
 import { Link } from "react-router-dom";
 import { IoMdHome } from "react-icons/io";
 import { Helmet } from "react-helmet-async";
@@ -50,7 +50,7 @@ const Register = () => {
         return;
       }
 
-    const { name, email, password } = data;
+    const { name, email, password,phone } = data;
 
     let image = imageLink as unknown as { url: string; blurHash: string|null };
 
@@ -67,16 +67,21 @@ const Register = () => {
       email,
       password,
       image,
-    };
+    } as Partial<TUser>;
+
+    if(phone){
+      userData["phone"] = phone
+    }
 
     toast.promise(signUp(userData), {
       loading: "Logging in...",
       success: (res: any) => {
+        console.log(res);
         if (res?.error) {
           throw new Error(res?.error?.data?.message);
         }
 
-        console.log(res);
+        
 
         dispatch(signIn({ user: res?.data?.data, token: res?.data?.token }));
 
@@ -280,8 +285,7 @@ const Register = () => {
                   setImageData(null);
                   setImageLink("");
                 }}
-                variant="outline"
-                className="text-black"
+               
               >
                 Remove Image
               </Button>
