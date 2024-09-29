@@ -281,6 +281,7 @@ const Register = () => {
                   setImageLink("");
                 }}
                 variant="outline"
+                className="text-black"
               >
                 Remove Image
               </Button>
