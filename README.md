@@ -2,7 +2,7 @@
 
 # SwiftRental
 
-SwiftRental is a feature-rich car rental platform, providing users with a seamless experience for booking vehicles. This frontend project is built with modern web technologies, including TypeScript, React, Redux, and integrates payment gateways such as Stripe and Aamarpay.
+SwiftRental is an advanced car rental platform designed to offer users a seamless experience for booking vehicles. The platform supports role-based access, allowing admins to manage cars, approve bookings, and oversee trips, while users can browse and rent cars with ease. Integrated with secure payment gateways like Stripe and Aamarpay, it ensures smooth transactions. Additionally, the platform utilizes Google Maps for location tracking and features modern UI/UX with animations powered by Framer Motion and GSAP. SwiftRental is built using React, Redux, and TypeScript for a robust and scalable frontend.
 
 ## Table of Contents
 - [Technologies Used](#technologies-used)
