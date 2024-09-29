@@ -95,7 +95,7 @@ To access the admin dashboard, use the following credentials:
    ```sh
    npm run dev
    ```
-```
+
 
 Feel free to explore and contribute to the project!
 
