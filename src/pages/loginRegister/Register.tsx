@@ -32,6 +32,7 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterFormInputs>();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [imageData, setImageData] = useState<File | null>(null);
   const [imageLink, setImageLink] = useState<{ url: string; blurHash: string } | {}>(
     {}
@@ -196,7 +197,7 @@ const Register = () => {
                   className="absolute right-4 top-2 cursor-pointer md:cursor-none"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? (
+                  {!showPassword ? (
                     <FaEyeSlash className="w-5 h-5 text-gray-400" />
                   ) : (
                     <FaEye className="w-5 h-5 text-gray-400" />
@@ -211,15 +212,27 @@ const Register = () => {
             </div>
             <div className="space-y-2 relative">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                className="text-foreground"
-                id="confirmPassword"
-                type={showPassword ? "text" : "password"}
-                placeholder="Confirm your password"
-                {...register("confirmPassword", {
-                  required: "Confirm Password is required",
-                })}
-              />
+              <div className="relative">
+                <Input
+                  className="text-foreground"
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required",
+                  })}
+                />
+                <div
+                  className="absolute right-4 top-2 cursor-pointer md:cursor-none"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {!showConfirmPassword ? (
+                    <FaEyeSlash className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <FaEye className="w-5 h-5 text-gray-400" />
+                  )}
+                </div>
+              </div>
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.confirmPassword.message}
@@ -285,7 +298,6 @@ const Register = () => {
                   setImageData(null);
                   setImageLink("");
                 }}
-               
               >
                 Remove Image
               </Button>

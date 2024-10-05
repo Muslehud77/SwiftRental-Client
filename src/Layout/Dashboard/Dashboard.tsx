@@ -65,13 +65,13 @@ export default function Dashboard() {
           } duration-500 fixed z-40 h-screen py-5 px-2 flex flex-col justify-between bg-background `}
         >
           <div className="space-y-5">
-            <Link to={"/"} className={` flex  `}>
+            <Link state={"fromDashBoard"} to={"/"} className="flex">
               {!open && (
                 <motion.img
                   transition={{ delay: 0.3, duration: 0.3 }}
-                  initial={{ x: 50 ,opacity:0}}
-                  animate={{ x: 0,opacity:1 }}
-                  exit={{ x: 100,opacity:0 }}
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: 100, opacity: 0 }}
                   src={smallLogo}
                   className={`h-14 origin-left`}
                 />

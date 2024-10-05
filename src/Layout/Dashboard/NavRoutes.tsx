@@ -53,15 +53,17 @@ export const NavRoutes = ({
   };
 
   return (
-    <nav
+    <TooltipProvider>
+    <motion.nav
+   
+   
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       className="flex flex-col gap-4 px-2"
     >
-      <TooltipProvider>
         {routes.map((path, i) =>
           path.icon !== null ? (
-            <div key={i + path.route}>
+            <motion.div layout key={i + path.route}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <NavLink
@@ -69,7 +71,7 @@ export const NavRoutes = ({
                     className={`flex  bg-muted  p-2 relative gap-2 rounded-lg  transition-colors`}
                   >
                     <motion.span
-                      layout
+                 layout
                       transition={{ type: "spring", duration: 1 }}
                       className={` ${
                         path.route
@@ -85,6 +87,7 @@ export const NavRoutes = ({
                       <AnimatePresence>
                         {open && (
                           <motion.span
+                          layout
                             transition={{ type: "spring", duration: 0.5 }}
                           >
                             {path.name}
@@ -122,10 +125,10 @@ export const NavRoutes = ({
                 </TooltipTrigger>
                 <TooltipContent side="right">{path.name}</TooltipContent>
               </Tooltip>
-            </div>
+            </motion.div>
           ) : null
         )}
+    </motion.nav>
       </TooltipProvider>
-    </nav>
   );
 };

@@ -1,7 +1,7 @@
 import { ReactNode, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import desktopLogo from "../../assets/logos/dark_mode_full.png";
-import mobileLogo from "../../assets/logos/dark_onlyLogo.png"
+import mobileLogo from "../../assets/logos/dark_onlyLogo.png";
 
 import { useUser } from "../../hooks/useUser";
 import { ThemeChanger } from "../ThemeChanger/ThemeChanger";
@@ -12,10 +12,22 @@ import Headroom from "react-headroom";
 import User from "../User/User";
 import { isMobile } from "../../utils/isMobile";
 
+const navVariants = {
+  animate: {
+    transition: {
+      delayChildren: 1,
+      staggerChildren: 0.5,
+    },
+  },
+};
+
+const animationVariants = {
+  initial: { y: -100 },
+  animate: { y: 0 ,transition:{duration:0.5,ease:[0.6,0.05,-0.01,0.9]}},
+};
+
 export default function Navbar() {
   const { user } = useUser();
-
-  
 
   const [position, setPosition] = useState({
     left: 0,
@@ -23,23 +35,34 @@ export default function Navbar() {
     opacity: 0,
   });
 
-
-
   return (
     <Headroom>
-      <header className={`flex w-full items-center justify-between p-5 h-full md:h-24`}>
-        <Link to="/" className="mr-6 flex items-center">
-          <img
-            src={isMobile() ? mobileLogo : desktopLogo}
-            className={isMobile() ? "w-10" : "w-44"}
-            alt="Logo"
-          />
-          <span className="sr-only">SwiftRental</span>
-        </Link>
+      <motion.header
+        variants={navVariants}
+        animate="animate"
+        className={`flex w-full items-center justify-between p-5 h-full md:h-24`}
+      >
+        <motion.div
+       
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
+        >
+          <Link to="/" className="mr-6 flex items-center">
+            <img
+              src={isMobile() ? mobileLogo : desktopLogo}
+              className={isMobile() ? "w-10" : "w-44"}
+              alt="Logo"
+            />
+            <span className="sr-only">SwiftRental</span>
+          </Link>
+        </motion.div>
 
         {/* Slide Tabs for Navigation */}
         <motion.nav
-          animate={{}}
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
           className="hidden flex-grow md:flex justify-center"
         >
           <ul
@@ -65,7 +88,12 @@ export default function Navbar() {
         </motion.nav>
 
         {/* Right-side Menu */}
-        <div className="flex items-center gap-4">
+        <motion.div
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
+          className="flex items-center gap-4"
+        >
           <ThemeChanger />
           {user ? (
             <User />
@@ -74,13 +102,10 @@ export default function Navbar() {
               Login
             </Link>
           )}
-        </div>
-      </header>
+        </motion.div>
+      </motion.header>
       <div className="flex md:hidden justify-center items-center">
-        <motion.nav
-          animate={{}}
-          className={`flex-grow flex justify-center`}
-        >
+        <div className={`flex-grow flex justify-center`}>
           <ul
             onMouseLeave={() =>
               setPosition((prev) => ({ ...prev, opacity: 0 }))
@@ -101,13 +126,21 @@ export default function Navbar() {
             </Tab>
             <Cursor position={position} />
           </ul>
-        </motion.nav>
+        </div>
       </div>
     </Headroom>
   );
 }
 
-const Tab = ({ children, setPosition, path }:{children:ReactNode,setPosition:(arg:any)=>void,path:string}) => {
+const Tab = ({
+  children,
+  setPosition,
+  path,
+}: {
+  children: ReactNode;
+  setPosition: (arg: any) => void;
+  path: string;
+}) => {
   const ref = useRef<HTMLAnchorElement>(null);
   const { pathname } = useLocation();
 
@@ -131,7 +164,7 @@ const Tab = ({ children, setPosition, path }:{children:ReactNode,setPosition:(ar
   );
 };
 
-const Cursor = ({ position }:{position:any}) => {
+const Cursor = ({ position }: { position: any }) => {
   return (
     <motion.li
       animate={{ ...position }}

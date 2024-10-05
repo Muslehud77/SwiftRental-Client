@@ -38,7 +38,12 @@ const TestimonialsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <section className="relative flex">
+    <section
+      data-scroll
+      data-scroll-container
+      data-scroll-speed="-.2"
+      className="relative flex"
+    >
       <div className="w-full h-full absolute flex">
         <div className="h-full bg-gray-800/50 md:w-3/4"></div>
         <div className="h-full bg-primary/20 md:w-2/5"></div>

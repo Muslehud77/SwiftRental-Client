@@ -8,7 +8,7 @@ import { Paginate } from "../../components/Pagination/Pagination";
 
 import CarCardSkeleton from "../../components/Skeleton/CarCardSkeleton";
 import CarCard from "../../components/Card/CarCard";
-import { useEffect } from "react";
+
 
 export default function Inventory() {
   const {
@@ -34,9 +34,7 @@ startFetching,
   const meta = data?.meta;
 
 
-  useEffect(()=>{
-     window.scrollTo({ top: 0, behavior: "smooth" });
-  },[])
+
 
   return (
     <div

@@ -9,8 +9,10 @@ const Category = () => {
 
   return (
     <div
-   
-      className="bg-gray-800/50 text-white  flex flex-col items-center gap-16 py-20"
+      data-scroll
+      data-scroll-section
+      data-scroll-speed="-.03"
+      className="md:h-screen text-white  flex flex-col items-center gap-16 py-20"
     >
       {/* Left side: Experience Info */}
       <h2 className=" md:pl-8 text-5xl md:text-6xl font-bold text-white mt-4 uppercase italic">
@@ -18,7 +20,12 @@ const Category = () => {
       </h2>
 
       <div className="flex flex-col md:flex-row gap-10 justify-between items-center ">
-        <Link className="w-96 overflow-hidden group relative" to={"/inventory?carType=SUV"}>
+        <Link
+          data-scroll
+          data-scroll-speed="-.1"
+          className="w-96 overflow-hidden group relative"
+          to={"/inventory?carType=SUV"}
+        >
           <img src={suv} alt="Happy people in car" className="object-cover" />
           <motion.div
             initial={{ opacity: 0 }}
@@ -32,6 +39,8 @@ const Category = () => {
           </motion.div>
         </Link>
         <Link
+          data-scroll
+          data-scroll-speed="-.15"
           className="w-96 overflow-hidden group relative"
           to={"/inventory?carType=Electric"}
         >
@@ -51,7 +60,12 @@ const Category = () => {
             </h1>
           </motion.div>
         </Link>
-        <Link className="w-96 overflow-hidden group relative" to={"/inventory?carType=Sedan"}>
+        <Link
+          data-scroll
+          data-scroll-speed="-.19"
+          className="w-96 overflow-hidden group relative"
+          to={"/inventory?carType=Sedan"}
+        >
           <img src={sedan} alt="Happy people in car" className="object-cover" />
           <motion.div
             initial={{ opacity: 0 }}

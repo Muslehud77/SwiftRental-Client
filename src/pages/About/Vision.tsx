@@ -6,7 +6,7 @@ const Vision = () => {
       <div className="relative flex">
         <div className="min-h-screen lg:w-1/3"></div>
         <div className="hidden w-3/4 lg:flex items-center min-h-screen bg-gray-800/50 ">
-          <div className="mt-8 lg:px-10 lg:mt-0">
+          <div className="mt-8  lg:px-28 lg:mt-0">
             <h1 className="text-2xl font-semibold text-white lg:w-72">
               A Message from Our CEO
             </h1>

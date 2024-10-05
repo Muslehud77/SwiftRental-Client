@@ -84,7 +84,7 @@ const LoginPage = () => {
             </h2>
           </div>
 
-          <p className="font-extralight text-sm">
+          <p className="text-sm">
             Join us for an Adventure of a Lifetime – Sign In Now and Ride!
           </p>
         </div>

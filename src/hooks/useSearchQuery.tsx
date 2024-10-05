@@ -37,6 +37,8 @@ const useSearchQuery = () => {
   const [query, setQuery] = useState<TQueryParams>([]);
 
   useEffect(() => {
+     
+      window.scrollTo({ top: 0, behavior: "smooth" });
     const queryParams = queryString.parse(location.search);
 
     if (queryParams.carBrand) {
