@@ -44,7 +44,7 @@ export default function ManageCars() {
             </>
           )}
         </div>
-        {!isLoading || (!isError && <Paginate meta={meta} setPage={setPage} />)}
+        {!isLoading || !isError ? <Paginate meta={meta} setPage={setPage} /> : <></>}
       </div>
     </div>
   );

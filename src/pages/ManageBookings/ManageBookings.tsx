@@ -26,6 +26,8 @@ import { TUser } from "../../redux/features/auth/authSlice";
 import { Paginate } from "../../components/Pagination/Pagination";
 import { Skeleton } from "../../components/ui/skeleton";
 import BookingStatusHandler from "./BookingStatus";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
+import { getInitials } from "../../utils/getInitialsForUserName";
 
 export default function ManageBookings() {
   const [page, setPage] = useState(1);
@@ -199,12 +201,16 @@ export default function ManageBookings() {
             bookings.map((booking) => (
               <TableRow key={booking._id}>
                 <TableCell>
-                  <div className="flex items-center">
-                    <img
-                      src={(booking.user as TUser)?.image?.url}
-                      alt={(booking.user as TUser).name}
-                      className="w-10 h-10 rounded-full mr-3"
-                    />
+                  <div className="flex gap-3 items-center">
+                    <Avatar className="w-10 h-10 border">
+                      <AvatarImage
+                        src={(booking.user as TUser)?.image?.url}
+                        className="object-cover"
+                      />
+                      <AvatarFallback>
+                        {getInitials((booking.user as TUser)?.name as string)}
+                      </AvatarFallback>
+                    </Avatar>
                     <span>{(booking.user as TUser).name}</span>
                   </div>
                 </TableCell>
@@ -219,7 +225,10 @@ export default function ManageBookings() {
                   ${booking.totalCost.toFixed(2)}
                 </TableCell>
                 <TableCell>
-                  <Badge className="capitalize" variant={getStatusBadgeVariant(booking.status)}>
+                  <Badge
+                    className="capitalize"
+                    variant={getStatusBadgeVariant(booking.status)}
+                  >
                     {booking.status}
                   </Badge>
                 </TableCell>
@@ -227,7 +236,11 @@ export default function ManageBookings() {
                   <Badge
                     variant={getPaymentBadgeVariant(booking.completedPayment)}
                   >
-                    {booking.completedPayment ? "Paid" : booking.status ==="rejected" ? "N/A" : "Pending"}
+                    {booking.completedPayment
+                      ? "Paid"
+                      : booking.status === "rejected"
+                      ? "N/A"
+                      : "Pending"}
                   </Badge>
                 </TableCell>
                 <TableCell className="capitalize">

@@ -1,5 +1,5 @@
 import lightModeOnlyLogo from "../../assets/logos/light_onlyLogo.png";
-import darkModeOnlyLogo from "../../assets/logos/dark_onlyLogo.png"
+import darkModeOnlyLogo from "../../assets/logos/dark_onlyLogo.png";
 import fullLightLogo from "../../assets/logos/light_mode_full.png";
 import fullDarkLogo from "../../assets/logos/dark_mode_full.png";
 import { Link, Outlet } from "react-router-dom";
@@ -15,16 +15,15 @@ import { useEffect, useRef, useState } from "react";
 import { NavRoutes } from "./NavRoutes";
 import { isMobile } from "../../utils/isMobile";
 import { GridPattern } from "../../components/ui/GridPattern";
-import { AnimatePresence } from "framer-motion";
-
+import { AnimatePresence,motion } from "framer-motion";
 
 gsap.registerPlugin(useGSAP);
 
 export default function Dashboard() {
-  const dashNavContainer = useRef(null) as any
-  const {actualTheme} = useTheme()
-  const [open,setOpen] = useState(true)
-  
+  const dashNavContainer = useRef(null) as any;
+  const { actualTheme } = useTheme();
+  const [open, setOpen] = useState(true);
+
   useEffect(() => {
     const closeSidebar = setTimeout(() => {
       setOpen(false);
@@ -34,31 +33,23 @@ export default function Dashboard() {
     return () => clearTimeout(closeSidebar);
   }, []);
 
-   useGSAP(
-     () => {
-       dashNavContainer.current = gsap.timeline().from("a,button,hr", {
-         x: -200,
-         duration: 0.5,
-         delay: 0,
-         stagger: 0.1,
-         ease: "back.out(1.7)",
-       });
-     },
-     { scope: dashNavContainer }
-   );
+  useGSAP(
+    () => {
+      dashNavContainer.current = gsap.timeline().from("a,button,hr", {
+        x: -200,
+        duration: 0.5,
+        delay: 0,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+      });
+    },
+    { scope: dashNavContainer }
+  );
 
-   const logo =
-     actualTheme === "light"
-       ? open
-         ? fullLightLogo
-         : lightModeOnlyLogo
-       : open
-       ? fullDarkLogo
-       : darkModeOnlyLogo;
-  
+  const smallLogo = actualTheme === "light" ? lightModeOnlyLogo : darkModeOnlyLogo;
+  const bigLogo = actualTheme === "light" ? fullLightLogo : fullDarkLogo;
 
   
-
 
   return (
     <div className="flex gap-5 min-h-screen w-full bg-background ">
@@ -74,14 +65,28 @@ export default function Dashboard() {
           } duration-500 fixed z-40 h-screen py-5 px-2 flex flex-col justify-between bg-background `}
         >
           <div className="space-y-5">
-            <Link to={"/"} className={` flex justify-center items-center `}>
-              <AnimatePresence>
-                <img
-                  src={logo}
-                  className={`duration-200 ${
-                    open ? "w-44" : "w-10"
-                  } origin-left`}
+            <Link to={"/"} className={` flex  `}>
+              {!open && (
+                <motion.img
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                  initial={{ x: 50 ,opacity:0}}
+                  animate={{ x: 0,opacity:1 }}
+                  exit={{ x: 100,opacity:0 }}
+                  src={smallLogo}
+                  className={`h-14 origin-left`}
                 />
+              )}
+              <AnimatePresence initial={false}>
+                {open && (
+                  <motion.img
+                    transition={{ duration: 0.2 }}
+                    initial={{ x: -50 }}
+                    animate={{ x: 0 }}
+                    exit={{ x: -200 }}
+                    src={bigLogo}
+                    className={`h-14 origin-left`}
+                  />
+                )}
               </AnimatePresence>
             </Link>
             <hr className="border border-gray-400 border-b-1" />
@@ -126,7 +131,6 @@ export default function Dashboard() {
     </div>
   );
 }
-
 
 export const SidebarOpener = ({
   open,
