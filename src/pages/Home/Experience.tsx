@@ -1,4 +1,5 @@
 import image from "../../assets/Home/(2).png"
+import { isMobile } from "../../utils/isMobile";
 
 
 const Experience = () => {
@@ -6,7 +7,7 @@ const Experience = () => {
     <div
       data-scroll
       data-scroll-container
-      data-scroll-speed=".2"
+      data-scroll-speed={isMobile() ? "0" : ".2"}
       className="relative md:h-screen backdrop-blur-2xl text-white bg-gray-800/80 flex flex-col items-center gap-16 md:pt-20"
     >
       {/* Left side: Experience Info */}
@@ -27,7 +28,6 @@ const Experience = () => {
         <hr className="border-[2px] border-primary w-3/12" />
       </div>
       <img
-     
         src={image} // Add the actual image URL here
         alt="Happy people in car"
         className="w-full h-auto object-cover"

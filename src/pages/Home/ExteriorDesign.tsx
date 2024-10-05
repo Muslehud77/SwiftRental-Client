@@ -1,12 +1,13 @@
 import image from "../../assets/Home/3.png"
 import { FaCheckCircle } from "react-icons/fa";
+import { isMobile } from "../../utils/isMobile";
 
 const ExteriorDesignBanner = () => {
   return (
     <div
       data-scroll
       data-scroll-container
-      data-scroll-speed=".5"
+      data-scroll-speed={isMobile() ? "0" : ".5"}
       className="relative text-white flex flex-col lg:flex-row items-center pt-20 md:pt-0 justify-between gap-8"
     >
       {/* Left side: Text content */}

@@ -3,6 +3,7 @@ import suv from "../../assets/Home/5-1.png"
 import electric from "../../assets/Home/5-2.png"
 import sedan from "../../assets/Home/5-3.png"
 import { motion } from "framer-motion";
+import { isMobile } from "../../utils/isMobile";
 const Category = () => {
 
    
@@ -11,7 +12,7 @@ const Category = () => {
     <div
       data-scroll
       data-scroll-section
-      data-scroll-speed="-.03"
+      data-scroll-speed={isMobile() ? "0" : "-.03"}
       className="md:h-screen text-white  flex flex-col items-center gap-16 py-20"
     >
       {/* Left side: Experience Info */}
@@ -22,7 +23,7 @@ const Category = () => {
       <div className="flex flex-col md:flex-row gap-10 justify-between items-center ">
         <Link
           data-scroll
-          data-scroll-speed="-.1"
+          data-scroll-speed={isMobile() ? "0" : "-.1"}
           className="w-96 overflow-hidden group relative"
           to={"/inventory?carType=SUV"}
         >
@@ -40,7 +41,7 @@ const Category = () => {
         </Link>
         <Link
           data-scroll
-          data-scroll-speed="-.15"
+          data-scroll-speed={isMobile() ? "0" : "-.15"}
           className="w-96 overflow-hidden group relative"
           to={"/inventory?carType=Electric"}
         >
@@ -62,7 +63,7 @@ const Category = () => {
         </Link>
         <Link
           data-scroll
-          data-scroll-speed="-.19"
+          data-scroll-speed={isMobile() ? "0" : "-.19"}
           className="w-96 overflow-hidden group relative"
           to={"/inventory?carType=Sedan"}
         >

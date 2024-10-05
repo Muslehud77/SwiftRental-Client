@@ -4,6 +4,7 @@ import DateTimePicker from "../../components/Searchbar/DateTimePicker";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { isMobile } from "../../utils/isMobile";
 gsap.registerPlugin(useGSAP);
 
 const Banner = () => {
@@ -32,7 +33,7 @@ const Banner = () => {
     <motion.div
       data-scroll
       data-scroll-container
-      data-scroll-speed="-.8"
+      data-scroll-speed={isMobile() ? "0" : "-.8"}
       onClick={() => setShowDateTime(false)}
       className="relative overflow-hidden h-screen  flex flex-col md:flex-row items-center justify-between -mt-32  md:-mt-24"
     >
@@ -56,7 +57,6 @@ const Banner = () => {
         <hr className="border-[2px] border-primary hidden md:flex" />
       </div>
       <img
-     
         ref={image}
         src={bannerImg}
         alt="Luxury Car"

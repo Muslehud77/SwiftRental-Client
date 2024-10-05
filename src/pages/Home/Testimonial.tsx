@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { isMobile } from "../../utils/isMobile";
 
 const testimonials = [
   {
@@ -41,7 +42,7 @@ const TestimonialsCarousel = () => {
     <section
       data-scroll
       data-scroll-container
-      data-scroll-speed="-.2"
+     data-scroll-speed={isMobile() ? "0" : "-.2"}
       className="relative flex"
     >
       <div className="w-full h-full absolute flex">
