@@ -54,13 +54,11 @@ export const NavRoutes = ({
 
   return (
     <TooltipProvider>
-    <motion.nav
-   
-   
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className="flex flex-col gap-4 px-2"
-    >
+      <motion.nav
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        className={`flex flex-col gap-4 px-2 ${open ? "w-48" : "w-[3.2rem]"} transition-all  ease-in-out`}
+      >
         {routes.map((path, i) =>
           path.icon !== null ? (
             <motion.div layout key={i + path.route}>
@@ -68,10 +66,10 @@ export const NavRoutes = ({
                 <TooltipTrigger asChild>
                   <NavLink
                     to={path.route}
-                    className={`flex  bg-muted  p-2 relative gap-2 rounded-lg  transition-colors`}
+                    className={`flex bg-muted  p-2 relative gap-2 rounded-lg `}
                   >
                     <motion.span
-                 layout
+                      layout
                       transition={{ type: "spring", duration: 1 }}
                       className={` ${
                         path.route
@@ -87,19 +85,21 @@ export const NavRoutes = ({
                       <AnimatePresence>
                         {open && (
                           <motion.span
-                          layout
-                            transition={{ type: "spring", duration: 0.5 }}
+                            layout
+                            initial={{ x: -100,opacity: 0 }}
+                            animate={{ x: 0,opacity: 1 }}
+                            exit={{ x: -100, opacity: 0 }}
                           >
                             {path.name}
                           </motion.span>
                         )}
                       </AnimatePresence>
                     </motion.span>
-
                     {path.route ? (
                       pathname.includes(path.route) ? (
                         <>
                           <motion.span
+                            layout
                             layoutId="navLink"
                             transition={{ type: "spring", duration: 0.5 }}
                             className="absolute inset-0 z-0 bg-primary rounded-md"
@@ -111,6 +111,7 @@ export const NavRoutes = ({
                     ) : pathname === "/dashboard" ? (
                       <>
                         <motion.span
+                          layout
                           layoutId="navLink"
                           transition={{ type: "spring", duration: 0.5 }}
                           className="absolute inset-0 z-0 bg-muted-foreground rounded-md"
@@ -128,7 +129,7 @@ export const NavRoutes = ({
             </motion.div>
           ) : null
         )}
-    </motion.nav>
-      </TooltipProvider>
+      </motion.nav>
+    </TooltipProvider>
   );
 };
