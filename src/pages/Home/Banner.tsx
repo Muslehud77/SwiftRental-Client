@@ -35,13 +35,13 @@ const Banner = () => {
       data-scroll-container
       data-scroll-speed={isMobile() ? "0" : "-.8"}
       onClick={() => setShowDateTime(false)}
-      className="relative overflow-hidden h-screen  flex flex-col md:flex-row items-center justify-between -mt-32  md:-mt-24"
+      className="relative overflow-hidden h-screen  flex flex-col lg:flex-row items-center justify-between -mt-32  md:-mt-24"
     >
       {/* Left Section with Text */}
       <div className="flex flex-col justify-between h-full py-32">
         <div className="text-2xl font-bold text-white"></div>
         <div className="pl-2 md:pl-8 ">
-          <motion.h1 className="overflow-hidden inline-block text-5xl md:text-6xl font-bold text-white mt-4 uppercase italic">
+          <motion.h1 className="overflow-hidden inline-block text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic">
             <AnimatedLetters title="Rent with Ease" /> <br />{" "}
             <AnimatedLetters title="Drive with Style" />
           </motion.h1>
@@ -54,7 +54,7 @@ const Banner = () => {
             />
           </div>
         </div>
-        <hr className="border-[2px] border-primary hidden md:flex" />
+        <hr className="border-[2px] border-primary hidden lg:flex" />
       </div>
       <img
         ref={image}

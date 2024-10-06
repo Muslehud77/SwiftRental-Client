@@ -71,7 +71,7 @@ const DateTimePicker = ({
 
       <motion.div
         onClick={() => setShowDatePicker(!showDatePicker)}
-        className="flex flex-col md:flex-row items-center gap-4 max-w-96 md:max-w-2xl p-3 border border-primary/20 rounded-lg bg-black/60 transition w-full"
+        className="flex flex-col lg:flex-row items-center gap-4 max-w-96 md:max-w-2xl p-3 border border-primary/20 rounded-lg bg-black/60 transition w-full"
       >
         <div className="flex justify-center w-full items-center gap-2 bg-muted/30 p-2 rounded-lg hover:scale-105 duration-300">
           <FaClock className="text-primary" />

@@ -20,7 +20,7 @@ const Category = () => {
         vehicle Types
       </h2>
 
-      <div className="flex flex-col md:flex-row gap-10 justify-between items-center ">
+      <div className="flex flex-col scale-75 lg:scale-100 md:flex-row gap-10 justify-between items-center ">
         <Link
           data-scroll
           data-scroll-speed={isMobile() ? "0" : "-.1"}

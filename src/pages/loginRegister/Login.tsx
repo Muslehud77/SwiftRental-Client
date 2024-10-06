@@ -101,7 +101,7 @@ const LoginPage = () => {
                 autoComplete="email"
                 required
                 placeholder="Email"
-                className="pl-10"
+                className="pl-10 text-foreground"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -129,7 +129,7 @@ const LoginPage = () => {
                 autoComplete="current-password"
                 required
                 placeholder="Password"
-                className="pl-10"
+                className="pl-10 text-foreground"
                 {...register("password", { required: "Password is required" })}
               />
               <div
