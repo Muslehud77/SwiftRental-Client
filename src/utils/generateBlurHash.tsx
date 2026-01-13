@@ -32,7 +32,7 @@ export const generateBlurHash = async (
     fileReader.onloadend = async () => {
       try {
         const img = await loadImage(fileReader.result as string);
-        const imageData = getImageData(img, 32, 32); // Use a smaller size for BlurHash
+        const imageData = getImageData(img, 32, 32); // Using a smaller size for BlurHash
         const blurHash = encode(
           imageData.data,
           imageData.width,

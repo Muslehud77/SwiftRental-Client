@@ -20,18 +20,18 @@ type ManageProductCardProps = {
 
 const ManageProductCard = ({ car }: ManageProductCardProps) => {
   return (
-    <CardContainer key={car._id}>
-      <div className="w-full h-96 max-w-sm mx-auto relative mb-10">
+    <CardContainer className="mb-10" key={car._id}>
+      <div className="w-full h-96 max-w-sm mx-auto">
         <ImageWithBlurHash
           object="cover"
           className="rounded-xl overflow-hidden"
           src={car.images[0].url}
           blurHash={car.images[0].blurHash as string}
         />
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center ">
           <CardItem
             translateY="10"
-            className="absolute -bottom-5 w-56 overflow-hidden bg-white rounded-lg shadow-lg md:w-64 dark:bg-gray-800"
+            className="absolute  -bottom-5 w-56 overflow-hidden bg-white rounded-lg shadow-lg md:w-64 dark:bg-gray-800"
           >
             <h3 className="py-2 tracking-wide text-center text-gray-800 uppercase dark:text-white">
               {car.name} {car.model}
