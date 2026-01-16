@@ -1,12 +1,15 @@
-
-
 # SwiftRental
 
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/giff/starting-gif.gif" height="auto">
+
 SwiftRental is an advanced car rental platform designed to offer users a seamless experience for booking vehicles. The platform supports role-based access, allowing admins to manage cars, approve bookings, and oversee trips, while users can browse and rent cars with ease. Integrated with secure payment gateways like Stripe and Aamarpay, it ensures smooth transactions. Additionally, the platform utilizes Google Maps for location tracking and features modern UI/UX with animations powered by Framer Motion and GSAP. SwiftRental is built using React, Redux, and TypeScript for a robust and scalable frontend.
+
+**Note:** Google Maps API integration is currently unavailable due to insufficient API credits.
 
 ## Table of Contents
 - [Technologies Used](#technologies-used)
 - [Features](#features)
+- [Screenshots and Demos](#screenshots-and-demos)
 - [Admin Credentials](#admin-credentials)
 - [Links](#links)
 - [Project Setup](#project-setup)
@@ -36,6 +39,51 @@ SwiftRental is an advanced car rental platform designed to offer users a seamles
 - **Booking Approvals**: Admins can approve or reject booking requests.
 - **End Trips**: Admins can manage and end active trips.
 - **Statistics**: View various platform performance metrics.
+
+## Screenshots and Demos
+
+### Admin Functionalities
+
+**Admin Dashboard Overview**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/giff/sr-dashboard-gif-animation.gif" height="auto">
+
+**Dashboard Statistics**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/admin-dashboard-stats.jpeg" height="auto">
+
+**Manage Inventory**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/admin-manage-inventory.jpeg" height="auto">
+
+**Edit Car Details**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/giff/edit-car-gif.gif" height="auto">
+
+**Booking Management**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/admin-booking-management.jpeg" height="auto">
+
+**Booking Approval Interface**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/admin-booking-approval.jpeg" height="auto">
+
+**User Management**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/admin-user-management.jpeg" height="auto">
+
+### User Functionalities
+
+**Car Inventory Browsing**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/inventory.png" height="auto">
+
+**Booking Confirmation**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/booking-confirmation.png" height="auto">
+
+**Payment Options**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/payment-options.png" height="auto">
+
+**Stripe Payment Interface**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/stripe.png" height="auto">
+
+**User Bookings Management**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/user-bookings.jpeg" height="auto">
+
+**Payment History**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/user-payment-history.jpeg" height="auto">
 
 ## Admin Credentials
 To access the admin dashboard, use the following credentials:
@@ -95,7 +143,6 @@ To access the admin dashboard, use the following credentials:
    ```sh
    npm run dev
    ```
-
 
 Feel free to explore and contribute to the project!
 
