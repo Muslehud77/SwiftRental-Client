@@ -85,6 +85,11 @@ SwiftRental is an advanced car rental platform designed to offer users a seamles
 **Payment History**
 <img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/user-payment-history.jpeg" height="auto">
 
+### Blurhash Image Loading Feature
+
+**Blurhash Image Loading Demonstration**
+<img src="https://github.com/Muslehud77/SwiftRental-Client/blob/main/screenshots/giff/blurhash-gif.gif" height="auto">
+
 ## Admin Credentials
 To access the admin dashboard, use the following credentials:
 
@@ -96,6 +101,8 @@ To access the admin dashboard, use the following credentials:
 [![Frontend Live Demo](https://img.shields.io/badge/Frontend%20Live%20Demo-SwiftRental-blue?style=for-the-badge&logo=appveyor)](https://swiftrental.vercel.app/)  
 
 [![Server Repository](https://img.shields.io/badge/Server%20Repository-SwiftRental-blue?style=for-the-badge&logo=github)](https://github.com/Muslehud77/SwiftRental)
+
+[![LinkedIn Post](https://img.shields.io/badge/LinkedIn%20Post-SwiftRental%20Project-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/posts/muslehud777_react-typescript-nodejs-activity-7249049507802296321-Q08j)
 
 ## Project Setup
 
